@@ -6,5 +6,7 @@ screenshot-*.png
 crop-*.png
 ref-*.png
 debug-*.png
+review-*.png
+live-review-*.png
 dump.html
 overflow-check.html
