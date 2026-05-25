@@ -1,0 +1,10 @@
+# Local editor settings
+.vscode/
+
+# Generated verification screenshots and debug crops
+screenshot-*.png
+crop-*.png
+ref-*.png
+debug-*.png
+dump.html
+overflow-check.html
