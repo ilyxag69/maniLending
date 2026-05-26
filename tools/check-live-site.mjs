@@ -68,6 +68,12 @@ check("verification files are reachable", async () => {
   assert(yandex.body.includes("Verification: bbe81356e7930cf6"), "Yandex verification body mismatch");
 });
 
+check("IndexNow key file is reachable", async () => {
+  const { response, body } = await fetchText("/a880a00f0b3c289c15baa51d8c1a23a2.txt");
+  assert(response.ok, `IndexNow key returned ${response.status}`);
+  assert(body.trim() === "a880a00f0b3c289c15baa51d8c1a23a2", "IndexNow key body mismatch");
+});
+
 check("AI discovery file is reachable", async () => {
   const { response, body } = await fetchText("/llms.txt");
   assert(response.ok, `llms.txt returned ${response.status}`);

@@ -6,6 +6,12 @@ Run this after every production update:
 node tools/check-live-site.mjs
 ```
 
+Notify IndexNow/Yandex after content changes:
+
+```bash
+node tools/submit-indexnow.mjs
+```
+
 Manual checks:
 
 - Open `https://moimani.ai/` on desktop and mobile widths.
