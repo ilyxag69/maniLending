@@ -9,5 +9,6 @@ debug-*.png
 review-*.png
 live-review-*.png
 audit-*.png
+local-*.png
 dump.html
 overflow-check.html
