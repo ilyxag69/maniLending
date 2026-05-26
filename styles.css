@@ -416,6 +416,23 @@ h1 span { color: var(--orange); }
 .seo-faq {
   padding-top: 44px;
 }
+.seo-intro {
+  max-width: 980px;
+  margin: -10px auto 28px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.seo-intro p {
+  margin: 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.44;
+  box-shadow: 0 18px 42px rgba(0,0,0,.05);
+}
 .faq-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -672,6 +689,15 @@ h1 span { color: var(--orange); }
   .roadmap-card h3 { font-size: 21px; }
   .roadmap-card p { font-size: 13px; }
   .security-grid { gap: 14px; }
+  .seo-intro {
+    max-width: 760px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .seo-intro p {
+    padding: 20px;
+    font-size: 14px;
+  }
   .faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .faq-grid article { min-height: 170px; padding: 22px; }
   .faq-grid h3 { font-size: 19px; }
@@ -1531,6 +1557,17 @@ h1 span { color: var(--orange); }
     max-width: 330px;
     font-size: 16px;
     line-height: 1.35;
+  }
+  .seo-intro {
+    margin: -4px 0 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .seo-intro p {
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.42;
   }
   .faq-grid {
     grid-template-columns: minmax(0, 1fr);

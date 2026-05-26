@@ -27,7 +27,7 @@ check("home page loads", async () => {
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
   assert(body.includes("script.js?v=20260526-events-17"), "Expected script cache-bust is missing");
-  assert(body.includes("styles.css?v=20260526-faq-23"), "Expected CSS cache-bust is missing");
+  assert(body.includes("styles.css?v=20260526-seo-24"), "Expected CSS cache-bust is missing");
 });
 
 check("seo metadata exists", async () => {
@@ -38,6 +38,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
     '"@type": "FAQPage"',
+    "seo-intro",
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
 });
 
