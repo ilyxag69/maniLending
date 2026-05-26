@@ -20,6 +20,7 @@ body {
   overflow-x: hidden;
 }
 img { display: block; max-width: 100%; }
+picture { display: contents; }
 .mobile-section-art,
 .mobile-tone-shell,
 .mobile-reasons-shell,
