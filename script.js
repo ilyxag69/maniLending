@@ -11,6 +11,7 @@ const roadmapGrid = document.querySelector(".roadmap-grid");
 let toastTimer;
 let toneAnimationTimer;
 let currentTone = "motivator";
+const viewedSections = new Set();
 
 const links = {
   apple: "",
@@ -62,6 +63,21 @@ Object.values(tones).forEach((tone) => {
   image.src = tone.image;
 });
 
+function trackEvent(name, params = {}) {
+  const payload = {
+    page_path: window.location.pathname,
+    ...params,
+  };
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, payload);
+  }
+
+  if (typeof window.ym === "function") {
+    window.ym(103776176, "reachGoal", name, payload);
+  }
+}
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
@@ -93,6 +109,7 @@ function setTone(name) {
     void toneImage.offsetWidth;
     toneImage.classList.add("is-changing");
     toneAnimationTimer = setTimeout(() => toneImage.classList.remove("is-changing"), 180);
+    trackEvent("tone_switch", { tone: name });
   }
   toneNote.textContent = tone.note;
   toneMessages.querySelectorAll(".message-card b").forEach((node, index) => {
@@ -146,6 +163,11 @@ document.querySelectorAll("[data-download]").forEach((link) => {
     event.preventDefault();
     const target = link.dataset.download;
     const label = target === "apple" ? "App Store" : "Google Play";
+    trackEvent("download_click", {
+      store: target,
+      label,
+      placement: link.closest(".hero") ? "hero" : link.closest(".cta") ? "cta" : link.closest(".reasons") ? "reasons" : "header_or_menu",
+    });
     openConfiguredLink(target, `Ссылка на ${label} пока не задана. Подставим реальный URL скачивания.`);
   });
 });
@@ -153,9 +175,57 @@ document.querySelectorAll("[data-download]").forEach((link) => {
 document.querySelectorAll("[data-social]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
+    trackEvent("social_click", { network: link.dataset.social });
     openConfiguredLink(link.dataset.social, "Ссылка на соцсеть пока не задана.");
   });
 });
+
+document.querySelectorAll("a[href^='#']").forEach((link) => {
+  link.addEventListener("click", () => {
+    const href = link.getAttribute("href");
+    if (!href || href === "#") return;
+    trackEvent("navigation_click", { target: href });
+  });
+});
+
+if ("IntersectionObserver" in window) {
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id || entry.target.dataset.analyticsSection;
+        if (!id || viewedSections.has(id)) return;
+        viewedSections.add(id);
+        trackEvent("section_view", { section: id });
+      });
+    },
+    { threshold: 0.45 }
+  );
+
+  [
+    document.querySelector(".hero"),
+    document.querySelector("#about"),
+    document.querySelector("#features"),
+    document.querySelector("#tone"),
+    document.querySelector(".reasons"),
+    document.querySelector(".widgets"),
+    document.querySelector("#future"),
+    document.querySelector("#security"),
+    document.querySelector(".cta"),
+  ].forEach((section) => {
+    if (!section) return;
+    if (!section.id && !section.dataset.analyticsSection) {
+      section.dataset.analyticsSection = section.classList.contains("cta")
+        ? "cta"
+        : section.classList.contains("reasons")
+          ? "reasons"
+          : section.classList.contains("widgets")
+            ? "widgets"
+            : "hero";
+    }
+    sectionObserver.observe(section);
+  });
+}
 
 const initialTone = new URLSearchParams(window.location.search).get("tone");
 if (initialTone) {
