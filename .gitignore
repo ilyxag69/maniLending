@@ -8,5 +8,6 @@ ref-*.png
 debug-*.png
 review-*.png
 live-review-*.png
+audit-*.png
 dump.html
 overflow-check.html
