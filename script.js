@@ -9,6 +9,7 @@ const toneNote = document.querySelector("[data-tone-note]");
 const toneMessages = document.querySelector("[data-tone-messages]");
 const roadmapGrid = document.querySelector(".roadmap-grid");
 let toastTimer;
+let toneAnimationTimer;
 let currentTone = "motivator";
 
 const links = {
@@ -56,6 +57,11 @@ const roadmapItems = [
   },
 ];
 
+Object.values(tones).forEach((tone) => {
+  const image = new Image();
+  image.src = tone.image;
+});
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
@@ -74,14 +80,20 @@ function openConfiguredLink(key, fallback) {
 function setTone(name) {
   const tone = tones[name];
   if (!tone) return;
+  const isSameTone = currentTone === name;
   currentTone = name;
   toneSection.classList.toggle("roaster", name === "roaster");
   toneButtons.forEach((button) => button.classList.toggle("active", button.dataset.tone === name));
-  toneImage.classList.add("is-changing");
-  setTimeout(() => {
+  clearTimeout(toneAnimationTimer);
+  if (!toneImage.src.endsWith(tone.image)) {
     toneImage.src = tone.image;
+  }
+  if (!isSameTone) {
     toneImage.classList.remove("is-changing");
-  }, 120);
+    void toneImage.offsetWidth;
+    toneImage.classList.add("is-changing");
+    toneAnimationTimer = setTimeout(() => toneImage.classList.remove("is-changing"), 180);
+  }
   toneNote.textContent = tone.note;
   toneMessages.querySelectorAll(".message-card b").forEach((node, index) => {
     node.innerHTML = tone.messages[index] || "";
@@ -89,7 +101,14 @@ function setTone(name) {
 }
 
 toneButtons.forEach((button) => {
-  button.addEventListener("click", () => setTone(button.dataset.tone));
+  button.addEventListener("click", (event) => {
+    const isDesktopSwitchLabel = button.closest(".tone-switch") && window.matchMedia("(min-width: 701px)").matches;
+    if (isDesktopSwitchLabel) {
+      event.preventDefault();
+      return;
+    }
+    setTone(button.dataset.tone);
+  });
 });
 
 if (toneSwitch) {

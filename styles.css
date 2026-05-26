@@ -248,8 +248,8 @@ h1 span { color: var(--orange); }
 .tone.roaster .tone-switch button.active { color: var(--text); }
 .tone-note { max-width: 392px; font-size: 15px !important; line-height: 1.35 !important; }
 .tone-robot { align-self: end; display: flex; justify-content: center; }
-.tone-robot img { width: min(560px, 108%); transition: opacity .18s ease, transform .22s ease; }
-.tone-robot img.is-changing { opacity: .2; transform: scale(.96); }
+.tone-robot img { width: min(560px, 108%); transition: transform .18s ease; }
+.tone-robot img.is-changing { transform: scale(1.015); }
 .tone-messages { display: grid; gap: 32px; justify-items: end; align-self: center; }
 .message-card { min-width: 268px; padding: 22px 28px; display: flex; gap: 14px; align-items: center; border-radius: 22px; background: #fff; box-shadow: 0 18px 38px rgba(0,0,0,.08); font-size: 22px; line-height: 1.2; }
 .message-card span { width: 30px; height: 30px; flex: 0 0 auto; border-radius: 10px; background: url("assets/mani-motivator.png") center 24% / 180% auto no-repeat; }
