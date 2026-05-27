@@ -60,19 +60,26 @@ check("robots and sitemap are reachable", async () => {
   const sitemap = await fetchText("/sitemap.xml");
   assert(sitemap.response.ok, `sitemap.xml returned ${sitemap.response.status}`);
   assert(sitemap.body.includes("<loc>https://moimani.ai/</loc>"), "sitemap home URL missing");
-  assert(sitemap.body.includes("<loc>https://moimani.ai/privacy.html</loc>"), "sitemap privacy URL missing");
-  assert(sitemap.body.includes("<loc>https://moimani.ai/cookie.html</loc>"), "sitemap cookie URL missing");
+  assert(sitemap.body.includes("<loc>https://moimani.ai/privacy</loc>"), "sitemap privacy URL missing");
+  assert(sitemap.body.includes("<loc>https://moimani.ai/cookie</loc>"), "sitemap cookie URL missing");
+  assert(!sitemap.body.includes("privacy.html"), "sitemap still contains privacy.html");
+  assert(!sitemap.body.includes("cookie.html"), "sitemap still contains cookie.html");
 });
 
 check("legal pages are current", async () => {
-  const pages = ["/privacy.html", "/cookie.html"];
+  const pages = [
+    ["/privacy", '<link rel="canonical" href="https://moimani.ai/privacy"'],
+    ["/cookie", '<link rel="canonical" href="https://moimani.ai/cookie"'],
+  ];
 
-  for (const page of pages) {
+  for (const [page, canonical] of pages) {
     const { response, body } = await fetchText(page);
     assert(response.ok, `${page} returned ${response.status}`);
     assert(body.includes("Mani.ai"), `${page} does not contain Mani.ai`);
     assert(!body.includes("MoiMani"), `${page} still contains old MoiMani brand`);
     assert(!body.includes("MoiMani уже скоро тут"), `${page} still contains old placeholder copy`);
+    assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
+    assert(body.includes(canonical), `${page} canonical mismatch`);
   }
 });
 

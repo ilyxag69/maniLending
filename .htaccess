@@ -6,6 +6,13 @@ RewriteRule ^ https://moimani.ai%{REQUEST_URI} [R=301,L]
 RewriteCond %{HTTP_HOST} ^www\.moimani\.ai$ [NC]
 RewriteRule ^ https://moimani.ai%{REQUEST_URI} [R=301,L]
 
+RewriteCond %{THE_REQUEST} \s/+privacy\.html[\s?] [NC]
+RewriteRule ^privacy\.html$ /privacy [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+cookie\.html[\s?] [NC]
+RewriteRule ^cookie\.html$ /cookie [R=301,L]
+RewriteRule ^privacy/?$ /privacy.html [L]
+RewriteRule ^cookie/?$ /cookie.html [L]
+
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"

@@ -3,8 +3,8 @@ const key = "a880a00f0b3c289c15baa51d8c1a23a2";
 const keyLocation = `https://${host}/${key}.txt`;
 const urls = [
   "https://moimani.ai/",
-  "https://moimani.ai/privacy.html",
-  "https://moimani.ai/cookie.html",
+  "https://moimani.ai/privacy",
+  "https://moimani.ai/cookie",
 ];
 
 const endpoints = [
