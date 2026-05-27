@@ -1,7 +1,11 @@
 const host = "moimani.ai";
 const key = "a880a00f0b3c289c15baa51d8c1a23a2";
 const keyLocation = `https://${host}/${key}.txt`;
-const urls = ["https://moimani.ai/"];
+const urls = [
+  "https://moimani.ai/",
+  "https://moimani.ai/privacy.html",
+  "https://moimani.ai/cookie.html",
+];
 
 const endpoints = [
   "https://api.indexnow.org/indexnow",

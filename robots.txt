@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Host: https://moimani.ai
+Host: moimani.ai
 Sitemap: https://moimani.ai/sitemap.xml

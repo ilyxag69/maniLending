@@ -28,6 +28,8 @@ check("home page loads", async () => {
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
   assert(body.includes("script.js?v=20260526-events-17"), "Expected script cache-bust is missing");
   assert(body.includes("styles.css?v=20260526-seo-24"), "Expected CSS cache-bust is missing");
+  assert(body.includes("Подключение и отключение банков и счетов в один клик."), "Correct bank connection copy is missing");
+  assert(!body.includes("Отключение банков и счетов в один клик."), "Old bank disconnection-only copy is still present");
 });
 
 check("seo metadata exists", async () => {
@@ -52,11 +54,26 @@ check("analytics tags exist", async () => {
 check("robots and sitemap are reachable", async () => {
   const robots = await fetchText("/robots.txt");
   assert(robots.response.ok, `robots.txt returned ${robots.response.status}`);
+  assert(robots.body.includes("Host: moimani.ai"), "robots.txt Host line mismatch");
   assert(robots.body.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots.txt sitemap line missing");
 
   const sitemap = await fetchText("/sitemap.xml");
   assert(sitemap.response.ok, `sitemap.xml returned ${sitemap.response.status}`);
   assert(sitemap.body.includes("<loc>https://moimani.ai/</loc>"), "sitemap home URL missing");
+  assert(sitemap.body.includes("<loc>https://moimani.ai/privacy.html</loc>"), "sitemap privacy URL missing");
+  assert(sitemap.body.includes("<loc>https://moimani.ai/cookie.html</loc>"), "sitemap cookie URL missing");
+});
+
+check("legal pages are current", async () => {
+  const pages = ["/privacy.html", "/cookie.html"];
+
+  for (const page of pages) {
+    const { response, body } = await fetchText(page);
+    assert(response.ok, `${page} returned ${response.status}`);
+    assert(body.includes("Mani.ai"), `${page} does not contain Mani.ai`);
+    assert(!body.includes("MoiMani"), `${page} still contains old MoiMani brand`);
+    assert(!body.includes("MoiMani уже скоро тут"), `${page} still contains old placeholder copy`);
+  }
 });
 
 check("verification files are reachable", async () => {
