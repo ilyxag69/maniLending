@@ -136,7 +136,9 @@ h1 span { color: var(--orange); }
 
 .money-desktop-art {
   display: block;
-  width: 100%;
+  width: 130%;
+  max-width: none;
+  margin-left: -15%;
   border-radius: 24px;
 }
 .money-mobile-art { display: none; }

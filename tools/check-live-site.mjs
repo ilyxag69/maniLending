@@ -27,7 +27,7 @@ check("home page loads", async () => {
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
   assert(body.includes("script.js?v=20260526-events-17"), "Expected script cache-bust is missing");
-  assert(body.includes("styles.css?v=20260526-seo-24"), "Expected CSS cache-bust is missing");
+  assert(body.includes("styles.css?v=20260527-feature-2"), "Expected CSS cache-bust is missing");
   assert(body.includes("Подключение банков и счетов в один клик."), "Correct bank connection copy is missing");
   assert(!body.includes("Отключение банков и счетов в один клик."), "Old bank disconnection-only copy is still present");
 });
