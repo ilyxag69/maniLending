@@ -5,6 +5,9 @@ const urls = [
   "https://moimani.ai/",
   "https://moimani.ai/privacy",
   "https://moimani.ai/cookie",
+  "https://moimani.ai/bezopasnost",
+  "https://moimani.ai/pervye-1000",
+  "https://moimani.ai/faq",
 ];
 
 const endpoints = [

@@ -12,3 +12,6 @@ audit-*.png
 local-*.png
 dump.html
 overflow-check.html
+data/
+production-backups/
+deploy-packages/

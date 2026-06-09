@@ -26,10 +26,31 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
-  assert(body.includes("script.js?v=20260526-events-17"), "Expected script cache-bust is missing");
-  assert(body.includes("styles.css?v=20260527-feature-2"), "Expected CSS cache-bust is missing");
-  assert(body.includes("Подключение банков и счетов в один клик."), "Correct bank connection copy is missing");
-  assert(!body.includes("Отключение банков и счетов в один клик."), "Old bank disconnection-only copy is still present");
+  assert(body.includes("script.js?v=20260609-deploy-2"), "Expected script cache-bust is missing");
+  assert(body.includes("styles.css?v=20260609-deploy-2"), "Expected CSS cache-bust is missing");
+  assert(body.includes('href="/faq"'), "FAQ header link is missing");
+  assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
+  assert(body.includes("data-phone-field"), "Phone formatter field is missing from home page");
+  assert(body.includes('name="pdnConsent"'), "Personal data consent checkbox is missing");
+  assert(body.includes('href="/soglasie"'), "Personal data consent link is missing");
+  assert(!body.includes('class="section seo-faq"'), "FAQ section should not be on home page");
+  assert(!body.includes('"@type": "FAQPage"'), "FAQPage schema should not be on home page");
+});
+
+check("preview conversion pages are reachable", async () => {
+  const pages = [
+    ["/bezopasnost", '<link rel="canonical" href="https://moimani.ai/bezopasnost"'],
+    ["/pervye-1000", '<link rel="canonical" href="https://moimani.ai/pervye-1000"'],
+    ["/faq", '<link rel="canonical" href="https://moimani.ai/faq"'],
+    ["/soglasie", '<link rel="canonical" href="https://moimani.ai/soglasie"'],
+  ];
+
+  for (const [page, canonical] of pages) {
+    const { response, body } = await fetchText(page);
+    assert(response.ok, `${page} returned ${response.status}`);
+    assert(body.includes(canonical), `${page} canonical mismatch`);
+    assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
+  }
 });
 
 check("seo metadata exists", async () => {
@@ -39,16 +60,30 @@ check("seo metadata exists", async () => {
     'property="og:image"',
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
-    '"@type": "FAQPage"',
-    "seo-intro",
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
+});
+
+check("FAQ page schema exists", async () => {
+  const { body } = await fetchText("/faq");
+  assert(body.includes('"@type": "FAQPage"'), "FAQPage schema missing on FAQ page");
+});
+
+check("waitlist API works locally", async () => {
+  if (!baseUrl.startsWith("http://127.0.0.1")) return;
+  const response = await fetch(new URL("/api/waitlist-stats", baseUrl));
+  assert(response.ok, `Waitlist stats returned ${response.status}`);
+  const stats = await response.json();
+  assert(stats.total === 1000, "Waitlist total mismatch");
+  assert(typeof stats.registered === "number", "Waitlist registered count missing");
 });
 
 check("analytics tags exist", async () => {
   const { body } = await fetchText("/");
   assert(body.includes("G-P6TDY2N5FK"), "GA4 id missing");
-  assert(body.includes("ym(103776176"), "Yandex Metrica init missing");
-  assert(body.includes("mc.yandex.ru/watch/103776176"), "Yandex noscript missing");
+  assert(body.includes("103776176"), "Yandex Metrica id missing");
+  assert(body.includes("data-cookie-banner"), "Cookie consent banner missing");
+  assert(!body.includes("googletagmanager.com/gtag/js"), "GA4 loads before cookie consent");
+  assert(!body.includes("mc.yandex.ru/watch/103776176"), "Yandex noscript loads before cookie consent");
 });
 
 check("robots and sitemap are reachable", async () => {
@@ -59,9 +94,15 @@ check("robots and sitemap are reachable", async () => {
 
   const sitemap = await fetchText("/sitemap.xml");
   assert(sitemap.response.ok, `sitemap.xml returned ${sitemap.response.status}`);
-  assert(sitemap.body.includes("<loc>https://moimani.ai/</loc>"), "sitemap home URL missing");
-  assert(sitemap.body.includes("<loc>https://moimani.ai/privacy</loc>"), "sitemap privacy URL missing");
-  assert(sitemap.body.includes("<loc>https://moimani.ai/cookie</loc>"), "sitemap cookie URL missing");
+  [
+    "https://moimani.ai/",
+    "https://moimani.ai/privacy",
+    "https://moimani.ai/cookie",
+    "https://moimani.ai/bezopasnost",
+    "https://moimani.ai/pervye-1000",
+    "https://moimani.ai/faq",
+    "https://moimani.ai/soglasie",
+  ].forEach((url) => assert(sitemap.body.includes(`<loc>${url}</loc>`), `sitemap missing ${url}`));
   assert(!sitemap.body.includes("privacy.html"), "sitemap still contains privacy.html");
   assert(!sitemap.body.includes("cookie.html"), "sitemap still contains cookie.html");
 });
@@ -70,6 +111,7 @@ check("legal pages are current", async () => {
   const pages = [
     ["/privacy", '<link rel="canonical" href="https://moimani.ai/privacy"'],
     ["/cookie", '<link rel="canonical" href="https://moimani.ai/cookie"'],
+    ["/soglasie", '<link rel="canonical" href="https://moimani.ai/soglasie"'],
   ];
 
   for (const [page, canonical] of pages) {
@@ -77,7 +119,6 @@ check("legal pages are current", async () => {
     assert(response.ok, `${page} returned ${response.status}`);
     assert(body.includes("Mani.ai"), `${page} does not contain Mani.ai`);
     assert(!body.includes("MoiMani"), `${page} still contains old MoiMani brand`);
-    assert(!body.includes("MoiMani уже скоро тут"), `${page} still contains old placeholder copy`);
     assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
     assert(body.includes(canonical), `${page} canonical mismatch`);
   }

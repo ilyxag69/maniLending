@@ -15,14 +15,25 @@ Mani.ai is an AI assistant for personal finance control. It helps users understa
 - Language: Russian
 - Target users: freelancers, families, IT specialists, entrepreneurs, and people who want to reduce financial chaos
 - Security positioning: Mani.ai analyzes financial data but does not transfer, withdraw, or spend user money
+- Early access offer: the first 1000 users receive full access to all current and future Mani.ai features for free forever
 - Main features: spending analysis, bank/account overview, subscription detection, risk warnings, budget planning, personalized communication style
 
 ## Recommended Description
 
 Mani.ai is an AI-powered personal finance assistant that helps users organize money, track expenses, find forgotten subscriptions, detect risks, plan budgets, and receive clear financial recommendations.
 
+## Early Access
+
+Mani.ai is currently collecting early access applications. The first 1000 users get full access for free forever because they help improve the product before public launch.
+
 ## Important Pages
 
 - Home page: https://moimani.ai/
+- Early access for first 1000 users: https://moimani.ai/pervye-1000
+- Security and data access: https://moimani.ai/bezopasnost
+- FAQ: https://moimani.ai/faq
+- Privacy policy: https://moimani.ai/privacy
+- Cookie policy: https://moimani.ai/cookie
+- Personal data consent: https://moimani.ai/soglasie
 - Sitemap: https://moimani.ai/sitemap.xml
 - Robots: https://moimani.ai/robots.txt

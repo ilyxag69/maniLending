@@ -8,10 +8,44 @@ const toneImage = document.querySelector("[data-tone-image]");
 const toneNote = document.querySelector("[data-tone-note]");
 const toneMessages = document.querySelector("[data-tone-messages]");
 const roadmapGrid = document.querySelector(".roadmap-grid");
+const waitlistBlocks = document.querySelectorAll("[data-waitlist]");
+const waitlistForms = document.querySelectorAll("[data-waitlist-form]");
+const cookieBanner = document.querySelector("[data-cookie-banner]");
+const cookieAcceptButton = document.querySelector("[data-cookie-accept]");
+const cookieRejectButton = document.querySelector("[data-cookie-reject]");
+const demoTabs = document.querySelectorAll("[data-demo-tab]");
+const demoPhone = document.querySelector(".demo-phone");
+const stickyCta = document.querySelector(".mobile-sticky-cta");
+const calcSubscriptions = document.querySelector("[data-calc-subscriptions]");
+const calcPrice = document.querySelector("[data-calc-price]");
+const calcLeaks = document.querySelector("[data-calc-leaks]");
+const calcLeakPrice = document.querySelector("[data-calc-leak-price]");
+const cookieConsentKey = "maniCookieConsent";
+const pdnConsentVersion = "waitlist-pdn-2026-06-08";
+const googleAnalyticsId = "G-P6TDY2N5FK";
+const yandexMetricaId = 103776176;
+const phoneCountries = [
+  { iso: "RU", code: "+7", length: 10 },
+  { iso: "BY", code: "+375", length: 9 },
+  { iso: "KZ", code: "+7", length: 10 },
+  { iso: "AM", code: "+374", length: 8 },
+  { iso: "GE", code: "+995", length: 9 },
+  { iso: "TR", code: "+90", length: 10 },
+  { iso: "AE", code: "+971", length: 9 },
+  { iso: "US", code: "+1", length: 10 },
+  { iso: "OTHER", code: "+", length: [8, 15] },
+];
 let toastTimer;
 let toneAnimationTimer;
 let currentTone = "motivator";
 const viewedSections = new Set();
+let waitlistStats = {
+  total: 1000,
+  registered: 0,
+  left: 1000,
+  percent: 0,
+};
+let waitlistStatsUnlocked = Boolean(localStorage.getItem("maniReferralCode"));
 
 const links = {
   apple: "",
@@ -25,13 +59,17 @@ const links = {
 const tones = {
   motivator: {
     image: "assets/mani-motivator.png",
-    note: "Мягко направляет. Помогает поверить в себя, даже когда бюджет трещит.",
-    messages: ["Я рядом.<br />Мы разберёмся.", "Ты справишься.<br />Давай по шагам."],
+    note: "Поддержит, разложит всё по шагам и поможет не паниковать, даже когда бюджет трещит.",
+    messages: ["Я рядом.<br />Мы разберёмся.", "Ты справишься.<br />Давай по шагам.", "Сначала найдем утечку.<br />Потом вернем контроль."],
   },
   roaster: {
     image: "assets/mani-prozharschik.png",
-    note: "Жёстко спасает. Говорит правду, чтобы ты наконец взял деньги под контроль.",
-    messages: ["Опять? Серьёзно?<br />Давай без соплей.", "Ты облажался.<br />Прямо сейчас исправим!"],
+    note: "Скажет прямо, с юмором и без паники: где бюджет течет, где подписка притворяется нужной, а где пора прикрутить траты.",
+    messages: [
+      "Бюджет не резиновый.<br />Он уже сидит в углу и шепчет: «Спроси у него, он чё, ах.ел?»",
+      "Третья доставка за неделю?<br />Ты что, ресторанную франшизу спонсируешь? Как я тебе с такой тратой бюджет выровняю, волшебной палкой?",
+      "Подписка опять списалась.<br />Пойдём смотреть, что это за паразит: полезный сервис или очередная месячная крыса на автоплатеже.",
+    ],
   },
 };
 
@@ -58,10 +96,101 @@ const roadmapItems = [
   },
 ];
 
+const demoScenarios = {
+  subscriptions: {
+    status: "видит повтор 649 ₽",
+    signals: ["649 ₽ каждый месяц", "13-е число", "Категория: сервис"],
+    title: "Mani показывает повторяющиеся списания",
+    copy: "Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить.",
+    main: "Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж.",
+    action: "Проверить, нужен ли этот платеж. Если нет — отключение сэкономит до 7 788 ₽ в год.",
+    label: "Потенциально лишний расход",
+    value: "7 788 ₽/год",
+  },
+  leaks: {
+    status: "увидел лишний темп",
+    signals: ["+42% к обычному темпу", "7 мелких покупок", "2 дня до лимита"],
+    title: "Mani замечает темп, а не следит за человеком",
+    copy: "Он сравнивает финансовый ритм: сколько списаний, в каких категориях и как быстро тает бюджет.",
+    main: "За неделю мелкие траты выросли на 42% относительно обычного темпа.",
+    action: "Поставить лимит на неделю и получить предупреждение до следующего перебора.",
+    label: "Риск перерасхода",
+    value: "до 11 400 ₽/мес",
+  },
+  budget: {
+    status: "собрал план",
+    signals: ["9 дней до зарплаты", "1 850 ₽ в день", "3 категории в риске"],
+    title: "Бюджет становится понятным без таблиц",
+    copy: "Mani переводит хаос по картам в простые действия: сколько можно тратить и где стоит притормозить.",
+    main: "До зарплаты 9 дней. В безопасном темпе можно тратить 1 850 ₽ в день.",
+    action: "Разложить лимиты по категориям и предупредить, если день пошёл не по плану.",
+    label: "Безопасный лимит",
+    value: "1 850 ₽/день",
+  },
+};
+
 Object.values(tones).forEach((tone) => {
   const image = new Image();
   image.src = tone.image;
 });
+
+function loadAnalytics() {
+  if (window.maniAnalyticsLoaded) return;
+  window.maniAnalyticsLoaded = true;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag("js", new Date());
+  window.gtag("config", googleAnalyticsId);
+
+  const gaScript = document.createElement("script");
+  gaScript.async = true;
+  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
+  document.head.appendChild(gaScript);
+
+  (function initYandex(m, e, t, r, i, k, a) {
+    m[i] = m[i] || function ym() {
+      (m[i].a = m[i].a || []).push(arguments);
+    };
+    m[i].l = 1 * new Date();
+    for (let j = 0; j < document.scripts.length; j += 1) {
+      if (document.scripts[j].src === r) return;
+    }
+    k = e.createElement(t);
+    a = e.getElementsByTagName(t)[0];
+    k.async = 1;
+    k.src = r;
+    a.parentNode.insertBefore(k, a);
+  })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  window.ym(yandexMetricaId, "init", {
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: false,
+  });
+}
+
+function setCookieConsent(value) {
+  localStorage.setItem(cookieConsentKey, value);
+  if (cookieBanner) cookieBanner.hidden = true;
+  if (stickyCta) stickyCta.hidden = false;
+  if (value === "accepted") loadAnalytics();
+  trackEvent("cookie_consent", { value });
+}
+
+function initCookieConsent() {
+  const consent = localStorage.getItem(cookieConsentKey);
+  if (consent === "accepted") {
+    loadAnalytics();
+    return;
+  }
+  if (consent === "necessary") return;
+  if (cookieBanner) cookieBanner.hidden = false;
+  if (stickyCta) stickyCta.hidden = true;
+}
 
 function trackEvent(name, params = {}) {
   const payload = {
@@ -74,7 +203,7 @@ function trackEvent(name, params = {}) {
   }
 
   if (typeof window.ym === "function") {
-    window.ym(103776176, "reachGoal", name, payload);
+    window.ym(yandexMetricaId, "reachGoal", name, payload);
   }
 }
 
@@ -83,6 +212,290 @@ function showToast(message) {
   toast.classList.add("is-visible");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2600);
+}
+
+function getPhoneCountry(select) {
+  const option = select?.selectedOptions?.[0];
+  const iso = option?.value || "RU";
+  return phoneCountries.find((country) => country.iso === iso) || phoneCountries[0];
+}
+
+function findCountryByInternationalNumber(value) {
+  const digits = value.replace(/\D/g, "");
+  const candidates = phoneCountries
+    .filter((country) => country.iso !== "OTHER")
+    .sort((a, b) => b.code.length - a.code.length);
+  return candidates.find((country) => digits.startsWith(country.code.replace(/\D/g, "")));
+}
+
+function getNationalDigits(rawValue, country) {
+  let digits = rawValue.replace(/\D/g, "");
+  if (!digits) return "";
+
+  if (rawValue.trim().startsWith("+")) {
+    const detected = findCountryByInternationalNumber(rawValue);
+    if (detected) {
+      return digits.slice(detected.code.replace(/\D/g, "").length);
+    }
+    return digits;
+  }
+
+  if ((country.iso === "RU" || country.iso === "KZ") && digits.length === 11 && (digits.startsWith("8") || digits.startsWith("7"))) {
+    return digits.slice(1);
+  }
+
+  const codeDigits = country.code.replace(/\D/g, "");
+  if (country.iso !== "OTHER" && digits.startsWith(codeDigits) && digits.length > country.length) {
+    return digits.slice(codeDigits.length);
+  }
+
+  return digits;
+}
+
+function formatPhoneNational(digits, country) {
+  if (!digits) return "";
+  if ((country.iso === "RU" || country.iso === "KZ") && digits.length <= 10) {
+    return [
+      digits.slice(0, 3),
+      digits.slice(3, 6),
+      digits.slice(6, 8),
+      digits.slice(8, 10),
+    ].filter(Boolean).join(digits.length > 6 ? "-" : " ");
+  }
+  if (country.iso === "BY" && digits.length <= 9) {
+    return [
+      digits.slice(0, 2),
+      digits.slice(2, 5),
+      digits.slice(5, 7),
+      digits.slice(7, 9),
+    ].filter(Boolean).join(digits.length > 5 ? "-" : " ");
+  }
+  if (country.iso === "US" && digits.length <= 10) {
+    return [
+      digits.slice(0, 3),
+      digits.slice(3, 6),
+      digits.slice(6, 10),
+    ].filter(Boolean).join("-");
+  }
+  return digits.replace(/(.{3})/g, "$1 ").trim();
+}
+
+function validatePhoneDigits(digits, country) {
+  if (Array.isArray(country.length)) {
+    return digits.length >= country.length[0] && digits.length <= country.length[1];
+  }
+  return digits.length === country.length;
+}
+
+function getPhonePayload(form) {
+  const field = form.querySelector("[data-phone-field]");
+  const select = field?.querySelector("select[name='phoneCountry']");
+  const display = field?.querySelector("input[name='phoneDisplay']");
+  const hidden = field?.querySelector("input[name='phone']");
+  const hint = form.querySelector("[data-phone-hint]");
+  const country = getPhoneCountry(select);
+  const rawValue = display?.value || "";
+  const hasInput = Boolean(rawValue.trim());
+  const detected = rawValue.trim().startsWith("+") ? findCountryByInternationalNumber(rawValue) : null;
+  const selectedCountry = detected || country;
+  const nationalDigits = getNationalDigits(rawValue, selectedCountry);
+  const valid = validatePhoneDigits(nationalDigits, selectedCountry);
+  const normalized = `${selectedCountry.code}${nationalDigits}`;
+
+  if (detected && select) {
+    select.value = detected.iso;
+  }
+  if (hidden) hidden.value = valid ? normalized : "";
+  if (hint) {
+    hint.classList.toggle("is-error", hasInput && !valid);
+    hint.textContent = !hasInput
+      ? "Можно ввести 9013696977 — подставим +7 сами. Telegram укажи в комментарии, если так удобнее."
+      : valid
+      ? `Сохраним как ${normalized}.`
+      : `Введи номер для ${selectedCountry.code}: ${Array.isArray(selectedCountry.length) ? "8-15 цифр" : `${selectedCountry.length} цифр`} без кода страны.`;
+  }
+
+  return { valid: hasInput && valid, normalized, nationalDigits, country: selectedCountry };
+}
+
+function formatPhoneField(field) {
+  const select = field.querySelector("select[name='phoneCountry']");
+  const display = field.querySelector("input[name='phoneDisplay']");
+  if (!display) return;
+  const rawValue = display.value;
+  const detected = rawValue.trim().startsWith("+") ? findCountryByInternationalNumber(rawValue) : null;
+  const country = detected || getPhoneCountry(select);
+  const nationalDigits = getNationalDigits(rawValue, country);
+  if (detected && select) {
+    select.value = detected.iso;
+  }
+  display.value = rawValue.trim().startsWith("+") && !detected
+    ? `+${nationalDigits}`
+    : formatPhoneNational(nationalDigits, country);
+  getPhonePayload(field.closest("form"));
+}
+
+function updateWaitlistStats(stats = waitlistStats) {
+  waitlistStats = {
+    ...waitlistStats,
+    ...stats,
+  };
+  waitlistStats.left = Math.max(waitlistStats.total - waitlistStats.registered, 0);
+  waitlistStats.percent = Math.min(Math.round((waitlistStats.registered / waitlistStats.total) * 100), 100);
+
+  waitlistBlocks.forEach((block) => {
+    const isZeroState = waitlistStats.registered < 1;
+    const isEarlyState = waitlistStats.registered < 20;
+    const showProgress = waitlistStatsUnlocked && waitlistStats.registered >= 20;
+    const showNumbers = waitlistStatsUnlocked;
+    block.querySelectorAll("[data-waitlist-registered]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isZeroState ? "Очередь только открылась" : waitlistStats.registered.toLocaleString("ru-RU"))
+        : "Место узнаешь после заявки";
+    });
+    block.querySelectorAll("[data-waitlist-registered-label]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isZeroState ? "1000 мест для ранних пользователей" : "уже в очереди")
+        : "очередь открыта для первых 1000 пользователей";
+    });
+    block.querySelectorAll("[data-waitlist-left]").forEach((node) => {
+      node.textContent = showNumbers ? waitlistStats.left.toLocaleString("ru-RU") : "1000 мест";
+    });
+    block.querySelectorAll("[data-waitlist-left-label]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isZeroState ? "мест для ранних пользователей" : "мест осталось")
+        : "ранний доступ бесплатно навсегда";
+    });
+    block.querySelectorAll("[data-waitlist-percent]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isEarlyState ? "Ранний старт" : `${waitlistStats.percent}%`)
+        : "Сначала контакт";
+    });
+    block.querySelectorAll("[data-waitlist-percent-label]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isEarlyState ? "успей занять место до публичного запуска" : "заполнено")
+        : "потом покажем номер и статус";
+    });
+    block.querySelectorAll("[data-waitlist-progress]").forEach((node) => {
+      node.style.width = `${waitlistStats.percent}%`;
+    });
+    block.querySelectorAll("[data-waitlist-progress-wrap]").forEach((node) => {
+      node.hidden = !showProgress;
+    });
+    block.querySelectorAll("[data-waitlist-cta-copy]").forEach((node) => {
+      node.textContent = showNumbers
+        ? (isZeroState
+          ? "Очередь только открылась. Успей занять место до публичного запуска."
+          : `${waitlistStats.registered.toLocaleString("ru-RU")} человек уже ждут запуск Mani.ai.`)
+        : "Сколько осталось и на каком ты месте, покажем после заявки.";
+    });
+    block.querySelectorAll("[data-waitlist-cta-title]").forEach((node) => {
+      node.textContent = showNumbers
+        ? `${waitlistStats.left.toLocaleString("ru-RU")} мест осталось`
+        : "Займи место и узнай номер";
+    });
+  });
+}
+
+async function loadWaitlistStats() {
+  if (!waitlistBlocks.length) return;
+
+  try {
+    const response = await fetch("/api/waitlist-stats");
+    if (!response.ok) throw new Error("stats unavailable");
+    const stats = await response.json();
+    updateWaitlistStats(stats);
+  } catch {
+    const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0);
+    updateWaitlistStats({ registered: waitlistStats.registered + localCount });
+  }
+}
+
+async function submitWaitlist(form) {
+  const result = form.querySelector("[data-waitlist-result]");
+  const success = form.querySelector("[data-waitlist-success]");
+  const button = form.querySelector("button");
+  const formData = new FormData(form);
+  const urlParams = new URLSearchParams(window.location.search);
+  const phonePayload = getPhonePayload(form);
+  const payload = {
+    phone: phonePayload.valid ? phonePayload.normalized : "",
+    email: String(formData.get("email") || "").trim(),
+    contact: "manual",
+    contactDetails: String(formData.get("contactDetails") || "").trim(),
+    company: String(formData.get("company") || "").trim(),
+    pdnConsent: formData.get("pdnConsent") === "yes",
+    pdnConsentVersion,
+    pdnConsentAt: new Date().toISOString(),
+    ref: urlParams.get("ref") || localStorage.getItem("maniReferralSource") || "",
+    page: window.location.pathname,
+  };
+  if (!payload.phone) {
+    result.textContent = "Укажи корректный телефон, чтобы закрепить место.";
+    trackEvent("waitlist_phone_error", { source: payload.page });
+    return;
+  }
+  if (!payload.pdnConsent) {
+    result.textContent = "Поставь галочку согласия на обработку данных. Без нее мы не можем принять заявку.";
+    return;
+  }
+
+  button.disabled = true;
+  result.textContent = "Бронируем место...";
+  if (success) {
+    success.hidden = true;
+    success.innerHTML = "";
+  }
+
+  try {
+    const response = await fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "request failed");
+    waitlistStatsUnlocked = true;
+    updateWaitlistStats(data.stats);
+    const referralCode = data.referralCode || `MANI-${String(data.position).padStart(4, "0")}`;
+    const referralUrl = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(referralCode)}`;
+    result.textContent = data.duplicate
+      ? `Ты уже в очереди. Твое место: #${data.position}.`
+      : `Готово. Твое место в очереди: #${data.position}.`;
+    if (success) {
+      success.hidden = false;
+      success.innerHTML = `
+        <strong>${data.status || "Early crew"} - место #${data.position}</strong>
+        <span>Твой код приглашения:</span><br />
+        <code>${referralCode}</code>
+        <p>Отправь ссылку другу: ${referralUrl}</p>
+        <p>За приглашения можно будет подниматься выше в очереди, когда включим реферальные бонусы.</p>
+      `;
+    }
+    localStorage.setItem("maniReferralCode", referralCode);
+    form.reset();
+    trackEvent("waitlist_submit", { position: data.position, source: payload.page, duplicate: Boolean(data.duplicate) });
+  } catch {
+    const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0) + 1;
+    localStorage.setItem("maniWaitlistCount", String(localCount));
+    waitlistStatsUnlocked = true;
+    updateWaitlistStats({ registered: localCount });
+    const referralCode = `MANI-${String(localCount).padStart(4, "0")}`;
+    result.textContent = `Локально сохранено в браузере. Место в демо-очереди: #${localCount}.`;
+    if (success) {
+      success.hidden = false;
+      success.innerHTML = `
+        <strong>Founding users - место #${localCount}</strong>
+        <span>Демо-код приглашения:</span><br />
+        <code>${referralCode}</code>
+        <p>Когда подключим продакшен-сбор заявок, код будет сохраняться на сервере.</p>
+      `;
+    }
+    form.reset();
+    trackEvent("waitlist_submit_local", { source: payload.page });
+  } finally {
+    button.disabled = false;
+  }
 }
 
 function openConfiguredLink(key, fallback) {
@@ -117,11 +530,73 @@ function setTone(name) {
   });
 }
 
+function setDemoScenario(name) {
+  const scenario = demoScenarios[name];
+  if (!scenario) return;
+
+  document.querySelector("[data-demo-status]").textContent = scenario.status;
+  document.querySelector("[data-demo-title]").textContent = scenario.title;
+  document.querySelector("[data-demo-copy]").textContent = scenario.copy;
+  document.querySelector("[data-demo-message-main]").textContent = scenario.main;
+  document.querySelector("[data-demo-message-action]").textContent = scenario.action;
+  document.querySelector("[data-demo-result-label]").textContent = scenario.label;
+  document.querySelector("[data-demo-result-value]").textContent = scenario.value;
+  document.querySelector("[data-demo-signals]").innerHTML = scenario.signals.map((signal) => `<span>${signal}</span>`).join("");
+
+  demoTabs.forEach((button) => {
+    const isActive = button.dataset.demoTab === name;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+
+  if (demoPhone) {
+    demoPhone.classList.remove("is-changing");
+    void demoPhone.offsetWidth;
+    demoPhone.classList.add("is-changing");
+    setTimeout(() => demoPhone.classList.remove("is-changing"), 240);
+  }
+
+  trackEvent("demo_scenario_click", { scenario: name });
+}
+
+function updateLeakCalculator() {
+  if (!calcSubscriptions || !calcPrice || !calcLeaks || !calcLeakPrice) return;
+
+  const subscriptions = Number(calcSubscriptions.value) || 0;
+  const price = Number(calcPrice.value) || 0;
+  const leaks = Number(calcLeaks.value) || 0;
+  const leakPrice = Number(calcLeakPrice.value) || 0;
+  const subscriptionYearly = subscriptions * price * 12;
+  const smallLeaksYearly = leaks * leakPrice * 52;
+  const yearly = subscriptionYearly + smallLeaksYearly;
+
+  document.querySelector("[data-calc-subscriptions-value]").textContent = subscriptions.toLocaleString("ru-RU");
+  document.querySelector("[data-calc-price-value]").textContent = price.toLocaleString("ru-RU");
+  document.querySelector("[data-calc-leaks-value]").textContent = leaks.toLocaleString("ru-RU");
+  document.querySelector("[data-calc-leak-price-value]").textContent = leakPrice.toLocaleString("ru-RU");
+  document.querySelector("[data-calc-total]").textContent = `${yearly.toLocaleString("ru-RU")} ₽ в год`;
+
+  const note = document.querySelector("[data-calc-note]");
+  if (note) {
+    if (subscriptions === 0 && leaks === 0) {
+      note.textContent = "Если нет ни подписок, ни лишних мелких трат, расчет честно показывает 0. Mani всё равно полезен для контроля темпа и предупреждений.";
+    } else if (subscriptions === 0) {
+      note.textContent = `Подписок нет, считаем только мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽ в год.`;
+    } else if (leaks === 0) {
+      note.textContent = `Мелких утечек нет, считаем только регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽ в год.`;
+    } else {
+      note.textContent = `Регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽/год. Мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽/год.`;
+    }
+  }
+}
+
 toneButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const isDesktopSwitchLabel = button.closest(".tone-switch") && window.matchMedia("(min-width: 701px)").matches;
     if (isDesktopSwitchLabel) {
       event.preventDefault();
+      event.stopPropagation();
+      setTone(button.dataset.tone);
       return;
     }
     setTone(button.dataset.tone);
@@ -143,6 +618,27 @@ if (toneSwitch) {
     setTone(currentTone === "motivator" ? "roaster" : "motivator");
   });
 }
+
+demoTabs.forEach((button) => {
+  button.addEventListener("click", () => setDemoScenario(button.dataset.demoTab));
+});
+
+[calcSubscriptions, calcPrice, calcLeaks, calcLeakPrice].forEach((input) => {
+  if (!input) return;
+  input.addEventListener("input", () => {
+    updateLeakCalculator();
+    const field = input.dataset.calcSubscriptions !== undefined
+      ? "subscriptions"
+      : input.dataset.calcPrice !== undefined
+        ? "subscription_price"
+        : input.dataset.calcLeakPrice !== undefined
+          ? "small_leak_price"
+          : "small_leaks";
+    trackEvent("leak_calculator_change", { field });
+  });
+});
+
+updateLeakCalculator();
 
 if (roadmapGrid && window.matchMedia("(min-width: 701px)").matches) {
   [...roadmapGrid.querySelectorAll(":scope > img")].forEach((image, index) => {
@@ -172,6 +668,38 @@ document.querySelectorAll("[data-download]").forEach((link) => {
   });
 });
 
+document.querySelectorAll("[data-early-access]").forEach((link) => {
+  link.addEventListener("click", () => {
+    trackEvent("early_access_click", {
+      placement: link.dataset.earlyAccess,
+    });
+  });
+});
+
+waitlistForms.forEach((form) => {
+  form.querySelectorAll("[data-phone-field]").forEach((field) => {
+    const select = field.querySelector("select[name='phoneCountry']");
+    const display = field.querySelector("input[name='phoneDisplay']");
+    if (display) {
+      display.addEventListener("input", () => formatPhoneField(field));
+      display.addEventListener("blur", () => getPhonePayload(form));
+      display.addEventListener("focus", () => trackEvent("waitlist_phone_focus", { source: window.location.pathname }));
+    }
+    if (select) {
+      select.addEventListener("change", () => {
+        if (display) display.value = formatPhoneNational(getNationalDigits(display.value, getPhoneCountry(select)), getPhoneCountry(select));
+        getPhonePayload(form);
+      });
+    }
+    getPhonePayload(form);
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitWaitlist(form);
+  });
+});
+
 document.querySelectorAll("[data-social]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
@@ -185,6 +713,13 @@ document.querySelectorAll("a[href^='#']").forEach((link) => {
     const href = link.getAttribute("href");
     if (!href || href === "#") return;
     trackEvent("navigation_click", { target: href });
+  });
+});
+
+document.querySelectorAll(".security-accordion details").forEach((item) => {
+  item.addEventListener("toggle", () => {
+    if (!item.open) return;
+    trackEvent("security_detail_open", { title: item.querySelector("summary")?.textContent?.trim() || "" });
   });
 });
 
@@ -212,6 +747,8 @@ if ("IntersectionObserver" in window) {
     document.querySelector("#future"),
     document.querySelector("#security"),
     document.querySelector(".cta"),
+    document.querySelector("#demo"),
+    document.querySelector("#leak-calc"),
   ].forEach((section) => {
     if (!section) return;
     if (!section.id && !section.dataset.analyticsSection) {
@@ -225,12 +762,52 @@ if ("IntersectionObserver" in window) {
     }
     sectionObserver.observe(section);
   });
+
+  if (stickyCta) {
+    const stickyBlockers = new Set();
+    const stickyObserver = new IntersectionObserver(
+      (entries) => {
+        const cookieIsVisible = cookieBanner && !cookieBanner.hidden;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            stickyBlockers.add(entry.target);
+          } else {
+            stickyBlockers.delete(entry.target);
+          }
+        });
+        const shouldHide = cookieIsVisible || stickyBlockers.size > 0;
+        stickyCta.hidden = shouldHide;
+      },
+      { threshold: 0.01 }
+    );
+
+    waitlistForms.forEach((form) => stickyObserver.observe(form));
+    [document.querySelector("#early-access"), document.querySelector("#demo"), document.querySelector("#leak-calc"), document.querySelector("#security")].forEach((section) => {
+      if (section) stickyObserver.observe(section);
+    });
+  }
 }
 
 const initialTone = new URLSearchParams(window.location.search).get("tone");
 if (initialTone) {
   setTone(initialTone);
 }
+
+const referralSource = new URLSearchParams(window.location.search).get("ref");
+if (referralSource) {
+  localStorage.setItem("maniReferralSource", referralSource);
+}
+
+if (cookieAcceptButton) {
+  cookieAcceptButton.addEventListener("click", () => setCookieConsent("accepted"));
+}
+
+if (cookieRejectButton) {
+  cookieRejectButton.addEventListener("click", () => setCookieConsent("necessary"));
+}
+
+initCookieConsent();
+loadWaitlistStats();
 
 if (menuButton && mobileMenu) {
   menuButton.addEventListener("click", () => {

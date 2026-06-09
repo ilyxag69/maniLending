@@ -10,12 +10,31 @@ RewriteCond %{THE_REQUEST} \s/+privacy\.html[\s?] [NC]
 RewriteRule ^privacy\.html$ /privacy [R=301,L]
 RewriteCond %{THE_REQUEST} \s/+cookie\.html[\s?] [NC]
 RewriteRule ^cookie\.html$ /cookie [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+bezopasnost\.html[\s?] [NC]
+RewriteRule ^bezopasnost\.html$ /bezopasnost [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+pervye-1000\.html[\s?] [NC]
+RewriteRule ^pervye-1000\.html$ /pervye-1000 [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+faq\.html[\s?] [NC]
+RewriteRule ^faq\.html$ /faq [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+soglasie\.html[\s?] [NC]
+RewriteRule ^soglasie\.html$ /soglasie [R=301,L]
+RewriteRule ^data/ - [F,L]
+RewriteRule ^api/waitlist/?$ /api/waitlist.php [L]
+RewriteRule ^api/waitlist-stats/?$ /api/waitlist.php [L]
+RewriteRule ^admin/waitlist/?$ /api/waitlist-admin.php [L]
 RewriteRule ^privacy/?$ /privacy.html [L]
 RewriteRule ^cookie/?$ /cookie.html [L]
+RewriteRule ^bezopasnost/?$ /bezopasnost.html [L]
+RewriteRule ^pervye-1000/?$ /pervye-1000.html [L]
+RewriteRule ^faq/?$ /faq.html [L]
+RewriteRule ^soglasie/?$ /soglasie.html [L]
 
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
 <IfModule mod_expires.c>
