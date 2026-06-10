@@ -47,6 +47,20 @@ let waitlistStats = {
 };
 let waitlistStatsUnlocked = Boolean(localStorage.getItem("maniReferralCode"));
 
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+function resetInitialScrollPosition() {
+  if (window.location.hash) return;
+  const navigation = performance.getEntriesByType?.("navigation")?.[0];
+  if (navigation && navigation.type !== "navigate") return;
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}
+
+window.addEventListener("pageshow", resetInitialScrollPosition);
+window.addEventListener("load", resetInitialScrollPosition);
+
 const links = {
   apple: "",
   google: "",

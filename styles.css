@@ -82,7 +82,11 @@ button { font: inherit; }
   align-items: center;
   padding: 105px max(calc((100vw - 1392px) / 2), 120px) 54px;
 }
-.hero-copy { max-width: 660px; }
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 660px;
+}
 .eyebrow { margin: 0 0 18px; color: var(--orange); text-transform: uppercase; font-size: 14px; font-weight: 800; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3, p, a, button, li, b, strong { overflow-wrap: anywhere; }
@@ -138,9 +142,21 @@ h1 span { color: var(--orange); }
 .hero-offer span {
   color: #4f5158;
 }
-.hero-art { justify-self: center; width: min(580px, 100%); transform: translateX(90px); filter: drop-shadow(0 28px 28px rgba(0,0,0,.16)); }
+.hero-art {
+  justify-self: center;
+  width: min(580px, 100%);
+  transform: translateX(90px);
+  filter: drop-shadow(0 28px 28px rgba(0,0,0,.16));
+  pointer-events: none;
+}
+.hero-art img {
+  pointer-events: none;
+  user-select: none;
+}
 .store-actions { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 .hero .store-actions {
+  position: relative;
+  z-index: 3;
   flex-wrap: nowrap;
   align-items: center;
 }
@@ -895,10 +911,12 @@ h1 span { color: var(--orange); }
     grid-template-columns: 104px minmax(0, 1fr);
   }
   .cookie-banner {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
     width: auto;
+    margin: 20px 12px;
     padding: 14px;
     border-radius: 18px;
   }
@@ -3116,6 +3134,7 @@ h1 span { color: var(--orange); }
     outline: none;
   }
   .cookie-banner {
-    bottom: 74px;
+    position: static;
+    margin: 20px 14px 88px;
   }
 }
