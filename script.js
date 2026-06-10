@@ -53,12 +53,15 @@ if ("scrollRestoration" in window.history) {
 
 function resetInitialScrollPosition() {
   if (window.location.hash) return;
-  const navigation = performance.getEntriesByType?.("navigation")?.[0];
-  if (navigation && navigation.type !== "navigate") return;
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
+resetInitialScrollPosition();
+requestAnimationFrame(resetInitialScrollPosition);
+setTimeout(resetInitialScrollPosition, 0);
+setTimeout(resetInitialScrollPosition, 120);
 window.addEventListener("pageshow", resetInitialScrollPosition);
+window.addEventListener("DOMContentLoaded", resetInitialScrollPosition);
 window.addEventListener("load", resetInitialScrollPosition);
 
 const links = {

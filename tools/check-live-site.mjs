@@ -26,8 +26,8 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
-  assert(body.includes("script.js?v=20260610-touchfix-1"), "Expected script cache-bust is missing");
-  assert(body.includes("styles.css?v=20260610-touchfix-1"), "Expected CSS cache-bust is missing");
+  assert(body.includes("script.js?v=20260610-scrollfix-2"), "Expected script cache-bust is missing");
+  assert(body.includes("styles.css?v=20260610-scrollfix-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-phone-field"), "Phone formatter field is missing from home page");
