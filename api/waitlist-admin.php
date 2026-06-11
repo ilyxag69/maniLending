@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-$token = getenv('MANI_ADMIN_TOKEN') ?: '';
+$tokenFile = dirname(__DIR__) . '/data/admin-token.txt';
+$fileToken = is_file($tokenFile) ? trim((string) file_get_contents($tokenFile)) : '';
+$token = getenv('MANI_ADMIN_TOKEN') ?: $fileToken;
 $provided = (string) ($_GET['token'] ?? '');
 
 if ($token === '' || !hash_equals($token, $provided)) {
