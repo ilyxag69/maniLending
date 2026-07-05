@@ -21,6 +21,7 @@ const calcPrice = document.querySelector("[data-calc-price]");
 const calcLeaks = document.querySelector("[data-calc-leaks]");
 const calcLeakPrice = document.querySelector("[data-calc-leak-price]");
 const cookieConsentKey = "maniCookieConsent";
+const heroExperimentKey = "maniHeroCopyVariantV1";
 const pdnConsentVersion = "waitlist-pdn-2026-06-08";
 const googleAnalyticsId = "G-P6TDY2N5FK";
 const yandexMetricaId = 103776176;
@@ -190,6 +191,8 @@ function loadAnalytics() {
     accurateTrackBounce: true,
     webvisor: false,
   });
+  const heroVariant = document.documentElement.dataset.heroCopyVariant;
+  if (heroVariant) trackEvent("experiment_view", { experiment: "hero_copy_v1", variant: heroVariant });
 }
 
 function setCookieConsent(value) {
@@ -214,6 +217,7 @@ function initCookieConsent() {
 function trackEvent(name, params = {}) {
   const payload = {
     page_path: window.location.pathname,
+    hero_copy_variant: document.documentElement.dataset.heroCopyVariant || "unassigned",
     ...params,
   };
 
@@ -224,6 +228,21 @@ function trackEvent(name, params = {}) {
   if (typeof window.ym === "function") {
     window.ym(yandexMetricaId, "reachGoal", name, payload);
   }
+}
+
+function initHeroCopyExperiment() {
+  const heroCopy = document.querySelector("[data-hero-copy]");
+  if (!heroCopy) return;
+  let variant = localStorage.getItem(heroExperimentKey);
+  if (variant !== "control" && variant !== "short") {
+    variant = Math.random() < 0.5 ? "control" : "short";
+    localStorage.setItem(heroExperimentKey, variant);
+  }
+  if (variant === "short") {
+    heroCopy.textContent = "Все счета, расходы и подписки в одном месте. Mani показывает, куда уходят деньги, предупреждает о рисках и помогает разобраться в чате.";
+  }
+  document.documentElement.dataset.heroCopyVariant = variant;
+  trackEvent("experiment_view", { experiment: "hero_copy_v1", variant });
 }
 
 function showToast(message) {
@@ -456,6 +475,7 @@ async function submitWaitlist(form) {
   }
   if (!payload.pdnConsent) {
     result.textContent = "Поставь галочку согласия на обработку данных. Без нее мы не можем принять заявку.";
+    trackEvent("waitlist_consent_error", { source: payload.page });
     return;
   }
 
@@ -505,7 +525,8 @@ async function submitWaitlist(form) {
     localStorage.setItem("maniReferralCode", referralCode);
     form.reset();
     trackEvent("waitlist_submit", { position: data.position, source: payload.page, duplicate: Boolean(data.duplicate) });
-  } catch {
+  } catch (error) {
+    trackEvent("waitlist_submit_error", { source: payload.page, message: String(error?.message || "unknown").slice(0, 120) });
     const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0) + 1;
     localStorage.setItem("maniWaitlistCount", String(localCount));
     waitlistStatsUnlocked = false;
@@ -706,6 +727,12 @@ document.querySelectorAll("[data-early-access]").forEach((link) => {
 });
 
 waitlistForms.forEach((form) => {
+  let formStarted = false;
+  form.addEventListener("input", () => {
+    if (formStarted) return;
+    formStarted = true;
+    trackEvent("waitlist_form_start", { source: window.location.pathname });
+  });
   form.querySelectorAll("[data-phone-field]").forEach((field) => {
     const select = field.querySelector("select[name='phoneCountry']");
     const display = field.querySelector("input[name='phoneDisplay']");
@@ -728,6 +755,8 @@ waitlistForms.forEach((form) => {
     submitWaitlist(form);
   });
 });
+
+initHeroCopyExperiment();
 
 document.querySelectorAll("[data-social]").forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -935,6 +964,37 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
       else message = `${annualFormatted} в год выглядит серьёзно, но это не повод паниковать. Большая сумма складывается из понятных привычек. Начнём с самых простых изменений, сохраним комфорт и постепенно высвободим заметную часть бюджета.`;
     }
 
+    if (annualLoss > 0) {
+      const jesterDetails = [
+        "Автоплатежи уже открыли шампанское за твой счёт.",
+        "Где-то сейчас маркетплейс довольно потирает руки.",
+        "Мелкие траты снова притворились незаметными. Очень убедительно. Почти.",
+        "Подписки ведут себя как квартиранты: живут тихо, платишь почему-то ты.",
+        "Твой бюджет просил передать, что он не бездонный банкомат.",
+        "Каждая покупка вроде мелочь, а вместе они уже собрали профсоюз.",
+        "Деньги уходят красиво. Жаль, что без твоего согласия.",
+        "Пара ползунков — и финансовое алиби рассыпалось.",
+        "С таким темпом копилка скоро начнёт брать кредит.",
+        "Не расходы, а гастрольный тур по банковской выписке.",
+        "Хорошая новость: виновники уже светятся на табло.",
+      ];
+      const motivatorDetails = [
+        "Начнём с одного простого изменения — этого уже достаточно для движения вперёд.",
+        "Тебе не нужно менять всю жизнь: выберем самые лёгкие точки экономии.",
+        "Даже небольшая корректировка каждый месяц даст заметный результат за год.",
+        "Ты уже сделал важное — посмотрел на цифры спокойно и без самообвинений.",
+        "Сначала сохраним комфорт, затем аккуратно уберём то, что не приносит пользы.",
+        "Эти деньги можно постепенно направить на цель, которая действительно радует.",
+        "Мы будем двигаться в удобном темпе и оставим только полезные привычки.",
+        "Здесь нет плохих решений — есть данные, которые помогают выбрать лучше.",
+        "Порядок начинается не с запретов, а с ясной картины.",
+        "Каждая найденная утечка — это дополнительная свобода для будущих планов.",
+        "Цифры уже понятны, значит следующий шаг будет гораздо легче.",
+      ];
+      const details = mascotMode === "jester" ? jesterDetails : motivatorDetails;
+      message += ` ${details[(subscriptions * 16 + impulseBuys) % details.length]}`;
+    }
+
     root.querySelector("[data-mtd-subscriptions-output]").textContent = subscriptions;
     root.querySelector("[data-mtd-impulse-output]").textContent = impulseBuys;
     root.querySelector("[data-mtd-subscriptions-metric]").textContent = subscriptions;
@@ -945,8 +1005,8 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
 
     const mascot = root.querySelector("[data-mtd-mascot]");
     mascot.src = mascotMode === "jester"
-      ? "assets/newmani/interactive/jester.png"
-      : "assets/newmani/interactive/motivator.png";
+      ? "assets/newmani/interactive/jester.webp"
+      : "assets/newmani/interactive/motivator.webp";
     mascot.alt = mascotMode === "jester" ? "Весельчак Mani" : "Мотиватор Mani";
     root.classList.toggle("is-motivator", mascotMode === "motivator");
     modeButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.mtdMode === mascotMode));
@@ -956,8 +1016,11 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
 
   subscriptionsInput.addEventListener("input", render);
   impulseInput.addEventListener("input", render);
+  subscriptionsInput.addEventListener("change", () => trackEvent("test_drive_slider", { field: "subscriptions", value: Number(subscriptionsInput.value) }));
+  impulseInput.addEventListener("change", () => trackEvent("test_drive_slider", { field: "impulse_buys", value: Number(impulseInput.value) }));
   modeButtons.forEach((button) => button.addEventListener("click", () => {
     mascotMode = button.dataset.mtdMode;
+    trackEvent("test_drive_mode", { mode: mascotMode });
     render();
   }));
   render();
