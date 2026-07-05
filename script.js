@@ -45,7 +45,7 @@ let waitlistStats = {
   left: 1000,
   percent: 0,
 };
-let waitlistStatsUnlocked = Boolean(localStorage.getItem("maniReferralCode"));
+let waitlistStatsUnlocked = false;
 
 if ("scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
@@ -67,9 +67,11 @@ window.addEventListener("load", resetInitialScrollPosition);
 const links = {
   apple: "",
   google: "",
-  youtube: "",
-  instagram: "",
-  telegram: "",
+  youtube: "https://www.youtube.com/@Mani.ai_app",
+  instagram: "https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&utm_source=qr",
+  telegram: "https://t.me/moi_mani_ai",
+  vkvideo: "https://vkvideo.ru/@club240056458",
+  dzen: "https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve?share_to=link",
   x: "",
 };
 
@@ -94,7 +96,7 @@ const roadmapItems = [
   {
     kicker: "Скоро в Mani.ai",
     title: "Беспроцентный период по кредиткам",
-    text: "Mani покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на вас.",
+    text: "Mani покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на тебе.",
   },
   {
     kicker: "Скоро в Mani.ai",
@@ -472,21 +474,32 @@ async function submitWaitlist(form) {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "request failed");
-    waitlistStatsUnlocked = true;
+    waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
     const referralCode = data.referralCode || `MANI-${String(data.position).padStart(4, "0")}`;
     const referralUrl = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(referralCode)}`;
+    const statusLabels = {
+      "Founding users": "Основатели Mani",
+      "Early crew": "Ранняя команда",
+      "Last free access": "Последний бесплатный доступ",
+    };
+    const queueStatus = statusLabels[data.status] || "Ранний доступ";
+    const placesLeft = Number(data.stats?.left);
     result.textContent = data.duplicate
       ? `Ты уже в очереди. Твое место: #${data.position}.`
       : `Готово. Твое место в очереди: #${data.position}.`;
     if (success) {
       success.hidden = false;
       success.innerHTML = `
-        <strong>${data.status || "Early crew"} - место #${data.position}</strong>
-        <span>Твой код приглашения:</span><br />
-        <code>${referralCode}</code>
-        <p>Отправь ссылку другу: ${referralUrl}</p>
-        <p>За приглашения можно будет подниматься выше в очереди, когда включим реферальные бонусы.</p>
+        <div class="waitlist-success-head"><span>Заявка принята</span><strong>Ты в очереди Mani</strong></div>
+        <div class="waitlist-success-grid">
+          <div><small>Твоё место</small><b>#${data.position}</b></div>
+          <div><small>Статус</small><b>${queueStatus}</b></div>
+          ${Number.isFinite(placesLeft) ? `<div><small>Свободно после тебя</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>` : ""}
+        </div>
+        <div class="waitlist-referral"><span>Код приглашения</span><code>${referralCode}</code></div>
+        <p class="waitlist-success-note">Сохрани код. По нему мы узнаем тебя и позже подключим бонусы за приглашения.</p>
+        <a class="waitlist-share" href="${referralUrl}">Твоя персональная ссылка</a>
       `;
     }
     localStorage.setItem("maniReferralCode", referralCode);
@@ -495,17 +508,16 @@ async function submitWaitlist(form) {
   } catch {
     const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0) + 1;
     localStorage.setItem("maniWaitlistCount", String(localCount));
-    waitlistStatsUnlocked = true;
+    waitlistStatsUnlocked = false;
     updateWaitlistStats({ registered: localCount });
     const referralCode = `MANI-${String(localCount).padStart(4, "0")}`;
     result.textContent = `Локально сохранено в браузере. Место в демо-очереди: #${localCount}.`;
     if (success) {
       success.hidden = false;
       success.innerHTML = `
-        <strong>Founding users - место #${localCount}</strong>
-        <span>Демо-код приглашения:</span><br />
-        <code>${referralCode}</code>
-        <p>Когда подключим продакшен-сбор заявок, код будет сохраняться на сервере.</p>
+        <div class="waitlist-success-head"><span>Локальная проверка</span><strong>Демо-заявка принята</strong></div>
+        <div class="waitlist-success-grid"><div><small>Демо-место</small><b>#${localCount}</b></div><div><small>Код</small><b>${referralCode}</b></div></div>
+        <p class="waitlist-success-note">На продакшене место выдаёт существующая база заявок на сервере.</p>
       `;
     }
     form.reset();
@@ -525,7 +537,7 @@ function openConfiguredLink(key, fallback) {
 
 function setTone(name) {
   const tone = tones[name];
-  if (!tone) return;
+  if (!tone || !toneSection || !toneImage || !toneNote || !toneMessages) return;
   const isSameTone = currentTone === name;
   currentTone = name;
   toneSection.classList.toggle("roaster", name === "roaster");
@@ -799,7 +811,7 @@ if ("IntersectionObserver" in window) {
     );
 
     waitlistForms.forEach((form) => stickyObserver.observe(form));
-    [document.querySelector("#early-access"), document.querySelector("#demo"), document.querySelector("#leak-calc"), document.querySelector("#security")].forEach((section) => {
+    [document.querySelector(".nm-hero"), document.querySelector("#features"), document.querySelector("#early-access"), document.querySelector("#demo"), document.querySelector("#leak-calc"), document.querySelector("#security")].forEach((section) => {
       if (section) stickyObserver.observe(section);
     });
   }
@@ -840,4 +852,50 @@ if (menuButton && mobileMenu) {
       mobileMenu.setAttribute("aria-hidden", "true");
     });
   });
+}
+
+const waitlistDialog = document.querySelector("#waitlist-dialog");
+
+if (waitlistDialog) {
+  document.querySelectorAll("[data-open-waitlist]").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      document.body.classList.remove("menu-open");
+      menuButton?.setAttribute("aria-expanded", "false");
+      mobileMenu?.setAttribute("aria-hidden", "true");
+      if (!waitlistDialog.open) waitlistDialog.showModal();
+      requestAnimationFrame(() => waitlistDialog.querySelector("input[name='phoneDisplay']")?.focus());
+      trackEvent("waitlist_open", { source: trigger.dataset.earlyAccess || "unknown" });
+    });
+  });
+
+  waitlistDialog.querySelectorAll("[data-close-waitlist]").forEach((button) => {
+    button.addEventListener("click", () => waitlistDialog.close());
+  });
+
+  waitlistDialog.addEventListener("click", (event) => {
+    if (event.target !== waitlistDialog) return;
+    const rect = waitlistDialog.getBoundingClientRect();
+    const inside = event.clientX >= rect.left && event.clientX <= rect.right
+      && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    if (!inside) waitlistDialog.close();
+  });
+}
+
+const revealItems = document.querySelectorAll("[data-reveal]");
+
+if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8%", threshold: 0.08 }
+  );
+  revealItems.forEach((item) => revealObserver.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
 }

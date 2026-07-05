@@ -19,6 +19,7 @@ const types = {
   ".json": "application/json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
+  ".ttf": "font/ttf",
   ".webp": "image/webp",
   ".xml": "application/xml; charset=utf-8",
   ".jpg": "image/jpeg",
@@ -30,7 +31,6 @@ function resolvePath(urlPath) {
   if (urlPath === "/privacy") return "privacy.html";
   if (urlPath === "/cookie") return "cookie.html";
   if (urlPath === "/bezopasnost") return "bezopasnost.html";
-  if (urlPath === "/pervye-1000") return "pervye-1000.html";
   if (urlPath === "/faq") return "faq.html";
   if (urlPath === "/soglasie") return "soglasie.html";
   return urlPath.replace(/^\/+/, "");
@@ -326,8 +326,8 @@ createServer(async (request, response) => {
     return;
   }
 
-  if (url.pathname === "/pervye-1000.html") {
-    response.writeHead(301, { Location: "/pervye-1000" });
+  if (url.pathname === "/pervye-1000" || url.pathname === "/pervye-1000.html") {
+    response.writeHead(301, { Location: "/#early-access" });
     response.end();
     return;
   }

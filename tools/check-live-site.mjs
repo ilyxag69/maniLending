@@ -26,10 +26,18 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
-  assert(body.includes("script.js?v=20260610-scrollfix-2"), "Expected script cache-bust is missing");
-  assert(body.includes("styles.css?v=20260610-scrollfix-2"), "Expected CSS cache-bust is missing");
+  assert(body.includes("script.js?v=20260705-waitlist-2"), "Expected script cache-bust is missing");
+  assert(body.includes("newmani.css?v=20260705-waitlist-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
+  assert(!body.includes("Осталось мест"), "Public remaining-place counter is still visible");
+  [
+    "https://www.instagram.com/moimani.ai",
+    "https://t.me/moi_mani_ai",
+    "https://www.youtube.com/@Mani.ai_app",
+    "https://vkvideo.ru/@club240056458",
+    "https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve",
+  ].forEach((url) => assert(body.includes(url), `Social link missing: ${url}`));
   assert(body.includes("data-phone-field"), "Phone formatter field is missing from home page");
   assert(body.includes('name="pdnConsent"'), "Personal data consent checkbox is missing");
   assert(body.includes('href="/soglasie"'), "Personal data consent link is missing");
@@ -40,7 +48,6 @@ check("home page loads", async () => {
 check("preview conversion pages are reachable", async () => {
   const pages = [
     ["/bezopasnost", '<link rel="canonical" href="https://moimani.ai/bezopasnost"'],
-    ["/pervye-1000", '<link rel="canonical" href="https://moimani.ai/pervye-1000"'],
     ["/faq", '<link rel="canonical" href="https://moimani.ai/faq"'],
     ["/soglasie", '<link rel="canonical" href="https://moimani.ai/soglasie"'],
   ];
@@ -51,6 +58,13 @@ check("preview conversion pages are reachable", async () => {
     assert(body.includes(canonical), `${page} canonical mismatch`);
     assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
   }
+});
+
+check("retired early access page redirects home", async () => {
+  const response = await fetch(new URL("/pervye-1000", baseUrl), { redirect: "manual" });
+  assert(response.status === 301, `/pervye-1000 returned ${response.status}`);
+  const location = response.headers.get("location") || "";
+  assert(location === "/#early-access" || location.endsWith("/#early-access"), "Retired page redirect mismatch");
 });
 
 check("seo metadata exists", async () => {
@@ -99,7 +113,6 @@ check("robots and sitemap are reachable", async () => {
     "https://moimani.ai/privacy",
     "https://moimani.ai/cookie",
     "https://moimani.ai/bezopasnost",
-    "https://moimani.ai/pervye-1000",
     "https://moimani.ai/faq",
     "https://moimani.ai/soglasie",
   ].forEach((url) => assert(sitemap.body.includes(`<loc>${url}</loc>`), `sitemap missing ${url}`));
@@ -152,13 +165,44 @@ check("key assets are reachable", async () => {
     "/assets/desktop-reasons-card.webp",
     "/assets/mobile-widgets.webp",
     "/assets/og-image.jpg",
+    "/assets/newmani/hero-v1/composition/phones-mascots-alpha.png",
+    "/assets/newmani/social-v1/motivator-peek-alpha.png",
+    "/assets/newmani/social-v1/veselchak-peek-tight.png",
+    "/assets/newmani/social-v1/duo-banner-clean.png",
+    "/assets/newmani/social-v1/section-background-exact.png",
+    "/assets/newmani/social-v1/section-background.png",
+    "/security-page.css?v=20260705-4",
+    "/assets/newmani/security-v1/security-orbit-alpha.png",
+    "/assets/newmani/security-page/hero-mani-alpha.png",
+    "/assets/newmani/security-page/shield-mani-alpha.png",
+    "/assets/newmani/security-page/icons/read-only.png",
+    "/assets/newmani/security-page/icons/encryption.png",
+    "/assets/newmani/security-page/icons/api.png",
+    "/assets/newmani/security-page/icons/anonymization.png",
+    "/assets/newmani/security-page/icons/deletion.png",
+    "/assets/newmani/security-page/icons/bank.png",
+    "/assets/newmani/security-page/icons/token.png",
+    "/assets/newmani/security-page/icons/ai.png",
+    "/faq-page.css?v=20260705-4",
+    "/assets/newmani/faq-page/motivator.png",
+    "/assets/newmani/faq-page/veselchak.png",
+    "/assets/newmani/faq-page/orbit.png",
+    "/assets/newmani/faq-page/category-basic.png",
+    "/assets/newmani/faq-page/category-ai.png",
+    "/assets/newmani/faq-page/category-security.png",
+    "/assets/newmani/faq-page/category-future.png",
   ];
 
   for (const asset of assets) {
     const response = await fetchHead(asset);
     assert(response.ok, `${asset} returned ${response.status}`);
     const contentLength = Number(response.headers.get("content-length") || 0);
-    assert(contentLength > 0, `${asset} has empty content-length`);
+    if (contentLength < 1) {
+      const fallback = await fetch(new URL(asset, baseUrl));
+      assert(fallback.ok, `${asset} GET returned ${fallback.status}`);
+      const body = await fallback.arrayBuffer();
+      assert(body.byteLength > 0, `${asset} has empty body`);
+    }
   }
 });
 

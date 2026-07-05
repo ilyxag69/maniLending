@@ -21,7 +21,6 @@ This is a preview implementation for the early-access queue.
 - `api/waitlist-admin.php`
 - `.htaccess`
 - `index.html`
-- `pervye-1000.html`
 - `script.js`
 - `styles.css`
 
@@ -45,7 +44,7 @@ POST body:
   "pdnConsentVersion": "waitlist-pdn-2026-06-08",
   "pdnConsentAt": "2026-06-08T12:00:00.000Z",
   "ref": "MANI-0001",
-  "page": "/pervye-1000"
+  "page": "/#early-access"
 }
 ```
 
@@ -102,7 +101,7 @@ Open:
 
 ```text
 http://127.0.0.1:4179/
-http://127.0.0.1:4179/pervye-1000
+http://127.0.0.1:4179/#early-access
 ```
 
 Run checks:

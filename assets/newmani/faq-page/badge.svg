@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="54" viewBox="0 0 210 54" fill="none">
+
+<defs><filter id="s" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="5" result="b"/><feOffset dy="4"/><feComposite in2="SourceAlpha" operator="out"/><feColorMatrix values="0 0 0 0 0.08 0 0 0 0 0.45 0 0 0 0 0.93 0 0 0 0.12 0"/><feBlend in="SourceGraphic"/></filter></defs>
+<rect x="1" y="1" width="208" height="52" rx="18" fill="white" fill-opacity="0.9" stroke="#A6CDFF"/>
+<circle cx="38" cy="27" r="13" stroke="#146FEE" stroke-width="2"/><text x="33" y="34" font-size="19" font-weight="700" font-family="Inter,Arial" fill="#146FEE">?</text><text x="65" y="34" font-size="16" font-weight="700" font-family="Inter,Arial" fill="#146FEE">Частые вопросы</text>
+</svg>

@@ -6,22 +6,12 @@
     <script>
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     </script>
-    <title>Mani.ai — ИИ-помощник для контроля личных финансов</title>
-    <meta
-      name="description"
-      content="Mani.ai помогает навести порядок в личных финансах: анализ расходов, банки и счета, подписки, риски, бюджет и понятные действия в одном приложении."
-    />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="yandex" content="index, follow" />
-    <meta name="theme-color" content="#FA5D27" />
-    <meta name="application-name" content="Mani.ai" />
-    <meta name="apple-mobile-web-app-title" content="Mani.ai" />
+    <title>Mani.ai — ИИ-помощник для личных финансов</title>
+    <meta name="description" content="Mani объединяет банки и счета, анализирует расходы, подписки и риски, а в чате помогает принимать понятные финансовые решения." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#f7f9fc" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="keywords" content="Mani.ai, личные финансы, учет расходов, контроль расходов, финансовый помощник, ИИ для финансов, приложение для бюджета, подписки, банки и счета" />
-    <meta name="geo.region" content="RU" />
-    <meta name="geo.placename" content="Russia" />
-    <meta name="ICBM" content="55.7558,37.6173" />
+    <meta name="analytics-consent" content="GA4:G-P6TDY2N5FK;YM:103776176" />
     <link rel="canonical" href="https://moimani.ai/" />
     <link rel="alternate" hreflang="ru" href="https://moimani.ai/" />
     <link rel="alternate" hreflang="x-default" href="https://moimani.ai/" />
@@ -29,572 +19,405 @@
     <meta property="og:site_name" content="Mani.ai" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:url" content="https://moimani.ai/" />
-    <meta property="og:title" content="Mani.ai — ИИ-помощник для контроля личных финансов" />
-    <meta property="og:description" content="Подключает банки и счета, находит забытые подписки, предупреждает о рисках и показывает, куда уходят деньги." />
+    <meta property="og:title" content="Mani.ai — ИИ-помощник для личных финансов" />
+    <meta property="og:description" content="Порядок в деньгах сегодня. Персональный финансовый агент завтра." />
     <meta property="og:image" content="https://moimani.ai/assets/og-image.jpg" />
-    <meta property="og:image:secure_url" content="https://moimani.ai/assets/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Mani.ai — ИИ-помощник для контроля расходов и личных финансов" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Mani.ai — ИИ-помощник для контроля личных финансов" />
-    <meta name="twitter:description" content="Анализ расходов, подписки, риски, бюджет и понятные действия в одном приложении." />
+    <meta name="twitter:title" content="Mani.ai — ИИ-помощник для личных финансов" />
+    <meta name="twitter:description" content="Банки, расходы, подписки, платежи и AI-чат в одном приложении." />
     <meta name="twitter:image" content="https://moimani.ai/assets/og-image.jpg" />
-    <meta name="analytics-consent" content="GA4:G-P6TDY2N5FK;YM:103776176" />
-    <link rel="preload" as="image" href="assets/iphone-hero.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="assets/logo.svg" />
+    <link rel="preload" href="assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="assets/fonts/Inter-500.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="icon" href="assets/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=20260610-scrollfix-2" />
+    <link rel="stylesheet" href="newmani.css?v=20260705-waitlist-2" />
     <script type="application/ld+json">
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                      {
-                              "@type": "Organization",
-                              "@id": "https://moimani.ai/#organization",
-                              "name": "Mani.ai",
-                              "url": "https://moimani.ai/",
-                              "logo": "https://moimani.ai/assets/logo.svg",
-                              "sameAs": []
-                      },
-                      {
-                              "@type": "WebSite",
-                              "@id": "https://moimani.ai/#website",
-                              "url": "https://moimani.ai/",
-                              "name": "Mani.ai",
-                              "inLanguage": "ru-RU",
-                              "publisher": {
-                                      "@id": "https://moimani.ai/#organization"
-                              },
-                              "description": "Лендинг приложения Mani.ai — ИИ-помощника для контроля личных финансов."
-                      },
-                      {
-                              "@type": "SoftwareApplication",
-                              "@id": "https://moimani.ai/#app",
-                              "name": "Mani.ai",
-                              "url": "https://moimani.ai/",
-                              "applicationCategory": "FinanceApplication",
-                              "operatingSystem": "iOS, Android",
-                              "inLanguage": "ru-RU",
-                              "publisher": {
-                                      "@id": "https://moimani.ai/#organization"
-                              },
-                              "image": "https://moimani.ai/assets/og-image.jpg",
-                              "description": "ИИ-помощник для личных финансов: анализ расходов, подключение банков и счетов, поиск забытых подписок, предупреждения о рисках и планирование бюджета.",
-                              "featureList": [
-                                      "Анализ расходов",
-                                      "Банки и счета в одной картине",
-                                      "Поиск забытых подписок",
-                                      "Предупреждения о финансовых рисках",
-                                      "Планирование бюджета",
-                                      "Персональный стиль общения"
-                              ],
-                              "areaServed": [
-                                      {
-                                              "@type": "Country",
-                                              "name": "Russia"
-                                      },
-                                      {
-                                              "@type": "Country",
-                                              "name": "Kazakhstan"
-                                      },
-                                      {
-                                              "@type": "Country",
-                                              "name": "Belarus"
-                                      }
-                              ]
-                      }
-              ]
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://moimani.ai/#organization",
+            "name": "Mani.ai",
+            "url": "https://moimani.ai/",
+            "logo": "https://moimani.ai/assets/logo.svg"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://moimani.ai/#website",
+            "url": "https://moimani.ai/",
+            "name": "Mani.ai",
+            "inLanguage": "ru-RU",
+            "publisher": { "@id": "https://moimani.ai/#organization" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://moimani.ai/#app",
+            "name": "Mani.ai",
+            "url": "https://moimani.ai/",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "iOS, Android",
+            "inLanguage": "ru-RU",
+            "description": "ИИ-помощник для контроля личных финансов, расходов, подписок, платежей и бюджета.",
+            "publisher": { "@id": "https://moimani.ai/#organization" }
+          }
+        ]
       }
     </script>
   </head>
-  <body>
-    <header class="header">
-      <a class="logo" href="#top" aria-label="Mani.ai">
+  <body class="nm-page">
+    <header class="header nm-header">
+      <a class="logo nm-logo" href="#top" aria-label="Mani.ai">
         <img src="assets/logo.svg" alt="Mani.ai" />
       </a>
-      <nav class="nav" aria-label="Основная навигация">
+      <nav class="nav nm-nav" aria-label="Основная навигация">
         <a href="#about">О приложении</a>
         <a href="#features">Возможности</a>
-        <a href="#future">Будущее</a>
         <a href="#security">Безопасность</a>
+        <a href="#future">Будущее</a>
         <a href="/faq">FAQ</a>
       </nav>
-      <div class="platforms">
-        <a href="/pervye-1000" data-early-access="header-ios" aria-label="Получить ранний доступ для iOS">
-          <img src="assets/icon-ios.svg" alt="" />
-        </a>
-        <a href="/pervye-1000" data-early-access="header-android" aria-label="Получить ранний доступ для Android">
-          <img src="assets/icon-android.svg" alt="" />
-        </a>
-      </div>
-      <button class="menu" type="button" aria-label="Меню">
+      <a class="nm-button nm-button-primary nm-header-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="header">Получить ранний доступ <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
+      <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </header>
-    <div class="mobile-menu-panel" aria-hidden="true">
-      <nav class="mobile-menu-links" aria-label="Мобильное меню">
+
+    <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true">
+      <nav aria-label="Мобильное меню">
         <a href="#about">О приложении</a>
         <a href="#features">Возможности</a>
-        <a href="#future">Будущее</a>
         <a href="#security">Безопасность</a>
+        <a href="#future">Будущее</a>
         <a href="/faq">FAQ</a>
       </nav>
-      <div class="mobile-menu-store">
-        <a class="store-button" href="/pervye-1000" data-early-access="mobile-menu-google">
-          <span>Получить<br /><strong>ранний доступ</strong></span>
-        </a>
-        <a class="store-button" href="/bezopasnost">
-          <span>Узнать про<br /><strong>безопасность</strong></span>
-        </a>
-      </div>
-      <div class="mobile-menu-socials">
-        <a href="#" data-social="youtube" aria-label="YouTube"><img src="assets/social-youtube.svg" alt="" /></a>
-        <a href="#" data-social="instagram" aria-label="Instagram"><img src="assets/social-instagram.svg" alt="" /></a>
-        <a href="#" data-social="telegram" aria-label="Telegram"><img src="assets/social-telegram.svg" alt="" /></a>
-        <a href="#" data-social="x" aria-label="X"><img src="assets/social-x.svg" alt="" /></a>
-      </div>
-      <p>© 2025 Mani.ai — финансовый радар с характером. Без спама. Только польза.</p>
+      <a class="nm-button nm-button-primary" href="#waitlist-dialog" data-open-waitlist data-early-access="mobile-menu">Получить ранний доступ</a>
     </div>
 
     <main id="top">
-      <section class="hero panel">
-        <div class="hero-copy">
-          <p class="eyebrow">ИИ-помощник для личных финансов</p>
-          <h1>Хаос в деньгах заканчивается <span>здесь</span></h1>
-          <p class="lead">
-            Mani держит деньги в порядке: показывает утечки, подписки, лишние платежи и риски по бюджету.
-            В чате с Мани можно обсудить планы, покупки, цели и сложные решения - как с помощником, который понимает контекст.
-          </p>
-          <p class="hero-offer"><strong>Первые 1000 пользователей</strong><span>получают полный доступ бесплатно навсегда</span></p>
-          <div class="store-actions">
-            <a class="store-button store-button-primary" href="/pervye-1000" data-early-access="hero-primary">
-              <span><strong>Забрать доступ навсегда</strong></span>
-            </a>
-            <a class="store-button" href="/bezopasnost">
-              <span><strong>Как защищены данные</strong></span>
-            </a>
+      <section class="hero nm-hero" id="about">
+        <div class="nm-container nm-hero-grid">
+          <div class="hero-copy nm-hero-copy" data-reveal>
+            <h1>Хаос в деньгах заканчивается <span>здесь</span></h1>
+            <p class="lead">Mani объединяет все счета и банки в одном месте, показывает полную картину денег, напоминает о платежах, анализирует расходы и помогает в чате простым человеческим языком.</p>
+            <div class="nm-actions">
+              <a class="nm-button nm-button-primary nm-hero-primary" href="#waitlist-dialog" data-open-waitlist data-early-access="hero">Забрать доступ навсегда <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
+              <a class="nm-button nm-button-secondary nm-hero-secondary" href="#security"><img src="assets/newmani/hero-v1/icons/shield_check.svg" alt="" />Как защищены данные</a>
+            </div>
+            <div class="nm-early-proof" data-waitlist>
+              <div class="nm-proof-icon" aria-hidden="true"><span style="--icon:url('assets/newmani/hero-v1/icons/users_orange.svg')"></span></div>
+              <p class="nm-proof-copy"><strong>Первые 1000 пользователей</strong><span>получают полный доступ <em>бесплатно навсегда</em></span></p>
+            </div>
           </div>
-        </div>
-        <div class="hero-art">
-          <picture>
-            <source srcset="assets/iphone-hero.webp" type="image/webp" />
-            <img src="assets/iphone-hero.png" alt="Экран Mani.ai на iPhone" />
-          </picture>
-        </div>
-      </section>
 
-      <section class="section access-preview" id="early-access" data-waitlist>
-        <div class="access-copy">
-          <small>Оффер запуска</small>
-          <h2>Первые 1000 пользователей забирают Mani.ai бесплатно навсегда</h2>
-          <p>Мы запускаем Mani.ai и ищем первых пользователей, которые помогут сделать финансового помощника по-настоящему полезным. Участники раннего доступа получают полный доступ ко всем текущим и будущим функциям.</p>
-          <div class="access-stats" aria-live="polite">
-            <div><b data-waitlist-registered>Место узнаешь после заявки</b><span data-waitlist-registered-label>очередь открыта для первых 1000 пользователей</span></div>
-            <div><b data-waitlist-left>1000 мест</b><span data-waitlist-left-label>ранний доступ бесплатно навсегда</span></div>
-            <div><b data-waitlist-percent>Сначала контакт</b><span data-waitlist-percent-label>потом покажем номер и статус</span></div>
-          </div>
-          <div class="access-progress" data-waitlist-progress-wrap aria-hidden="true" hidden><span data-waitlist-progress></span></div>
-        </div>
-        <form class="waitlist-form" data-waitlist-form>
-          <h3>Забронировать место</h3>
-          <p>Оставь контакт - покажем номер в очереди и позовем в ранний доступ.</p>
-          <label>
-            <span>Телефон</span>
-            <div class="phone-field" data-phone-field>
-              <select name="phoneCountry" aria-label="Код страны">
-                <option value="RU" data-code="+7" data-length="10" selected>RU +7</option>
-                <option value="BY" data-code="+375" data-length="9">BY +375</option>
-                <option value="KZ" data-code="+7" data-length="10">KZ +7</option>
-                <option value="AM" data-code="+374" data-length="8">AM +374</option>
-                <option value="GE" data-code="+995" data-length="9">GE +995</option>
-                <option value="TR" data-code="+90" data-length="10">TR +90</option>
-                <option value="AE" data-code="+971" data-length="9">AE +971</option>
-                <option value="US" data-code="+1" data-length="10">US +1</option>
-                <option value="OTHER" data-code="+" data-length="8-15">Другая +</option>
-              </select>
-              <input name="phoneDisplay" type="tel" inputmode="tel" autocomplete="tel" placeholder="901 369-69-77" required />
-              <input name="phone" type="hidden" />
-            </div>
-            <small class="phone-hint" data-phone-hint>Можно ввести 9013696977 — подставим +7 сами. Telegram укажи в комментарии, если так удобнее.</small>
-          </label>
-          <label>
-            <span>Email <em>необязательно</em></span>
-            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" />
-          </label>
-          <label>
-            <span>Комментарий / удобный канал связи <em>необязательно</em></span>
-            <textarea name="contactDetails" rows="3" autocomplete="off" placeholder="Например: писать в Telegram, после 18:00, или просто без комментария"></textarea>
-          </label>
-          <input class="waitlist-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <label class="consent-check">
-            <input name="pdnConsent" type="checkbox" value="yes" required />
-            <span>Согласен на обработку персональных данных для раннего доступа. <a href="/soglasie" target="_blank" rel="noopener">Согласие</a> и <a href="/privacy" target="_blank" rel="noopener">privacy</a>.</span>
-          </label>
-          <button type="submit">Занять место среди первых 1000 пользователей</button>
-          <p class="waitlist-privacy">Никакого спама. Напишем только по раннему доступу.</p>
-          <p class="waitlist-humor">Юмор оставим Mani, а доступ пришлем по нормальному контакту.</p>
-          <p class="waitlist-result" data-waitlist-result>После отправки покажем номер места в очереди.</p>
-          <div class="waitlist-success" data-waitlist-success hidden></div>
-        </form>
-        <div class="trust-pills" aria-label="Как Mani защищает данные">
-          <article><strong>Только просмотр</strong><span>Mani не может перевести или списать деньги.</span></article>
-          <article><strong>Без доступа к операциям</strong><span>Он анализирует, но не управляет счетами.</span></article>
-          <article><strong>Ты всё контролируешь</strong><span>Подключение только с твоего согласия.</span></article>
-        </div>
-      </section>
-
-      <section class="section live-demo" id="demo">
-        <div class="section-title">
-          <h2>Посмотри, как Mani разбирает расходы</h2>
-          <p>Выбери ситуацию. Mani не угадывает и не следит за тобой — он читает финансовые сигналы: суммы, даты, повторы и темп списаний.</p>
-        </div>
-        <div class="demo-shell">
-          <div class="demo-tabs" role="tablist" aria-label="Сценарии Mani">
-            <button class="active" type="button" data-demo-tab="subscriptions" role="tab" aria-selected="true">Регулярные списания</button>
-            <button type="button" data-demo-tab="leaks" role="tab" aria-selected="false">Утечки</button>
-            <button type="button" data-demo-tab="budget" role="tab" aria-selected="false">Бюджет</button>
-          </div>
-          <div class="demo-phone" aria-live="polite">
-            <div class="demo-phone-top">
-              <span>Mani.ai</span>
-              <strong data-demo-status>видит повтор 649 ₽</strong>
-            </div>
-            <div class="demo-signal-list" data-demo-signals>
-              <span>649 ₽ каждый месяц</span>
-              <span>13-е число</span>
-              <span>Категория: сервис</span>
-            </div>
-            <div class="demo-chat">
-              <div class="demo-message bot" data-demo-message-main>Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж.</div>
-              <div class="demo-message user">И что делать?</div>
-              <div class="demo-message bot accent" data-demo-message-action>Проверить, нужен ли этот платеж. Если нет — отключение сэкономит до 7 788 ₽ в год.</div>
-            </div>
-            <div class="demo-result">
-              <small data-demo-result-label>Потенциально лишний расход</small>
-              <strong data-demo-result-value>7 788 ₽/год</strong>
-            </div>
-          </div>
-          <div class="demo-side">
-            <small>Финансовые сигналы вместо гаданий</small>
-            <h3 data-demo-title>Mani показывает повторяющиеся списания</h3>
-            <p data-demo-copy>Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить.</p>
-            <a href="#early-access" data-early-access="demo">Занять место и проверить свои расходы</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="about">
-        <div class="section-title">
-          <h2>Всё, чтобы перестать терять деньги</h2>
-          <p>Только ясная картина ваших финансов.</p>
-        </div>
-        <picture>
-          <source srcset="assets/desktop-money-cards.webp?v=20260527-feature-1" type="image/webp" />
-          <img class="money-desktop-art" src="assets/desktop-money-cards.png?v=20260527-feature-1" alt="Банки, счета и забытые подписки в Mani.ai" />
-        </picture>
-        <picture>
-          <img class="money-mobile-art" src="assets/mobile-money-feature.png?v=20260527-feature-1" alt="Все банки, счета и забытые подписки в Mani.ai" />
-        </picture>
-        <div class="money-cards">
-          <article class="money-card">
-            <div>
-              <h3>Все банки и счета в одной картине</h3>
-              <p>Больше не нужно прыгать между приложениями. Подключение банков и счетов в один клик.</p>
-            </div>
-            <div class="mini-bank">
-              <div><span>Банки</span><b>Общий баланс</b></div>
-              <ul>
-                <li>Добавить <em>+</em></li>
-                <li>Фу Банк <em>✓</em></li>
-                <li>Ай-яй Банк <em>✓</em></li>
-                <li>Куськин Банк <em>✓</em></li>
-              </ul>
-            </div>
-          </article>
-          <article class="money-card">
-            <div>
-              <h3>Находит деньги в забытых подписках</h3>
-              <p>Автоматически проверяет все списания по всем картам. Показывает, какие подписки активны.</p>
-            </div>
-            <div class="mini-subscriptions">
-              <div><span>ФЕВ<br />13</span><b>Дрянь полезная</b><strong>499 ₽</strong></div>
-              <div><span>ФЕВ<br />13</span><b>Дрянь любимая</b><strong>649 ₽</strong></div>
-            </div>
-          </article>
-        </div>
-        <div class="money-mobile" aria-hidden="true">
-          <article class="money-phone-card">
-            <div class="mobile-phone-frame">
-              <div class="mobile-notch"></div>
-              <div class="mobile-bank-grid">
-                <span>Добавить</span><span>Фу Банк</span><span>Ай-яй Банк</span><span>Куськин Банк</span>
+          <div class="nm-hero-visual nm-hero-media-slot" aria-hidden="true" data-reveal>
+            <img class="nm-hero-composition" src="assets/newmani/hero-v1/composition/phones-mascots-alpha.png" alt="" />
+            <div class="nm-phone nm-phone-dashboard" aria-label="Сводка по деньгам в Mani.ai" hidden>
+              <div class="nm-phone-status"><span>9:41</span><i></i><span>▮▮ ◉ ▰</span></div>
+              <div class="nm-phone-screen nm-dashboard-ui">
+                <strong class="nm-phone-logo">mani<span>.ai</span></strong>
+                <div class="nm-phone-greeting"><b>Привет, Алексей! 👋</b><span>Вот что у тебя по финансам</span></div>
+                <div class="nm-ui-card nm-balance-card"><small>Общий баланс</small><b>248 420 ₽</b><span>+ 12 430 ₽ за месяц</span></div>
+                <div class="nm-ui-card nm-spend-card"><small>Расходы за месяц</small><b>98 720 ₽</b><span>-8% к прошлому месяцу</span><svg viewBox="0 0 90 34" aria-hidden="true"><path d="M2 29C17 27 19 15 31 19S45 27 56 13 72 17 88 4" /></svg></div>
+                <div class="nm-ui-card nm-category-card"><b>Расходы по категориям</b><div><span>▣ Продукты</span><strong>28 450 ₽</strong></div><div><span>▤ Транспорт</span><strong>16 220 ₽</strong></div><div><span>⌘ Развлечения</span><strong>15 300 ₽</strong></div><div><span>↻ Подписки</span><strong>8 990 ₽</strong></div></div>
+                <nav class="nm-phone-nav"><b>⌂<small>Главная</small></b><span>▣<small>Платежи</small></span><span>▥<small>Аналитика</small></span><span>□<small>Чат</small></span></nav>
               </div>
             </div>
-          </article>
-          <article class="money-phone-card">
-            <div class="mobile-phone-frame subscriptions">
-              <div class="mobile-notch"></div>
-              <div class="mobile-row"><span>Дрянь полезная</span><b>499 ₽</b></div>
-              <div class="mobile-row"><span>Дрянь любимая</span><b>649 ₽</b></div>
+            <div class="nm-phone nm-phone-chat" aria-label="AI-чат Mani" hidden>
+              <div class="nm-phone-status"><span>9:41</span><i></i><span>▮▮ ◉ ▰</span></div>
+              <div class="nm-phone-screen nm-chat-ui">
+                <header><span class="nm-chat-avatar">m</span><div><b>Mani</b><small>Онлайн</small></div><strong>•••</strong></header>
+                <div class="nm-chat-user">Где я могу сэкономить<br />на этой неделе?</div>
+                <p class="nm-chat-answer">Я проанализировал расходы и нашёл несколько возможностей для экономии.</p>
+                <div class="nm-ui-card nm-opportunities"><b>Возможности для экономии</b><div><i>☕</i><span><strong>Кафе и рестораны</strong><small>На 15% больше обычного</small></span></div><div><i>↻</i><span><strong>Подписки</strong><small>До 1 890 ₽/мес</small></span></div><div><i>⚡</i><span><strong>Импульсивные покупки</strong><small>Сократите на 4 120 ₽/мес</small></span></div></div>
+                <button type="button">Покажи детали</button>
+                <div class="nm-chat-input">Напиши сообщение… <span>↑</span></div>
+              </div>
             </div>
-          </article>
+            <img class="nm-hero-mascot nm-hero-mascot-dark" src="assets/newmani/hero-v1/mascots/veselchak_cutout_transparent.png" alt="" hidden />
+            <img class="nm-hero-mascot nm-hero-mascot-light" src="assets/newmani/hero-v1/mascots/motivator_cutout_transparent.png" alt="" hidden />
+          </div>
         </div>
       </section>
 
-      <section class="section chat-section" id="features">
-        <div class="section-title">
-          <h2>Никаких сложных графиков</h2>
-          <p>Все возможности доступны в чате. Без сложных настроек и инструкций.</p>
-        </div>
-        <div class="chat-grid">
-          <div class="feature-stack">
-            <article class="feature-card">
-              <img src="assets/feature-magnifying.svg" alt="" />
-              <h3>Анализ трат</h3>
-              <p>Mani подключается к банкам и собирает все карты, счета и подписки.</p>
+      <section class="nm-section nm-features" id="features">
+        <div class="nm-container">
+          <span class="nm-feature-mascot nm-feature-mascot-left" aria-hidden="true"><img src="assets/newmani/features-v1/mascots/motivator_peek_alpha.png" alt="" /></span>
+          <span class="nm-feature-mascot nm-feature-mascot-right" aria-hidden="true"><img src="assets/newmani/features-v1/mascots/veselchak_peek_alpha.png" alt="" /></span>
+          <div class="nm-section-heading" data-reveal>
+            <p class="nm-eyebrow">Работает уже сейчас</p>
+            <h2>Что <span>Mani</span> умеет уже сейчас</h2>
+            <p>Все ключевые функции доступны прямо сейчас. Подключи банки — и получи полный контроль над деньгами.</p>
+          </div>
+          <div class="nm-feature-grid">
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/bank.svg" alt="" /></span>
+              <h3>Все банки и счета в одном месте</h3>
+              <p>Объединяет твои банки и карты, показывает единую картину денег.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
             </article>
-            <article class="feature-card">
-              <img src="assets/feature-bell.svg" alt="" />
-              <h3>Предупреждение о рисках</h3>
-              <p>Видит аномальный темп трат, скорые списания и предупреждает заранее.</p>
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/pie_chart.svg" alt="" /></span>
+              <h3>Общая картина денег</h3>
+              <p>Видно баланс, траты, ближайшие платежи и ключевые сигналы.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
             </article>
-            <article class="feature-card">
-              <img src="assets/feature-calculator.svg" alt="" />
-              <h3>Планирование бюджета</h3>
-              <p>Предложит реалистичные лимиты по категориям.</p>
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/repeat_orange.svg" alt="" /></span>
+              <h3>Подписки и регулярные платежи</h3>
+              <p>Находит повторяющиеся списания и помогает замечать утечки.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
+            </article>
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/sliders.svg" alt="" /></span>
+              <h3>Контроль бюджета</h3>
+              <p>Помогает держать лимиты и понимать, куда уходят деньги.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
+            </article>
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/warning_orange.svg" alt="" /></span>
+              <h3>Предупреждения о рисках</h3>
+              <p>Подсвечивает опасный темп трат и подозрительные списания.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
+            </article>
+            <article class="nm-card nm-feature-card" data-reveal>
+              <span class="nm-card-icon" aria-hidden="true"><img src="assets/newmani/features-v1/icons/chat.svg" alt="" /></span>
+              <h3>AI-чат с Mani</h3>
+              <p>Можно спросить про траты, планы и решения простым человеческим языком.</p>
+              <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
             </article>
           </div>
-          <div class="chat-phone-wrap">
-            <picture>
-              <source srcset="assets/iphone-chat.webp" type="image/webp" />
-              <img src="assets/iphone-chat.png" alt="Чат Mani.ai" />
-            </picture>
-          </div>
-          <div class="feature-stack">
-            <article class="feature-card">
-              <img src="assets/feature-chat-line.svg" alt="" />
-              <h3>Ответы на вопросы</h3>
-              <p>Спроси, сколько потратил за месяц или когда следующее списание.</p>
-            </article>
-            <article class="feature-card">
-              <img src="assets/feature-target.svg" alt="" />
-              <h3>Понятные действия</h3>
-              <p>Не сухая статистика, а конкретный разбор проблемы.</p>
-            </article>
-            <article class="feature-card">
-              <img src="assets/feature-hearts.svg" alt="" />
-              <h3>Адаптация под стиль</h3>
-              <p>Выбери тон: Мотиватор поддержит, Весельчак честно подсветит, где деньги опять устроили побег.</p>
-            </article>
-          </div>
-        </div>
-        <picture>
-          <img class="mobile-section-art mobile-chat-art" src="assets/mobile-chat-feature.png" alt="Никаких сложных графиков" />
-        </picture>
-      </section>
-
-      <section class="tone panel" id="tone">
-        <div class="tone-copy">
-          <h2>Выбери, как с тобой будет говорить Mani</h2>
-          <p>Оба режима работают на твою пользу. Финансовая дисциплина не обязана быть скучной.</p>
-          <div class="tone-switch" role="group" aria-label="Стиль общения Mani">
-            <button class="active" type="button" data-tone="motivator">Мотиватор</button>
-            <button type="button" data-tone="roaster">Весельчак</button>
-          </div>
-          <p class="tone-note" data-tone-note>
-            Поддержит, разложит всё по шагам и поможет не паниковать, даже когда бюджет трещит.
-          </p>
-        </div>
-        <div class="tone-robot">
-          <img src="assets/mani-motivator.png" alt="Робот Mani" data-tone-image />
-        </div>
-        <div class="tone-messages" data-tone-messages>
-          <div class="ghost-message"></div>
-          <div class="message-card"><span></span><b>Я рядом.<br />Мы разберёмся.</b></div>
-          <div class="ghost-message small"></div>
-          <div class="message-card"><span></span><b>Ты справишься.<br />Давай по шагам.</b></div>
-          <div class="message-card"><span></span><b>Сначала найдем утечку.<br />Потом вернем контроль.</b></div>
-          <div class="ghost-message"></div>
-        </div>
-        <div class="mobile-tone-shell" aria-label="Стиль общения Mani">
-          <img class="mobile-tone-image mobile-tone-motivator" src="assets/mobile-tone-motivator.png" alt="Mani мотиватор" />
-          <img class="mobile-tone-image mobile-tone-roaster" src="assets/mobile-tone-roaster.png" alt="Mani весельчак" />
-          <button class="mobile-tone-hit mobile-tone-hit-motivator" type="button" data-tone="motivator" aria-label="Мотиватор"></button>
-          <button class="mobile-tone-hit mobile-tone-hit-roaster" type="button" data-tone="roaster" aria-label="Весельчак"></button>
         </div>
       </section>
 
-      <section class="section reasons">
-        <div class="section-title">
-          <h2>3 причины установить Mani.ai сегодня</h2>
-          <p>Каждая - реальная выгода, которую вы получите с первого дня использования</p>
+      <section class="nm-section nm-tone" id="tone">
+        <div class="nm-container">
+          <div class="nm-section-heading" data-reveal>
+            <h2>Выбери, как с тобой будет говорить Mani</h2>
+            <p>Два характера. Один помощник.</p>
+          </div>
+          <div class="nm-tone-grid">
+            <article class="nm-tone-card nm-tone-motivator" data-reveal>
+              <img src="assets/newmani/tone-v1/motivator-alpha.png" alt="Белый Mani — Мотиватор" />
+              <div>
+                <h3>Мотиватор</h3>
+                <p>Поддержит, объяснит спокойно и поможет двигаться к цели.</p>
+                <ul>
+                  <li>Спокойный и доброжелательный</li>
+                  <li>Помогает вырабатывать привычки</li>
+                  <li>Поддерживает твои цели</li>
+                </ul>
+              </div>
+            </article>
+            <article class="nm-tone-card nm-tone-fun" data-reveal>
+              <div>
+                <h3>Весельчак</h3>
+                <p>Скажет честно, подбодрит и подсветит, где деньги опять устроили побег.</p>
+                <ul>
+                  <li>Юмор и позитивный настрой</li>
+                  <li>Лёгкие шутки и подколы</li>
+                  <li>Держит мотивацию на высоте</li>
+                </ul>
+              </div>
+              <img src="assets/newmani/tone-v1/veselchak-alpha.png" alt="Чёрный Mani — Весельчак" />
+            </article>
+          </div>
         </div>
-        <picture>
-          <source srcset="assets/desktop-reasons-card.webp" type="image/webp" />
-          <img class="reasons-desktop-art" src="assets/desktop-reasons-card.png" alt="3 причины установить Mani.ai сегодня" />
-        </picture>
-        <div class="reasons-card">
-          <img src="assets/hand-iphone.png" alt="Телефон Mani.ai в руке" />
-          <article><span>1</span><small>Скажешь спасибо</small><h3>Контроль 360°</h3><p>Не нужно открывать несколько разных банков за раз. Mani собирает все карты и счета.</p></article>
-          <article><span>2</span><small>Скажешь вау</small><h3>Покажет, то что скрыто</h3><p>Находит подписки, двойные списания и скрытые комиссии. Без сюрпризов.</p></article>
-          <article><span>3</span><small>Никакой тревоги</small><h3>Спокойствие</h3><p>Следит за сроками, тратами и списаниями. Предупредит — успеешь среагировать.</p></article>
-        </div>
-        <div class="mobile-reasons-shell">
-          <picture>
-            <img class="mobile-section-art mobile-reasons-art" src="assets/mobile-social-proof.png" alt="3 причины установить Mani.ai сегодня" />
-          </picture>
-          <a class="mobile-reasons-hit mobile-reasons-google" href="/pervye-1000" data-early-access="mobile-reasons-google" aria-label="Получить ранний доступ"></a>
-          <a class="mobile-reasons-hit mobile-reasons-apple" href="/pervye-1000" data-early-access="mobile-reasons-apple" aria-label="Стать одним из первых 1000 пользователей"></a>
-        </div>
-        <div class="store-actions center">
-          <a class="store-button store-button-primary" href="/pervye-1000" data-early-access="reasons-google">
-            <span>Получить<br /><strong>ранний доступ</strong></span>
-          </a>
-          <a class="store-button" href="/pervye-1000" data-early-access="reasons-apple">
-            <span>Стать одним<br /><strong>из первых 1000 пользователей</strong></span>
-          </a>
-        </div>
-        <p class="bank-note">Данные передаются по защищённым каналам банка.</p>
       </section>
 
-      <section class="section widgets">
-        <div class="section-title">
-          <h2>Быстрая проверка: сколько денег может утекать прямо сейчас?</h2>
-          <p>Это не банковская аналитика, а честная прикидка. Двигаешь ползунки — сразу видишь, почему ИИ-помощник Mani нужен не “когда-нибудь”, а сейчас.</p>
-        </div>
-        <div class="leak-calc" id="leak-calc">
-          <div class="calc-copy">
-            <small>ИИ смотрит на повторы и темп</small>
-            <h3>Подписки отдельно. Мелкие утечки отдельно.</h3>
-            <p>Если подписок ноль, расчет не превращается в ноль. Mani всё равно может подсветить частые мелкие списания и опасный темп расходов.</p>
+      <section class="nm-section nm-security" id="security">
+        <div class="nm-container">
+          <div class="nm-security-layout">
+            <div>
+              <div class="nm-section-heading nm-section-heading-left" data-reveal>
+                <p class="nm-eyebrow">Твои деньги. Под твоим контролем. С Mani.</p>
+                <h2>Твои деньги под <span>защитой</span></h2>
+                <p>Mani имеет только доступ для чтения и не может управлять вашими деньгами.</p>
+              </div>
+              <div class="nm-security-grid">
+                <article class="nm-card nm-security-card" data-reveal><span class="nm-card-icon" style="--icon:url('assets/newmani/security-v1/read-only.svg')" aria-hidden="true"></span><div><h3>Только чтение</h3><p>Доступ к данным без права изменений.</p></div></article>
+                <article class="nm-card nm-security-card" data-reveal><span class="nm-card-icon" style="--icon:url('assets/newmani/security-v1/no-transfers.svg')" aria-hidden="true"></span><div><h3>Без переводов и оплат</h3><p>Не может переводить деньги или оплачивать покупки.</p></div></article>
+                <article class="nm-card nm-security-card" data-reveal><span class="nm-card-icon" style="--icon:url('assets/newmani/security-v1/staff-hidden.svg')" aria-hidden="true"></span><div><h3>Сотрудники не видят данные</h3><p>Финансы обрабатываются автоматически.</p></div></article>
+                <article class="nm-card nm-security-card" data-reveal><span class="nm-card-icon" style="--icon:url('assets/newmani/security-v1/access-control.svg')" aria-hidden="true"></span><div><h3>Ты управляешь доступом</h3><p>Банк можно отключить или удалить данные в любой момент.</p></div></article>
+              </div>
+            </div>
+            <div class="nm-security-emblem" aria-hidden="true"><img src="assets/newmani/security-v1/security-orbit-alpha.png" alt="" /></div>
+            <aside class="nm-how-card" data-reveal>
+              <h3>Как это работает</h3>
+              <ol>
+                <li><span>1</span>Ты подключаешь банк через защищённое соединение</li>
+                <li><span>2</span>Mani анализирует данные и показывает инсайты</li>
+                <li><span>3</span>Ты принимаешь решения, мы не действуем за тебя</li>
+              </ol>
+              <a href="/bezopasnost">Подробнее о безопасности</a>
+            </aside>
           </div>
-          <div class="calc-card">
-            <label>
-              <span>Забытые подписки</span>
-              <strong><b data-calc-subscriptions-value>2</b> шт.</strong>
-              <input type="range" min="0" max="8" value="2" data-calc-subscriptions />
-            </label>
-            <label>
-              <span>Среднее списание</span>
-              <strong><b data-calc-price-value>499</b> ₽</strong>
-              <input type="range" min="199" max="1499" step="100" value="499" data-calc-price />
-            </label>
-            <label>
-              <span>Лишние мелкие траты в неделю</span>
-              <strong><b data-calc-leaks-value>3</b> раза</strong>
-              <input type="range" min="0" max="10" value="3" data-calc-leaks />
-            </label>
-            <label>
-              <span>Средний чек мелкой траты</span>
-              <strong><b data-calc-leak-price-value>260</b> ₽</strong>
-              <input type="range" min="100" max="900" step="20" value="260" data-calc-leak-price />
-            </label>
-            <div class="calc-result">
-              <span>Mani мог бы подсветить</span>
-              <strong data-calc-total>52 536 ₽ в год</strong>
-              <p data-calc-note>Подписки и мелкие траты считаются отдельно. Если подписок 0, останутся только мелкие утечки — и наоборот.</p>
+        </div>
+      </section>
+
+      <section class="nm-section nm-roadmap" id="future">
+        <div class="nm-container">
+          <div class="nm-section-heading nm-section-heading-left" data-reveal>
+            <p class="nm-eyebrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3c2.1-2.1 4.7-2.3 6-2.3 0 1.3-.2 3.9-2.3 6l-4.9 4.9-3.4-3.4 4.6-5.2Z"/><path d="m10.1 10.5-3.8.6-2.2 2.2 4.8.8M13.5 13.9l-.6 3.8-2.2 2.2-.8-4.8M15.7 7.3h.01"/><path d="M6.7 17.3c-1.1.1-2 .5-2.7 1.2-.7.7-1 1.5-1 2.5 1 0 1.8-.3 2.5-1 .7-.7 1.1-1.6 1.2-2.7Z"/></svg>Наш путь вперёд</p>
+            <h2>Что появится <span>дальше</span></h2>
+            <p>Mani постепенно превращается в персонального финансового агента.</p>
+          </div>
+          <img class="nm-roadmap-mascot" src="assets/newmani/roadmap-v1/motivator-wave-alpha.png" alt="Белый Mani показывает будущие возможности" />
+          <div class="nm-roadmap-grid">
+            <article class="nm-card nm-roadmap-card" data-reveal><b>01</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/calendar-card.svg')" aria-hidden="true"></span><h3>Контроль грейс-периодов</h3><p>Автоматически следит за важными сроками кредитных карт.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>02</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/qr-scan.svg')" aria-hidden="true"></span><h3>Сканирование чеков по QR</h3><p>Разбивает покупки по категориям, товарам и услугам.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>03</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/bank.svg')" aria-hidden="true"></span><h3>Понимание банковских продуктов</h3><p>Видит структуру ваших карт, вкладов и кредитов.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>04</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/percent-search.svg')" aria-hidden="true"></span><h3>Поиск лучших условий</h3><p>Подбирает рефинансирование, вклады и накопительные счета.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>05</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/user-star.svg')" aria-hidden="true"></span><h3>Персональные рекомендации</h3><p>Советы строятся на реальных привычках, а не на массовой рекламе.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>06</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/briefcase.svg')" aria-hidden="true"></span><h3>Поддержка предпринимателей</h3><p>Личные и бизнес-финансы в одной экосистеме.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+          </div>
+          <div class="nm-roadmap-feedback" data-reveal>
+            <span class="nm-roadmap-mark" aria-hidden="true"></span>
+            <p><strong>Мы строим будущее финансов вместе с тобой.</strong><span>Твои идеи и обратная связь помогают определять, что появится следующим.</span></p>
+            <a href="https://t.me/eto_ya_shalom" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H7l-4 2 1.4-4.2A8.5 8.5 0 1 1 21 12Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>Предложить идею</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="nm-section nm-vision" id="vision">
+        <div class="nm-container">
+          <div class="nm-section-heading nm-section-heading-left" data-reveal>
+            <h2>Куда движется <span>Mani</span></h2>
+            <p>Не просто учёт расходов. Не просто чат.<br />А финансовый интеллект нового поколения.</p>
+          </div>
+          <div class="nm-vision-grid">
+            <article class="nm-card nm-vision-card" data-reveal>
+              <span>1</span><h3>Сейчас</h3><p>Помогает навести порядок в личных финансах.</p>
+              <ul><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/bank.svg')"></span>Банки и счета</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/pie.svg')"></span>Расходы</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/receipt.svg')"></span>Подписки</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/card.svg')"></span>Платежи</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/chat.svg')"></span>AI-чат</li></ul>
+              <img src="assets/newmani/vision-v1/black-alpha.png" alt="Чёрный Mani показывает большой палец" />
+            </article>
+            <article class="nm-card nm-vision-card" data-reveal>
+              <span>2</span><h3>Следующий этап</h3><p>Становится персональным финансовым агентом.</p>
+              <ul><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/card.svg')"></span>Кредитки</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/percent.svg')"></span>Вклады</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/star.svg')"></span>Лучшие условия</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/bulb.svg')"></span>Рекомендации</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/gear.svg')"></span>Автоматизация</li></ul>
+              <img src="assets/newmani/vision-v1/white-alpha.png" alt="Белый Mani подсказывает следующий шаг" />
+            </article>
+            <article class="nm-card nm-vision-card" data-reveal>
+              <span>3</span><h3>Долгосрочное<br />видение</h3><p>Единый персональный финансовый центр для жизни, семьи и бизнеса.</p>
+              <ul><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/shield.svg')"></span>Страхование</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/growth.svg')"></span>Инвестиции</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/government.svg')"></span>Госуслуги</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/family.svg')"></span>Семья</li><li><span class="nm-list-icon" style="--icon:url('assets/newmani/vision-v1/briefcase.svg')"></span>ИП и самозанятые</li></ul>
+              <div class="nm-vision-duo"><img src="assets/newmani/vision-v1/duo-alpha.png" alt="Чёрный и белый Mani вместе" /></div>
+            </article>
+          </div>
+          <p class="nm-vision-note"><strong>Одна цель — финансовая свобода для каждого.</strong> Mani растёт вместе с тобой: от первых шагов к полной финансовой уверенности.</p>
+        </div>
+      </section>
+
+      <section class="nm-section nm-social" id="social">
+        <div class="nm-container nm-social-shell">
+          <div class="nm-social-intro" data-reveal>
+            <p class="nm-social-kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>Mani на связи</p>
+            <h2>Mani уже<br />в <span>соцсетях</span></h2>
+            <p class="nm-social-lead">Финансы без душнины: короткие советы, разборы трат, обновления продукта и немного честного юмора.<br />Подписывайся там, где тебе удобнее.</p>
+            <img class="nm-social-motivator" src="assets/newmani/social-v1/motivator-peek-alpha.png" alt="Белый Mani выглядывает сбоку" />
+            <p class="nm-social-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Выбирай площадку —<br />Mani будет рядом.</p>
+          </div>
+          <div class="nm-social-grid">
+            <article class="nm-social-card" data-reveal>
+              <span class="nm-social-icon nm-social-instagram" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><linearGradient id="ig" x1="5" y1="43" x2="43" y2="5"><stop stop-color="#ff9d17"/><stop offset=".45" stop-color="#f40070"/><stop offset="1" stop-color="#6b28ff"/></linearGradient></defs><rect x="8" y="8" width="32" height="32" rx="10" fill="none" stroke="url(#ig)" stroke-width="4"/><circle cx="24" cy="24" r="8" fill="none" stroke="url(#ig)" stroke-width="4"/><circle cx="34" cy="14" r="2.4" fill="url(#ig)"/></svg></span>
+              <h3>Instagram</h3><p>Визуалы, сторис<br />и короткие мысли<br />о деньгах.</p><a href="https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-social="instagram">Смотреть</a>
+            </article>
+            <article class="nm-social-card" data-reveal>
+              <span class="nm-social-icon nm-social-telegram" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#28a8e9"/><path d="m13 23 23-9-5 22-8-7-5 4 1-7 12-8-15 6-3-1Z" fill="#fff"/></svg></span>
+              <h3>Telegram</h3><p>Быстрые обновления,<br />инсайты и честные<br />посты от Mani.</p><a href="https://t.me/moi_mani_ai" target="_blank" rel="noopener noreferrer" data-social="telegram">Подписаться</a>
+            </article>
+            <article class="nm-social-card nm-social-youtube-card" data-reveal>
+              <span class="nm-social-icon nm-social-youtube" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="11" width="36" height="26" rx="8" fill="#f00"/><path d="m21 18 11 6-11 6V18Z" fill="#fff"/></svg></span>
+              <h3>YouTube</h3><p>Видео, разборы<br />и понятные объяснения<br />без финансовой душнины.</p><a href="https://www.youtube.com/@Mani.ai_app" target="_blank" rel="noopener noreferrer" data-social="youtube">Смотреть видео</a><img src="assets/newmani/social-v1/veselchak-peek-tight.png" alt="Чёрный Mani выглядывает сбоку" />
+            </article>
+            <article class="nm-social-card" data-reveal>
+              <span class="nm-social-icon nm-social-vk" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="7" y="8" width="27" height="32" rx="9" fill="#1677f2"/><rect x="15" y="8" width="27" height="32" rx="9" fill="#ff3154" fill-opacity=".92"/><path d="m23 17 12 7-12 7V17Z" fill="#fff"/></svg></span>
+              <h3>VK Видео</h3><p>Короткие ролики,<br />ситуации из жизни<br />и финансовые боли.</p><a href="https://vkvideo.ru/@club240056458" target="_blank" rel="noopener noreferrer" data-social="vkvideo">Открыть</a>
+            </article>
+            <article class="nm-social-card" data-reveal>
+              <span class="nm-social-icon nm-social-dzen" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="11" fill="#151925"/><path d="M24 9c0 10-5 15-15 15 10 0 15 5 15 15 0-10 5-15 15-15-10 0-15-5-15-15Z" fill="#fff"/></svg></span>
+              <h3>Дзен</h3><p>Статьи, подборки<br />и спокойные разборы<br />личных финансов.</p><a href="https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve?share_to=link" target="_blank" rel="noopener noreferrer" data-social="dzen">Читать</a>
+            </article>
+            <article class="nm-social-card nm-social-characters" data-reveal>
+              <img src="assets/newmani/social-v1/duo-banner-clean.png" alt="Весельчак и Мотиватор" /><h3>Два характера. Один Mani.</h3><p><span aria-hidden="true">♥</span> Весельчак — честно<br />и с юмором.</p><p><span aria-hidden="true">♥</span> Мотиватор — спокойно<br />и по делу.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="nm-section nm-final-cta" id="early-access" data-waitlist>
+        <div class="nm-container nm-final-card" data-reveal>
+          <div class="nm-final-copy">
+            <h2>Стань одним<br />из первых</h2>
+            <p>Первые 1000 пользователей получают<br />полный доступ к Mani <strong>бесплатно навсегда</strong>.</p>
+            <div class="nm-final-actions">
+              <a class="nm-button nm-button-primary nm-button-large" href="#waitlist-dialog" data-open-waitlist data-early-access="final">Забрать доступ навсегда<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>
             </div>
           </div>
+          <img src="assets/newmani/final-v1/motivator-thumb-alpha.png" alt="Белый Mani показывает большой палец" />
+          <svg class="nm-final-waves" viewBox="0 0 1600 180" preserveAspectRatio="none" aria-hidden="true">
+            <path class="wave-orange wave-soft" d="M-20 88C150 38 230 150 405 108S670 42 825 96" />
+            <path class="wave-orange" d="M-20 108C145 62 260 165 420 118S680 72 820 112" />
+            <path class="wave-orange wave-faint" d="M-20 130C180 82 290 170 455 126S690 96 820 125" />
+            <path class="wave-blue wave-faint" d="M760 128C930 110 1010 38 1160 76S1390 82 1620 18" />
+            <path class="wave-blue" d="M760 140C930 122 1020 58 1170 86S1410 92 1620 38" />
+            <path class="wave-cyan wave-soft" d="M790 154C960 144 1050 90 1190 108S1430 112 1620 72" />
+          </svg>
         </div>
       </section>
-
-      <section class="section" id="future">
-        <div class="section-title">
-          <h2>Забираешь доступ сейчас - получаешь и будущие функции тоже</h2>
-          <p>Первые 1000 пользователей получают не демо и не урезанную версию, а полный доступ ко всему, что появится в Mani.ai дальше.</p>
-        </div>
-        <div class="roadmap-grid">
-          <img src="assets/roadmap-credit.png" alt="Беспроцентный период по кредиткам" />
-          <img src="assets/roadmap-goals.png" alt="Цели и челленджи" />
-          <img src="assets/roadmap-life.png" alt="Сколько стоит моя жизнь" />
-          <img src="assets/roadmap-checks.png" alt="Детальные расходы по чекам" />
-        </div>
-        <picture>
-          <img class="mobile-section-art mobile-roadmap-art" src="assets/mobile-roadmap.png" alt="Что появится в Mani.ai дальше" />
-        </picture>
-      </section>
-
-      <section class="section security" id="security">
-        <div class="section-title">
-          <h2>Mani не трогает твои деньги</h2>
-          <p>Не может перевести, снять или потратить ни рубля. Только анализирует и показывает, куда уходят деньги.</p>
-        </div>
-        <div class="cta">
-          <img src="assets/cta-banner.png" alt="" />
-          <div class="cta-content">
-            <h3>Места для первых 1000 пользователей не откроются повторно</h3>
-            <p>Когда ранний доступ закроется, бесплатный полный доступ навсегда больше не будет доступен новым пользователям.</p>
-            <div class="store-actions">
-              <a class="store-button store-button-primary" href="/pervye-1000" data-early-access="cta-google">
-                <span><strong>Занять место бесплатно</strong></span>
-              </a>
-            </div>
-          </div>
-          <div class="cta-waitlist-card" data-waitlist>
-            <small>Очередь раннего доступа</small>
-            <strong data-waitlist-cta-title>Займи место и узнай номер</strong>
-            <div class="cta-progress" data-waitlist-progress-wrap aria-hidden="true" hidden><span data-waitlist-progress></span></div>
-            <p data-waitlist-cta-copy>Сколько осталось и на каком ты месте, покажем после заявки.</p>
-            <a href="#early-access" data-early-access="cta-counter">Занять место бесплатно</a>
-          </div>
-        </div>
-        <div class="security-grid">
-          <article><small>Доступ только на просмотр</small><h3>Только чтение</h3><p>Mani видит расходы и подписки, но не может перевести, списать или потратить деньги.</p></article>
-          <article><small>Никаких операций</small><h3>Деньги остаются в банке</h3><p>Платежи, переводы и настройки счета подтверждаешь только ты в своем банке.</p></article>
-          <article><small>Ты управляешь доступом</small><h3>Только с твоего согласия</h3><p>Банк подключается только после твоего разрешения. Доступ можно отключить.</p></article>
-        </div>
-        <div class="security-accordion" aria-label="Подробности безопасности">
-          <details open>
-            <summary>Что Mani может видеть?</summary>
-            <p>Только данные, которые нужны для анализа: баланс, категории расходов, регулярные списания и историю операций в режиме просмотра.</p>
-          </details>
-          <details>
-            <summary>Чего Mani не может сделать?</summary>
-            <p>Не может переводить деньги, оформлять платежи, менять настройки счета или открывать новые продукты в банке.</p>
-          </details>
-          <details>
-            <summary>Как отключить доступ?</summary>
-            <p>Доступ можно отключить в настройках подключения. После отключения Mani перестанет получать новые данные.</p>
-          </details>
-        </div>
-        <picture>
-          <img class="mobile-section-art mobile-trust-art" src="assets/mobile-trust.png" alt="Mani не трогает твои деньги" />
-        </picture>
-      </section>
-
     </main>
 
-    <footer class="footer">
-      <img src="assets/logo.svg" alt="Mani.ai" />
-      <p>© 2025 Mani.ai - финансовый радар с характером<br />Без спама. Только польза.</p>
-      <div class="socials">
-        <a href="#" data-social="youtube" aria-label="YouTube"><img src="assets/social-youtube.svg" alt="" /></a>
-        <a href="#" data-social="instagram" aria-label="Instagram"><img src="assets/social-instagram.svg" alt="" /></a>
-        <a href="#" data-social="telegram" aria-label="Telegram"><img src="assets/social-telegram.svg" alt="" /></a>
-        <a href="#" data-social="x" aria-label="X"><img src="assets/social-x.svg" alt="" /></a>
-      </div>
-      <div class="mobile-footer-shell">
-        <picture>
-          <img class="mobile-section-art mobile-footer-art" src="assets/mobile-footer.png" alt="Mani.ai" />
-        </picture>
-        <a class="mobile-footer-hit mobile-footer-youtube" href="#" data-social="youtube" aria-label="YouTube"></a>
-        <a class="mobile-footer-hit mobile-footer-instagram" href="#" data-social="instagram" aria-label="Instagram"></a>
-        <a class="mobile-footer-hit mobile-footer-telegram" href="#" data-social="telegram" aria-label="Telegram"></a>
-        <a class="mobile-footer-hit mobile-footer-x" href="#" data-social="x" aria-label="X"></a>
+    <footer class="nm-footer">
+      <div class="nm-container nm-footer-grid">
+        <div class="nm-footer-brand"><a href="#top" aria-label="Mani.ai — наверх"><img src="assets/logo.svg" alt="Mani.ai" /></a><p>Mani.ai — финансовый радар с характером</p></div>
+        <nav aria-label="Навигация в подвале"><a href="#about">О приложении</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="/faq">FAQ</a></nav>
+        <nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a></nav>
+        <p class="nm-copyright">© 2026 Mani.ai</p>
       </div>
     </footer>
 
+    <dialog class="nm-dialog" id="waitlist-dialog" aria-labelledby="waitlist-title">
+      <button class="nm-dialog-close" type="button" data-close-waitlist aria-label="Закрыть">×</button>
+      <div class="nm-dialog-copy" data-waitlist>
+        <p class="nm-eyebrow">Ранний доступ</p>
+        <h2 id="waitlist-title">Займи место среди первых 1000</h2>
+        <p>Оставь контакт — покажем номер в очереди и позовём в ранний доступ.</p>
+      </div>
+      <form class="waitlist-form nm-waitlist-form" data-waitlist-form>
+        <label>
+          <span>Телефон</span>
+          <div class="phone-field" data-phone-field>
+            <select name="phoneCountry" aria-label="Код страны">
+              <option value="RU" data-code="+7" data-length="10" selected>RU +7</option>
+              <option value="BY" data-code="+375" data-length="9">BY +375</option>
+              <option value="KZ" data-code="+7" data-length="10">KZ +7</option>
+              <option value="AM" data-code="+374" data-length="8">AM +374</option>
+              <option value="GE" data-code="+995" data-length="9">GE +995</option>
+              <option value="TR" data-code="+90" data-length="10">TR +90</option>
+              <option value="AE" data-code="+971" data-length="9">AE +971</option>
+              <option value="US" data-code="+1" data-length="10">US +1</option>
+              <option value="OTHER" data-code="+" data-length="8-15">Другая +</option>
+            </select>
+            <input name="phoneDisplay" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 1234567890" required />
+            <input name="phone" type="hidden" />
+          </div>
+          <small class="phone-hint" data-phone-hint>Введи номер — код страны подставим автоматически.</small>
+        </label>
+        <label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" placeholder="you@example.com" /></label>
+        <label><span>Комментарий / удобный канал связи <em>необязательно</em></span><textarea name="contactDetails" rows="3" placeholder="Например: писать в Telegram после 18:00"></textarea></label>
+        <input class="waitlist-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" required /><span>Даю согласие на обработку персональных данных. <a href="/soglasie" target="_blank" rel="noopener">Согласие</a> и <a href="/privacy" target="_blank" rel="noopener">Privacy</a>.</span></label>
+        <button type="submit">Занять место среди первых 1000</button>
+        <p class="waitlist-privacy">Никакого спама. Напишем только по раннему доступу.</p>
+        <p class="waitlist-result" data-waitlist-result>После отправки покажем номер места в очереди.</p>
+        <div class="waitlist-success" data-waitlist-success hidden></div>
+      </form>
+    </dialog>
+
     <div class="toast" data-toast role="status" aria-live="polite"></div>
-    <a class="mobile-sticky-cta" href="#early-access" data-early-access="mobile-sticky">Занять место бесплатно</a>
+    <a class="mobile-sticky-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="mobile-sticky">Получить ранний доступ</a>
     <div class="cookie-banner" data-cookie-banner hidden>
       <strong>Cookie без сюрпризов</strong>
-      <p>Необходимые штуки нужны для работы сайта и формы. Аналитику подключим только если разрешишь: так мы поймем, какие блоки помогают занять место, а какие просто занимают экран. Подробнее — <a href="/cookie">в политике cookie</a>.</p>
-      <div class="cookie-actions">
-        <button type="button" data-cookie-accept>Принять аналитику</button>
-        <button type="button" data-cookie-reject>Только необходимые</button>
-      </div>
+      <p>Необходимые cookie нужны для работы сайта и формы. Аналитику подключим только с разрешения. Подробнее — <a href="/cookie">в политике cookie</a>.</p>
+      <div class="cookie-actions"><button type="button" data-cookie-accept>Принять аналитику</button><button type="button" data-cookie-reject>Только необходимые</button></div>
     </div>
-    <script src="script.js?v=20260610-scrollfix-2"></script>
+    <script src="script.js?v=20260705-waitlist-2"></script>
   </body>
 </html>
