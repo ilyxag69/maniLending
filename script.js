@@ -899,3 +899,66 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
+
+document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
+  const subscriptionsInput = root.querySelector("[data-mtd-subscriptions]");
+  const impulseInput = root.querySelector("[data-mtd-impulse]");
+  const modeButtons = [...root.querySelectorAll("[data-mtd-mode]")];
+  const rubles = new Intl.NumberFormat("ru-RU");
+  let mascotMode = "jester";
+
+  const setRangeFill = (input) => {
+    const percent = ((Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min))) * 100;
+    input.style.setProperty("--range-fill", `linear-gradient(90deg,#ff650e 0 ${percent}%,#e7edf7 ${percent}% 100%)`);
+  };
+
+  const render = () => {
+    const subscriptions = Number(subscriptionsInput.value);
+    const impulseBuys = Number(impulseInput.value);
+    const annualLoss = subscriptions * 500 * 12 + impulseBuys * 350 * 52;
+    const monthlySaving = Math.round(annualLoss / 12);
+    const annualFormatted = `${rubles.format(annualLoss)} ₽`;
+    const monthlyFormatted = `${rubles.format(monthlySaving)} ₽`;
+    let message;
+
+    if (mascotMode === "jester") {
+      if (annualLoss === 0) message = "Ноль утечек? Либо ты финансовый ниндзя, либо сейчас очень уверенно врёшь ползункам. Ладно, засчитываю победу — бюджет сегодня может выдохнуть.";
+      else if (annualLoss <= 12000) message = `Всего ${annualFormatted} в год. Не пожар, но деньги понемногу уносят тапочки из прихожей. Поймаем мелких беглецов, пока они не позвали друзей.`;
+      else if (annualLoss <= 30000) message = `${annualFormatted} в год испаряются без аплодисментов. Это уже не мелочь из кармана, а несколько хороших ужинов, которые съел автоплатёж. Прикроем эту лавочку.`;
+      else if (annualLoss <= 70000) message = `Ого... Твои деньги устроили профессиональный побег! На эти ${annualFormatted} в год можно было слетать в отпуск, но ты предпочёл спонсировать сервисы, которые даже не открываешь. Красиво жить не запретишь, да?`;
+      else message = `${annualFormatted} в год?! Бюджет уже сидит в углу и шепчет: «Спроси у него, он вообще видел эти цифры?» Это не утечка, это финансовый аквапарк. Срочно перекрываем краны.`;
+    } else {
+      if (annualLoss === 0) message = "Отлично: сейчас расчёт не показывает скрытых потерь. Это сильная база. Я помогу сохранить такой порядок и вовремя замечать изменения, если они появятся.";
+      else if (annualLoss <= 12000) message = `У тебя совсем небольшие утечки — около ${annualFormatted} в год. Ты уже хорошо держишь финансы в руках. Давай спокойно найдём пару точек роста и направим эти деньги на то, что действительно важно.`;
+      else if (annualLoss <= 30000) message = `Сейчас незаметно уходит около ${annualFormatted} в год. Ничего страшного: такие траты легко пропустить. Разберём их вместе без резких ограничений и вернём деньгам понятную цель.`;
+      else if (annualLoss <= 70000) message = `Я вижу, что сейчас уходит около ${annualFormatted} в год. Не переживай и не кори себя — это скрытые маркеры, которые трудно отследить вручную. Мы разберёмся вместе и шаг за шагом вернём полный контроль.`;
+      else message = `${annualFormatted} в год выглядит серьёзно, но это не повод паниковать. Большая сумма складывается из понятных привычек. Начнём с самых простых изменений, сохраним комфорт и постепенно высвободим заметную часть бюджета.`;
+    }
+
+    root.querySelector("[data-mtd-subscriptions-output]").textContent = subscriptions;
+    root.querySelector("[data-mtd-impulse-output]").textContent = impulseBuys;
+    root.querySelector("[data-mtd-subscriptions-metric]").textContent = subscriptions;
+    root.querySelector("[data-mtd-impulse-metric]").textContent = impulseBuys;
+    root.querySelector("[data-mtd-annual]").textContent = annualFormatted;
+    root.querySelector("[data-mtd-monthly]").textContent = monthlyFormatted;
+    root.querySelector("[data-mtd-message]").textContent = message;
+
+    const mascot = root.querySelector("[data-mtd-mascot]");
+    mascot.src = mascotMode === "jester"
+      ? "assets/newmani/interactive/jester.png"
+      : "assets/newmani/interactive/motivator.png";
+    mascot.alt = mascotMode === "jester" ? "Весельчак Mani" : "Мотиватор Mani";
+    root.classList.toggle("is-motivator", mascotMode === "motivator");
+    modeButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.mtdMode === mascotMode));
+    setRangeFill(subscriptionsInput);
+    setRangeFill(impulseInput);
+  };
+
+  subscriptionsInput.addEventListener("input", render);
+  impulseInput.addEventListener("input", render);
+  modeButtons.forEach((button) => button.addEventListener("click", () => {
+    mascotMode = button.dataset.mtdMode;
+    render();
+  }));
+  render();
+});

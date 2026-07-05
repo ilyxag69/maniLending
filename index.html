@@ -35,7 +35,7 @@
     <link rel="preload" href="assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="assets/fonts/Inter-500.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="icon" href="assets/favicon.png" />
-    <link rel="stylesheet" href="newmani.css?v=20260705-waitlist-2" />
+    <link rel="stylesheet" href="newmani.css?v=20260705-testdrive-1" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -191,6 +191,55 @@
               <p>Можно спросить про траты, планы и решения простым человеческим языком.</p>
               <span class="nm-badge nm-badge-live"><img src="assets/newmani/features-v1/icons/status_check_green.svg" alt="" />Уже работает</span>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mani-test-drive" id="test-drive" data-mani-test-drive>
+        <span class="mtd-orbit mtd-orbit-one" aria-hidden="true"></span>
+        <span class="mtd-orbit mtd-orbit-two" aria-hidden="true"></span>
+        <div class="mtd-shell">
+          <div class="mtd-copy">
+            <p class="mtd-badge">Тест-драйв Mani.ai</p>
+            <h2>Прикинь свои<br />скрытые <span>расходы</span></h2>
+            <p class="mtd-lead">Пара движений — и Mani покажет,<br />сколько денег может утекать за год.</p>
+
+            <div class="mtd-controls">
+              <h3>Панель управления</h3>
+              <label class="mtd-range">
+                <span class="mtd-range-head"><b>Забытые подписки <small>(в месяц)</small></b><output data-mtd-subscriptions-output>2</output></span>
+                <input type="range" min="0" max="10" step="1" value="2" data-mtd-subscriptions aria-label="Забытые подписки в месяц" />
+                <small>Стриминги, спортзалы, сервисы, про которые ты забыл</small>
+              </label>
+              <label class="mtd-range">
+                <span class="mtd-range-head"><b>Импульсивные траты <small>(в неделю)</small></b><output data-mtd-impulse-output>3</output></span>
+                <input type="range" min="0" max="15" step="1" value="3" data-mtd-impulse aria-label="Импульсивные траты в неделю" />
+                <small>Кофе на бегу, такси где можно пройтись, спонтанные маркетплейсы</small>
+              </label>
+              <fieldset class="mtd-modes">
+                <legend>Режим Мани</legend>
+                <button class="is-active" type="button" data-mtd-mode="jester"><img src="assets/newmani/interactive/jester.png" alt="" />Весельчак</button>
+                <button type="button" data-mtd-mode="motivator"><img src="assets/newmani/interactive/motivator.png" alt="" />Мотиватор</button>
+              </fieldset>
+              <p class="mtd-formula"><span>i</span>Годовые потери = подписки × 500 × 12 + импульсивные траты × 350 × 52</p>
+            </div>
+          </div>
+
+          <div class="mtd-app">
+            <div class="mtd-result">
+              <div><small>Мани мог бы подсветить:</small><strong><span data-mtd-annual>66 600 ₽</span> <em>/ год</em></strong><p>Потенциальные скрытые потери</p></div>
+              <div class="mtd-coin" aria-hidden="true"><i>₽</i><span></span></div>
+            </div>
+            <div class="mtd-reply">
+              <div class="mtd-mascot"><img data-mtd-mascot src="assets/newmani/interactive/jester.png" alt="Весельчак Mani" /></div>
+              <p data-mtd-message>Ого... Твои деньги устроили профессиональный побег! На эти 66 600 ₽ в год можно было слетать в отпуск, но ты предпочел спонсировать сервисы, которые даже не открываешь. Красиво жить не запретишь, да?</p>
+            </div>
+            <div class="mtd-metrics">
+              <div class="mtd-metric"><span class="mtd-metric-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h3"/></svg></span><b>Подозрительные подписки:</b><strong data-mtd-subscriptions-metric>2</strong></div>
+              <div class="mtd-metric"><span class="mtd-metric-icon"><svg viewBox="0 0 24 24"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></span><b>Импульсивных трат в неделю:</b><strong data-mtd-impulse-metric>3</strong></div>
+              <div class="mtd-metric mtd-metric-saving"><span class="mtd-metric-icon"><svg viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8"/><path d="M15 7h5v5"/></svg></span><b>Потенциал экономии в месяц:</b><strong data-mtd-monthly>5 550 ₽</strong></div>
+            </div>
+            <a class="mtd-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="test-drive"><span>Занять место в раннем доступе бесплатно</span><i>→</i></a>
           </div>
         </div>
       </section>
@@ -424,6 +473,6 @@
       <p>Необходимые cookie нужны для работы сайта и формы. Аналитику подключим только с разрешения. Подробнее — <a href="/cookie">в политике cookie</a>.</p>
       <div class="cookie-actions"><button type="button" data-cookie-accept>Принять аналитику</button><button type="button" data-cookie-reject>Только необходимые</button></div>
     </div>
-    <script src="script.js?v=20260705-waitlist-2"></script>
+    <script src="script.js?v=20260705-testdrive-1"></script>
   </body>
 </html>
