@@ -2448,7 +2448,22 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .nm-proof-icon { width: 42px; height: 42px; }
   .nm-early-proof .nm-proof-copy strong,
   .nm-early-proof .nm-proof-copy span { font-size: 11px; line-height: 1.3; }
-  .nm-hero-visual { display: none !important; }
+  .nm-hero-visual {
+    display: block !important;
+    min-height: 0;
+    margin-top: 10px;
+    overflow: visible;
+  }
+  .nm-hero-media-slot .nm-hero-composition {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 
   .nm-tone .nm-tone-card,
   .nm-tone .nm-tone-fun {
