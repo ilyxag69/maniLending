@@ -18,24 +18,26 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Mani.ai" />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:url" content="https://moimani.ai" />
+    <meta property="og:url" content="https://moimani.ai/" />
     <meta property="og:title" content="Mani.ai — деньги под контролем" />
     <meta property="og:description" content="ИИ-помощник анализирует траты, находит утечки, следит за подписками и помогает спокойно управлять личными финансами." />
-    <meta property="og:image" content="https://moimani.ai/og-image-v2.png" />
-    <meta property="og:image:secure_url" content="https://moimani.ai/og-image-v2.png" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image" content="https://moimani.ai/og-image-v3.jpg" />
+    <meta property="og:image:url" content="https://moimani.ai/og-image-v3.jpg" />
+    <meta property="og:image:secure_url" content="https://moimani.ai/og-image-v3.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Mani.ai — деньги под контролем" />
+    <link rel="image_src" href="https://moimani.ai/og-image-v3.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mani.ai — деньги под контролем" />
     <meta name="twitter:description" content="ИИ-помощник анализирует траты, находит утечки, следит за подписками и помогает спокойно управлять личными финансами." />
-    <meta name="twitter:image" content="https://moimani.ai/og-image-v2.png" />
+    <meta name="twitter:image" content="https://moimani.ai/og-image-v3.jpg" />
     <meta name="twitter:image:alt" content="Mani.ai — деньги под контролем" />
     <link rel="preload" href="assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="assets/fonts/Inter-500.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="icon" href="assets/favicon.png" />
-    <link rel="stylesheet" href="newmani.css?v=20260705-testdrive-2" />
+    <link rel="stylesheet" href="newmani.css?v=20260728-copy-feedback-1" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -87,8 +89,9 @@
         <a href="#security">Безопасность</a>
         <a href="#future">Будущее</a>
         <a href="/faq">FAQ</a>
+        <a href="#contacts">Контакты</a>
       </nav>
-      <a class="nm-button nm-button-primary nm-header-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="header">Получить ранний доступ <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
+              <a class="nm-button nm-button-primary nm-header-cta" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="header">Занять место среди первых 1000 <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
       <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -101,18 +104,19 @@
         <a href="#security">Безопасность</a>
         <a href="#future">Будущее</a>
         <a href="/faq">FAQ</a>
+        <a href="#contacts">Контакты</a>
       </nav>
-      <a class="nm-button nm-button-primary" href="#waitlist-dialog" data-open-waitlist data-early-access="mobile-menu">Получить ранний доступ</a>
+      <a class="nm-button nm-button-primary" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="mobile-menu">Занять место среди первых 1000</a>
     </div>
 
     <main id="top">
       <section class="hero nm-hero" id="about">
         <div class="nm-container nm-hero-grid">
           <div class="hero-copy nm-hero-copy" data-reveal>
-            <h1>Хаос в деньгах заканчивается <span>здесь</span></h1>
+            <h1 data-hero-headline>Хаос в деньгах заканчивается <span>здесь</span></h1>
             <p class="lead" data-hero-copy>Mani объединяет все счета и банки в одном месте, показывает полную картину денег, напоминает о платежах, анализирует расходы и помогает в чате простым человеческим языком.</p>
             <div class="nm-actions">
-              <a class="nm-button nm-button-primary nm-hero-primary" href="#waitlist-dialog" data-open-waitlist data-early-access="hero">Забрать доступ навсегда <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
+              <a class="nm-button nm-button-primary nm-hero-primary" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="hero">Занять место среди первых 1000 <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
               <a class="nm-button nm-button-secondary nm-hero-secondary" href="#security"><img src="assets/newmani/hero-v1/icons/shield_check.svg" alt="" />Как защищены данные</a>
             </div>
             <div class="nm-early-proof" data-waitlist>
@@ -281,7 +285,11 @@
               <div class="mtd-metric"><span class="mtd-metric-icon"><svg viewBox="0 0 24 24"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg></span><b>Импульсивных трат в неделю:</b><strong data-mtd-impulse-metric>3</strong></div>
               <div class="mtd-metric mtd-metric-saving"><span class="mtd-metric-icon"><svg viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8"/><path d="M15 7h5v5"/></svg></span><b>Потенциал экономии в месяц:</b><strong data-mtd-monthly>5 550 ₽</strong></div>
             </div>
-            <a class="mtd-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="test-drive"><span>Занять место в раннем доступе бесплатно</span><i>→</i></a>
+            <div class="mtd-share-actions" data-calculator-share>
+              <button type="button" data-calculator-card-download>Скачать результат</button>
+              <button type="button" data-calculator-card-share>Поделиться</button>
+            </div>
+            <a class="mtd-cta" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="test-drive"><span>Занять место среди первых 1000</span><i>→</i></a>
           </div>
         </div>
       </section>
@@ -327,7 +335,7 @@
           <div class="nm-roadmap-grid">
             <article class="nm-card nm-roadmap-card" data-reveal><b>01</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/calendar-card.svg')" aria-hidden="true"></span><h3>Контроль грейс-периодов</h3><p>Автоматически следит за важными сроками кредитных карт.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
             <article class="nm-card nm-roadmap-card" data-reveal><b>02</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/qr-scan.svg')" aria-hidden="true"></span><h3>Сканирование чеков по QR</h3><p>Разбивает покупки по категориям, товарам и услугам.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
-            <article class="nm-card nm-roadmap-card" data-reveal><b>03</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/bank.svg')" aria-hidden="true"></span><h3>Понимание банковских продуктов</h3><p>Видит структуру ваших карт, вкладов и кредитов.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
+            <article class="nm-card nm-roadmap-card" data-reveal><b>03</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/bank.svg')" aria-hidden="true"></span><h3>Понимание банковских продуктов</h3><p>Видит структуру твоих карт, вкладов и кредитов.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
             <article class="nm-card nm-roadmap-card" data-reveal><b>04</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/percent-search.svg')" aria-hidden="true"></span><h3>Поиск лучших условий</h3><p>Подбирает рефинансирование, вклады и накопительные счета.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
             <article class="nm-card nm-roadmap-card" data-reveal><b>05</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/user-star.svg')" aria-hidden="true"></span><h3>Персональные рекомендации</h3><p>Советы строятся на реальных привычках, а не на массовой рекламе.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
             <article class="nm-card nm-roadmap-card" data-reveal><b>06</b><span class="nm-card-icon" style="--icon:url('assets/newmani/roadmap-v1/briefcase.svg')" aria-hidden="true"></span><h3>Поддержка предпринимателей</h3><p>Личные и бизнес-финансы в одной экосистеме.</p><span class="nm-badge nm-badge-plan"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 1.8"/></svg>Планируется</span></article>
@@ -410,7 +418,8 @@
             <h2>Стань одним<br />из первых</h2>
             <p>Первые 1000 пользователей получают<br />полный доступ к Mani <strong>бесплатно навсегда</strong>.</p>
             <div class="nm-final-actions">
-              <a class="nm-button nm-button-primary nm-button-large" href="#waitlist-dialog" data-open-waitlist data-early-access="final">Забрать доступ навсегда<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>
+              <a class="nm-button nm-button-primary nm-button-large" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="final">Занять место среди первых 1000<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>
+              <div class="nm-store-actions" data-product-store-actions hidden></div>
             </div>
           </div>
           <img src="assets/newmani/final-v1/motivator-thumb-alpha.webp" alt="Белый Mani показывает большой палец" />
@@ -424,12 +433,51 @@
           </svg>
         </div>
       </section>
+
+      <section class="nm-section nm-contact" id="contacts">
+        <div class="nm-container nm-contact-shell" data-reveal>
+          <aside class="nm-contact-intro">
+            <p class="nm-contact-kicker"><span aria-hidden="true">●</span> Живой канал связи</p>
+            <h2>Пинг Mani.<br /><span>Мы на связи.</span></h2>
+            <p>Есть идея, что-то сломалось или хочется обсудить сотрудничество? Выбирай удобный маршрут — отвечаем по-человечески.</p>
+            <a class="nm-telegram-contact" href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-contact-telegram>
+              <span class="nm-telegram-contact-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#28a8e9"/><path d="m12 23 25-10-5.3 23.5-8.3-7.1-5.2 4.3 1.3-7.6L32 17.5l-15.2 6.7-4.8-1.2Z" fill="#fff"/></svg></span>
+              <span><small>Написать напрямую</small><strong>@eto_mani</strong></span>
+              <b aria-hidden="true">↗</b>
+            </a>
+            <p class="nm-contact-note">Telegram — самый быстрый путь. Обычно видим сообщение в течение дня.</p>
+          </aside>
+
+          <form class="nm-contact-form" data-contact-form novalidate>
+            <div class="nm-contact-form-head">
+              <span class="nm-contact-orbit" aria-hidden="true"><i></i><i></i><i></i></span>
+              <div><small>Форма обратной связи</small><h3>Передай сигнал</h3></div>
+              <span class="nm-contact-status-dot" title="Канал открыт" aria-label="Канал открыт"></span>
+            </div>
+            <fieldset class="nm-contact-topics">
+              <legend>Что случилось?</legend>
+              <label><input type="radio" name="topic" value="Предложение" checked /><span>💡 Идея</span></label>
+              <label><input type="radio" name="topic" value="Техподдержка" /><span>🛟 Техподдержка</span></label>
+              <label><input type="radio" name="topic" value="Другое" /><span>✦ Другое</span></label>
+            </fieldset>
+            <div class="nm-contact-fields">
+              <label><span>Как к тебе обращаться?</span><input name="name" type="text" autocomplete="name" maxlength="80" placeholder="Имя" required /></label>
+              <label><span>Куда ответить?</span><input name="replyTo" type="text" autocomplete="email" maxlength="120" placeholder="Email или @telegram" required /></label>
+            </div>
+            <label class="nm-contact-message"><span>Твой сигнал</span><textarea name="message" rows="5" minlength="10" maxlength="3000" placeholder="Расскажи, что придумал или с чем нужна помощь…" required></textarea><small><b data-contact-counter>0</b> / 3000</small></label>
+            <input class="nm-contact-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <label class="nm-contact-consent"><input name="pdnConsent" type="checkbox" value="yes" required /><span>Согласен на обработку данных для ответа на обращение. <a href="/privacy" target="_blank" rel="noopener">Подробнее</a></span></label>
+            <button class="nm-contact-submit" type="submit"><span>Отправить сигнал</span><b aria-hidden="true">→</b></button>
+            <p class="nm-contact-result" data-contact-result role="status" aria-live="polite">Сообщение прилетит команде Mani.ai на почту.</p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <footer class="nm-footer">
       <div class="nm-container nm-footer-grid">
         <div class="nm-footer-brand"><a href="#top" aria-label="Mani.ai — наверх"><img src="assets/logo.svg" alt="Mani.ai" /></a><p>Mani.ai — финансовый радар с характером</p></div>
-        <nav aria-label="Навигация в подвале"><a href="#about">О приложении</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="/faq">FAQ</a></nav>
+        <nav aria-label="Навигация в подвале"><a href="#about">О приложении</a><a href="#features">Возможности</a><a href="#security">Безопасность</a><a href="#contacts">Контакты</a><a href="/faq">FAQ</a></nav>
         <nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a></nav>
         <p class="nm-copyright">© 2026 Mani.ai</p>
       </div>
@@ -457,29 +505,35 @@
               <option value="US" data-code="+1" data-length="10">US +1</option>
               <option value="OTHER" data-code="+" data-length="8-15">Другая +</option>
             </select>
-            <input name="phoneDisplay" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 1234567890" required />
+            <input name="phoneDisplay" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="waitlist-phone-hint waitlist-phone-error" placeholder="+7 1234567890" required />
             <input name="phone" type="hidden" />
           </div>
-          <small class="phone-hint" data-phone-hint>Введи номер — код страны подставим автоматически.</small>
+          <small class="phone-hint" id="waitlist-phone-hint" data-phone-hint>Введи номер — код страны подставим автоматически.</small>
+          <small class="field-error" id="waitlist-phone-error" data-field-error="phone"></small>
         </label>
-        <label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" placeholder="you@example.com" /></label>
-        <label><span>Комментарий / удобный канал связи <em>необязательно</em></span><textarea name="contactDetails" rows="3" placeholder="Например: писать в Telegram после 18:00"></textarea></label>
+        <p class="waitlist-contact-purpose">Телефон нужен, чтобы сообщить о доступе и закрепить за тобой место. Никаких рекламных рассылок.</p>
+        <label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="waitlist-email-error" placeholder="you@example.com" /><small class="field-error" id="waitlist-email-error" data-field-error="email"></small></label>
+        <details class="waitlist-optional"><summary>Добавить удобный канал связи или комментарий</summary><label><span>Комментарий <em>необязательно</em></span><textarea name="contactDetails" rows="2" maxlength="500" placeholder="Например: писать в Telegram после 18:00"></textarea></label></details>
         <input class="waitlist-hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" required /><span>Даю согласие на обработку персональных данных. <a href="/soglasie" target="_blank" rel="noopener">Согласие</a> и <a href="/privacy" target="_blank" rel="noopener">Privacy</a>.</span></label>
-        <button type="submit">Занять место среди первых 1000</button>
+        <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" aria-describedby="waitlist-consent-error" required /><span>Даю согласие на обработку персональных данных. <a href="/soglasie" target="_blank" rel="noopener">Согласие</a> и <a href="/privacy" target="_blank" rel="noopener">Privacy</a>.</span></label>
+        <small class="field-error" id="waitlist-consent-error" data-field-error="consent"></small>
+        <button type="submit" data-product-form-submit>Занять место среди первых 1000</button>
         <p class="waitlist-privacy">Никакого спама. Напишем только по раннему доступу.</p>
         <p class="waitlist-result" data-waitlist-result>После отправки покажем номер места в очереди.</p>
-        <div class="waitlist-success" data-waitlist-success hidden></div>
       </form>
+      <section class="waitlist-success" data-waitlist-success hidden tabindex="-1" aria-labelledby="waitlist-success-title"></section>
     </dialog>
 
     <div class="toast" data-toast role="status" aria-live="polite"></div>
-    <a class="mobile-sticky-cta" href="#waitlist-dialog" data-open-waitlist data-early-access="mobile-sticky">Получить ранний доступ</a>
+    <a class="mobile-sticky-cta" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="mobile-sticky">Занять место среди первых 1000</a>
     <div class="cookie-banner" data-cookie-banner hidden>
       <strong>Cookie без сюрпризов</strong>
       <p>Необходимые cookie нужны для работы сайта и формы. Аналитику подключим только с разрешения. Подробнее — <a href="/cookie">в политике cookie</a>.</p>
       <div class="cookie-actions"><button type="button" data-cookie-accept>Принять аналитику</button><button type="button" data-cookie-reject>Только необходимые</button></div>
     </div>
-    <script src="script.js?v=20260705-testdrive-2"></script>
+    <script src="analytics-client.js?v=20260728-first-party-1"></script>
+    <script src="product-config.js?v=20260727-prelaunch-1"></script>
+    <script src="product-status.js?v=20260727-prelaunch-1"></script>
+    <script src="script.js?v=20260805-contact-form-1"></script>
   </body>
 </html>

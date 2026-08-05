@@ -10,8 +10,10 @@ review-*.png
 live-review-*.png
 audit-*.png
 local-*.png
+.visual-check/
 dump.html
 overflow-check.html
 data/
 production-backups/
 deploy-packages/
+test-results/

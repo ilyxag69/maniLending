@@ -7,9 +7,23 @@
   <meta name="description" content="Ответы на частые вопросы о Mani.ai: как работает финансовый ИИ, как он находит подписки, защищает банковские данные и какие функции появятся дальше." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="https://moimani.ai/faq" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Mani.ai" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:url" content="https://moimani.ai/faq" />
+  <meta property="og:title" content="FAQ Mani.ai — ответы о возможностях, ИИ и безопасности" />
+  <meta property="og:description" content="Короткие ответы о финансовом ИИ Mani.ai, раннем доступе, возможностях и защите данных." />
+  <meta property="og:image" content="https://moimani.ai/og-image-v2.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Mani.ai — ИИ-помощник по личным финансам" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FAQ Mani.ai — ответы о возможностях, ИИ и безопасности" />
+  <meta name="twitter:description" content="Короткие ответы о финансовом ИИ Mani.ai, раннем доступе, возможностях и защите данных." />
+  <meta name="twitter:image" content="https://moimani.ai/og-image-v2.png" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="preload" href="assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin />
-  <link rel="stylesheet" href="newmani.css?v=20260705-testdrive-2" />
+  <link rel="stylesheet" href="newmani.css?v=20260727-prelaunch-1" />
   <link rel="stylesheet" href="faq-page.css?v=20260705-mobile-5" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type": "FAQPage","@id":"https://moimani.ai/faq#faq","inLanguage":"ru-RU","mainEntity":[
@@ -28,10 +42,10 @@
   <header class="header nm-header">
     <a class="logo nm-logo" href="/" aria-label="Mani.ai — на главную"><img src="assets/logo.svg" alt="Mani.ai" /></a>
     <nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq" aria-current="page">FAQ</a></nav>
-    <a class="nm-button nm-button-primary nm-header-cta" href="/#early-access">Получить ранний доступ <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
+    <a class="nm-button nm-button-primary nm-header-cta" href="/#early-access" data-product-cta>Занять место среди первых 1000 <img src="assets/newmani/hero-v1/icons/chevron_right.svg" alt="" /></a>
     <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
-  <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a></nav><a class="nm-button nm-button-primary" href="/#early-access">Получить ранний доступ</a></div>
+  <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a></nav><a class="nm-button nm-button-primary" href="/#early-access" data-product-cta>Занять место среди первых 1000</a></div>
 
   <main class="fp-page">
     <section class="fp-hero">
@@ -72,9 +86,13 @@
     <section class="fp-bottom">
       <div class="fp-bottom-mascot" aria-hidden="true"><img src="assets/newmani/tone-v1/veselchak-alpha.webp" alt="" /><img src="assets/newmani/faq-page/dots-bubble.webp" alt="" /></div>
       <div><h2>Не получилось найти ответ?</h2><p>Получи ранний доступ,<br />чтобы одним из первых попробовать новый финансовый интеллект.</p></div>
-      <div class="fp-actions"><a class="primary" href="/#early-access">Получить ранний доступ</a></div>
+      <div class="fp-actions"><a class="primary" href="/#early-access" data-product-cta>Занять место среди первых 1000</a></div>
     </section>
   </main>
+  <script src="analytics-client.js?v=20260728-first-party-1"></script>
+  <script src="product-config.js?v=20260727-prelaunch-1"></script>
+  <script src="product-status.js?v=20260727-prelaunch-1"></script>
+  <script src="page-analytics.js?v=20260728-first-party-1"></script>
   <script>
     const menu=document.querySelector('.nm-menu'),nav=document.querySelector('.nm-mobile-menu');menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('menu-open',open);});
     document.querySelectorAll('.fp-group details').forEach((item)=>item.addEventListener('click',(event)=>{if(event.target.closest('summary'))return;item.open=!item.open;}));

@@ -1,5 +1,16 @@
 # Mani.ai waitlist setup
 
+For the current prelaunch status and analytics configuration also see
+`PRELAUNCH_SETUP.md` and `ANALYTICS_SETUP.md`. Production must define
+`MANI_REFERRAL_SALT` with at least
+32 random characters and `MANI_DATA_DIR` as an absolute directory outside the
+public document root. Existing JSONL records do not require conversion.
+Alternatively, keep `referral-salt.txt` and `admin-token.txt` with mode `0600`
+inside `$HOME/private/mani-waitlist`; the production hosting layout is detected
+automatically.
+New public registrations start at position `306` by default; this can be
+overridden with `MANI_WAITLIST_POSITION_START`.
+
 This is a preview implementation for the early-access queue.
 
 ## What it does
@@ -10,7 +21,7 @@ This is a preview implementation for the early-access queue.
 - Collects an optional comment / preferred contact channel.
 - Saves requests to `data/waitlist-submissions.jsonl`.
 - Returns the user's queue position.
-- Generates a referral code like `MANI-0001`.
+- Generates a cryptographically random referral code.
 - Requires personal data consent.
 - Provides an admin view, search, JSONL export, CSV export, and delete action.
 - Adds a basic request rate limit.
@@ -30,7 +41,7 @@ The `data/` directory is intentionally ignored by Git and blocked from public ac
 
 - `GET /api/waitlist-stats`
 - `POST /api/waitlist`
-- `GET /admin/waitlist?token=...`
+- `GET /api/waitlist-admin.php` (password form with a secure server session)
 
 POST body:
 
@@ -44,11 +55,14 @@ POST body:
   "pdnConsentVersion": "waitlist-pdn-2026-06-08",
   "pdnConsentAt": "2026-06-08T12:00:00.000Z",
   "ref": "MANI-0001",
-  "page": "/#early-access"
+  "page": "/#early-access",
+  "heroHeadlineVariant": "chaos"
 }
 ```
 
 `phone` is required and must be normalized to E.164 format (`+` and 10-15 digits). `email` and `contactDetails` are optional.
+`heroHeadlineVariant`, when present, must be `chaos` or `order` and is stored
+with the submission for conversion comparison independent of analytics consent.
 `pdnConsent` is required and must be `true`.
 
 ## Contact strategy
@@ -67,28 +81,27 @@ Set an admin token on the server:
 MANI_ADMIN_TOKEN=long-random-token
 ```
 
-Then open:
+Open the direct admin URL and enter `MANI_ADMIN_TOKEN` in the password form:
 
 ```text
-https://moimani.ai/admin/waitlist?token=long-random-token
+https://moimani.ai/api/waitlist-admin.php
 ```
 
-On REG.RU production, the `/admin/waitlist` shortcut can be intercepted by hosting protection. Use the direct PHP URL if that happens:
-
-```text
-https://moimani.ai/api/waitlist-admin.php?token=long-random-token
-```
+The authenticated session is stored in a `Secure`, `HttpOnly`, `SameSite=Strict`
+cookie. HTTP Basic and Bearer authentication remain available for owner-controlled
+automation. Do not use `https://moimani.ai/admin/waitlist` on REG.RU: hosting
+nginx intercepts that path before the application.
 
 Export:
 
 ```text
-https://moimani.ai/admin/waitlist?token=long-random-token&format=jsonl
+https://moimani.ai/api/waitlist-admin.php?format=jsonl
 ```
 
 CSV export:
 
 ```text
-https://moimani.ai/admin/waitlist?token=long-random-token&format=csv
+https://moimani.ai/api/waitlist-admin.php?format=csv
 ```
 
 ## Local preview

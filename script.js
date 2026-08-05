@@ -25,6 +25,43 @@ const heroExperimentKey = "maniHeroCopyVariantV1";
 const pdnConsentVersion = "waitlist-pdn-2026-06-08";
 const googleAnalyticsId = "G-P6TDY2N5FK";
 const yandexMetricaId = 103776176;
+const productConfig = window.MANI_PRODUCT_CONFIG || {
+  status: "waitlist",
+  stores: {},
+  waitlist: { limit: 1000, cta: "Занять место среди первых 1000" },
+};
+const productStatus = ["waitlist", "preorder", "launched"].includes(productConfig.status)
+  ? productConfig.status
+  : "waitlist";
+const attributionFirstKey = "maniAttributionFirstV1";
+const attributionLastKey = "maniAttributionLastV1";
+const referralSourceKey = "maniReferralSource";
+const waitlistIdentityKey = "maniWaitlistIdentityV1";
+
+function storageGet(type, key) {
+  try {
+    return window[type]?.getItem(key) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function storageSet(type, key, value) {
+  try {
+    window[type]?.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const analyticsSessionId = (() => {
+  const existing = storageGet("sessionStorage", "maniAnalyticsSessionV1");
+  if (existing) return existing;
+  const created = crypto.randomUUID?.() || `s-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  storageSet("sessionStorage", "maniAnalyticsSessionV1", created);
+  return created;
+})();
 const phoneCountries = [
   { iso: "RU", code: "+7", length: 10 },
   { iso: "BY", code: "+375", length: 9 },
@@ -39,6 +76,7 @@ const phoneCountries = [
 let toastTimer;
 let toneAnimationTimer;
 let currentTone = "motivator";
+let referralSourceMemory = "";
 const viewedSections = new Set();
 let waitlistStats = {
   total: 1000,
@@ -66,8 +104,9 @@ window.addEventListener("DOMContentLoaded", resetInitialScrollPosition);
 window.addEventListener("load", resetInitialScrollPosition);
 
 const links = {
-  apple: "",
-  google: "",
+  apple: productConfig.stores?.appStore || "",
+  google: productConfig.stores?.googlePlay || "",
+  rustore: productConfig.stores?.ruStore || "",
   youtube: "https://www.youtube.com/@Mani.ai_app",
   instagram: "https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&utm_source=qr",
   telegram: "https://t.me/moi_mani_ai",
@@ -107,7 +146,7 @@ const roadmapItems = [
   {
     kicker: "Скоро в Mani.ai",
     title: "Сколько стоит моя жизнь",
-    text: "Квартиры, машины, инвестиции, крипта. Mani покажет реальную картину ваших активов и пассивов.",
+    text: "Квартиры, машины, инвестиции, крипта. Mani покажет реальную картину твоих активов и пассивов.",
   },
   {
     kicker: "Скоро в Mani.ai",
@@ -154,9 +193,67 @@ Object.values(tones).forEach((tone) => {
   image.src = tone.image;
 });
 
+const contactForm = document.querySelector("[data-contact-form]");
+if (contactForm) {
+  const messageField = contactForm.elements.message;
+  const counter = contactForm.querySelector("[data-contact-counter]");
+  const result = contactForm.querySelector("[data-contact-result]");
+  const submitButton = contactForm.querySelector("button[type='submit']");
+
+  const updateContactCounter = () => {
+    if (counter) counter.textContent = String(messageField.value.length);
+  };
+  messageField.addEventListener("input", updateContactCounter);
+
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    result.classList.remove("is-error", "is-success");
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      result.textContent = "Заполни обязательные поля — и сигнал можно отправлять.";
+      result.classList.add("is-error");
+      return;
+    }
+
+    const data = new FormData(contactForm);
+    const payload = {
+      topic: String(data.get("topic") || ""),
+      name: String(data.get("name") || "").trim(),
+      replyTo: String(data.get("replyTo") || "").trim(),
+      message: String(data.get("message") || "").trim(),
+      website: String(data.get("website") || ""),
+      pdnConsent: data.get("pdnConsent") === "yes",
+    };
+    submitButton.disabled = true;
+    submitButton.querySelector("span").textContent = "Отправляем…";
+    result.textContent = "Сигнал летит в команду Mani.ai…";
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const responseData = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(responseData.message || "Не удалось отправить сообщение");
+      contactForm.reset();
+      updateContactCounter();
+      result.textContent = "Сигнал принят! Ответим на указанный контакт.";
+      result.classList.add("is-success");
+    } catch (error) {
+      result.textContent = `${error.message}. Можно написать напрямую в Telegram @eto_mani.`;
+      result.classList.add("is-error");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.querySelector("span").textContent = "Отправить сигнал";
+    }
+  });
+}
+
 function loadAnalytics() {
   if (window.maniAnalyticsLoaded) return;
   window.maniAnalyticsLoaded = true;
+  captureAttribution();
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function gtag() {
@@ -191,12 +288,11 @@ function loadAnalytics() {
     accurateTrackBounce: true,
     webvisor: false,
   });
-  const heroVariant = document.documentElement.dataset.heroCopyVariant;
-  if (heroVariant) trackEvent("experiment_view", { experiment: "hero_copy_v1", variant: heroVariant });
 }
 
 function setCookieConsent(value) {
-  localStorage.setItem(cookieConsentKey, value);
+  storageSet("localStorage", cookieConsentKey, value);
+  window.ManiAnalytics?.consentChanged();
   if (cookieBanner) cookieBanner.hidden = true;
   if (stickyCta) stickyCta.hidden = false;
   if (value === "accepted") loadAnalytics();
@@ -204,7 +300,7 @@ function setCookieConsent(value) {
 }
 
 function initCookieConsent() {
-  const consent = localStorage.getItem(cookieConsentKey);
+  const consent = storageGet("localStorage", cookieConsentKey);
   if (consent === "accepted") {
     loadAnalytics();
     return;
@@ -214,12 +310,84 @@ function initCookieConsent() {
   if (stickyCta) stickyCta.hidden = true;
 }
 
+const analyticsAllowedFields = new Set([
+  "event_id", "page_path", "session_id", "product_status", "hero_copy_variant", "hero_headline_variant",
+  "source", "medium", "campaign", "content", "term", "cta_variant", "cta_location",
+  "first_source", "first_medium", "first_campaign", "first_content", "first_term",
+  "store", "ref_present", "experiment", "variant", "mode", "control", "action",
+  "share_target", "network", "section", "target", "tone", "scenario", "field",
+  "value", "duplicate", "error_type", "status_code", "metric_name", "metric_value",
+]);
+
+function cleanAnalyticsValue(value) {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  return String(value ?? "").replace(/[\r\n\t]/g, " ").slice(0, 100);
+}
+
+function readStoredJson(key) {
+  try {
+    return JSON.parse(storageGet("localStorage", key) || "null");
+  } catch {
+    return null;
+  }
+}
+
+function getAttributionSnapshot() {
+  const params = new URLSearchParams(window.location.search);
+  const referrerSource = (() => {
+    try {
+      return document.referrer ? new URL(document.referrer).hostname : "";
+    } catch {
+      return "";
+    }
+  })();
+  return {
+    source: params.get("utm_source") || referrerSource || "direct",
+    medium: params.get("utm_medium") || "",
+    campaign: params.get("utm_campaign") || "",
+    content: params.get("utm_content") || "",
+    term: params.get("utm_term") || "",
+  };
+}
+
+function captureAttribution() {
+  const snapshot = getAttributionSnapshot();
+  if (!storageGet("localStorage", attributionFirstKey)) {
+    storageSet("localStorage", attributionFirstKey, JSON.stringify(snapshot));
+  }
+  storageSet("localStorage", attributionLastKey, JSON.stringify(snapshot));
+}
+
 function trackEvent(name, params = {}) {
-  const payload = {
+  const firstTouch = readStoredJson(attributionFirstKey) || getAttributionSnapshot();
+  const lastTouch = readStoredJson(attributionLastKey) || getAttributionSnapshot();
+  const candidate = {
+    event_id: crypto.randomUUID?.() || `e-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     page_path: window.location.pathname,
+    session_id: analyticsSessionId,
+    product_status: productStatus,
     hero_copy_variant: document.documentElement.dataset.heroCopyVariant || "unassigned",
+    hero_headline_variant: document.documentElement.dataset.heroHeadlineVariant || "unassigned",
+    source: lastTouch.source,
+    medium: lastTouch.medium,
+    campaign: lastTouch.campaign,
+    content: lastTouch.content,
+    term: lastTouch.term,
+    first_source: firstTouch.source,
+    first_medium: firstTouch.medium,
+    first_campaign: firstTouch.campaign,
+    first_content: firstTouch.content,
+    first_term: firstTouch.term,
     ...params,
   };
+  const payload = Object.fromEntries(
+    Object.entries(candidate)
+      .filter(([key, value]) => analyticsAllowedFields.has(key) && value !== "" && value != null)
+      .map(([key, value]) => [key, cleanAnalyticsValue(value)])
+  );
+
+  window.ManiAnalytics?.track(name, payload);
 
   if (typeof window.gtag === "function") {
     window.gtag("event", name, payload);
@@ -230,19 +398,40 @@ function trackEvent(name, params = {}) {
   }
 }
 
+function initProductStatus() {
+  window.ManiProductStatus?.apply();
+}
+
 function initHeroCopyExperiment() {
   const heroCopy = document.querySelector("[data-hero-copy]");
   if (!heroCopy) return;
-  let variant = localStorage.getItem(heroExperimentKey);
-  if (variant !== "control" && variant !== "short") {
+  const analyticsConsent = storageGet("localStorage", cookieConsentKey) === "accepted";
+  let variant = analyticsConsent ? storageGet("localStorage", heroExperimentKey) : "control";
+  if (analyticsConsent && variant !== "control" && variant !== "short") {
     variant = Math.random() < 0.5 ? "control" : "short";
-    localStorage.setItem(heroExperimentKey, variant);
+    storageSet("localStorage", heroExperimentKey, variant);
   }
   if (variant === "short") {
     heroCopy.textContent = "Все счета, расходы и подписки в одном месте. Mani показывает, куда уходят деньги, предупреждает о рисках и помогает разобраться в чате.";
   }
   document.documentElement.dataset.heroCopyVariant = variant;
   trackEvent("experiment_view", { experiment: "hero_copy_v1", variant });
+}
+
+function initHeroHeadlineExperiment() {
+  const headline = document.querySelector("[data-hero-headline]");
+  if (!headline) return;
+  const variant = Math.random() < 0.5 ? "chaos" : "order";
+
+  if (variant === "order") {
+    headline.replaceChildren(
+      document.createTextNode("Порядок в деньгах — "),
+      Object.assign(document.createElement("span"), { textContent: "здесь и сейчас!" }),
+    );
+  }
+
+  document.documentElement.dataset.heroHeadlineVariant = variant;
+  trackEvent("experiment_view", { experiment: "hero_headline_v1", variant });
 }
 
 function showToast(message) {
@@ -444,109 +633,505 @@ async function loadWaitlistStats() {
     const stats = await response.json();
     updateWaitlistStats(stats);
   } catch {
-    const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0);
+    const localCount = Number(storageGet("localStorage", "maniWaitlistCount") || 0);
     updateWaitlistStats({ registered: waitlistStats.registered + localCount });
   }
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function setFieldError(form, field, message = "") {
+  const error = form.querySelector(`[data-field-error="${field}"]`);
+  if (error) error.textContent = message;
+  const inputName = field === "phone" ? "phoneDisplay" : field === "consent" ? "pdnConsent" : field;
+  const input = form.elements[inputName];
+  if (input) input.setAttribute("aria-invalid", message ? "true" : "false");
+}
+
+function invitePhrase(value) {
+  const mod100 = value % 100;
+  const mod10 = value % 10;
+  if (mod100 >= 11 && mod100 <= 14) return `${value} приглашённых друзей`;
+  if (mod10 === 1) return `${value} приглашённый друг`;
+  if (mod10 >= 2 && mod10 <= 4) return `${value} приглашённых друга`;
+  return `${value} приглашённых друзей`;
+}
+
+function getQueueStatusPresentation(status, priorityPosition) {
+  const statuses = {
+    "Mani inner circle": {
+      label: "Ядро Mani",
+      description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
+    },
+    "Closed beta wave": {
+      label: "Закрытая волна",
+      description: "Ты поднялся выше стартовой очереди и вошёл в закрытую волну.",
+    },
+    "Early crew": {
+      label: "Ранний экипаж",
+      description: "Ты среди первых 500 и можешь быстро подняться приглашениями.",
+    },
+    "Ahead of hype": {
+      label: "В деле до хайпа",
+      description: "Ты пришёл раньше большинства и сохранил бесплатный доступ.",
+    },
+    "On time": {
+      label: "Успел вовремя",
+      description: "Место твоё. Несколько приглашений заметно укрепят позицию.",
+    },
+    "Final boarding": {
+      label: "Финальная посадка",
+      description: "Ты внутри первой 1000, но до закрытия набора уже близко.",
+    },
+    "Waiting list": {
+      label: "Лист ожидания",
+      description: "Основная тысяча заполнена, но приглашения всё ещё улучшают приоритет.",
+    },
+    "Founding users": {
+      label: "Ядро Mani",
+      description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
+    },
+    "Last free access": {
+      label: "Финальная посадка",
+      description: "Ты внутри первой 1000, но до закрытия набора уже близко.",
+    },
+  };
+  const milestones = [
+    { above: 900, target: 900, label: "Успел вовремя" },
+    { above: 750, target: 750, label: "В деле до хайпа" },
+    { above: 500, target: 500, label: "Ранний экипаж" },
+    { above: 305, target: 305, label: "Закрытая волна" },
+    { above: 100, target: 100, label: "Ядро Mani" },
+  ];
+  const presentation = statuses[status] || {
+    label: "Ранний доступ",
+    description: "Место закреплено. Приглашения помогают подняться выше.",
+  };
+  const next = milestones.find((milestone) => priorityPosition > milestone.above);
+  if (!next) {
+    return {
+      ...presentation,
+      motivation: "Ты уже в ядре Mani. Выше только знакомство с командой.",
+    };
+  }
+  const needed = priorityPosition - next.target;
+  return {
+    ...presentation,
+    motivation: `Ещё ${invitePhrase(needed)} — и статус «${next.label}».`,
+  };
+}
+
+function renderWaitlistSuccess(success, data) {
+  if (!success) return;
+  const dialog = success.closest(".nm-dialog");
+  const position = Math.max(1, Number(data.position) || 1);
+  const priorityPosition = Math.max(1, Number(data.priorityPosition) || position);
+  const invitedCount = Math.max(0, Number(data.invitedCount) || 0);
+  const placesLeft = Math.max(0, Number(data.stats?.left) || 0);
+  const referralCode = /^[A-Z0-9-]{6,64}$/.test(String(data.referralCode || ""))
+    ? String(data.referralCode)
+    : `MANI-${String(position).padStart(4, "0")}`;
+  const referralUrl = `${window.location.origin}/start?ref=${encodeURIComponent(referralCode)}`;
+  const queueStatus = getQueueStatusPresentation(data.status, priorityPosition);
+  const identity = { position, priorityPosition, invitedCount, referralCode, status: data.status || "" };
+  storageSet("localStorage", waitlistIdentityKey, JSON.stringify(identity));
+  storageSet("localStorage", "maniReferralCode", referralCode);
+
+  success.hidden = false;
+  success.innerHTML = `
+    <div class="waitlist-success-head"><span>${data.duplicate ? "Место уже закреплено" : "Заявка принята"}</span><strong id="waitlist-success-title">Ты в очереди под номером №${position}</strong></div>
+    <p class="waitlist-success-lead">${escapeHtml(queueStatus.motivation)}</p>
+    <div class="waitlist-success-grid">
+      <div><small>Номер в очереди</small><b>№${position}</b></div>
+      <div><small>Приглашено</small><b>${invitedCount}</b></div>
+      <div><small>Приоритет</small><b>№${priorityPosition}</b></div>
+      <div><small>Осталось мест</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>
+      <div class="waitlist-status-card"><small>Твой статус</small><b>${escapeHtml(queueStatus.label)}</b><em>${escapeHtml(queueStatus.description)}</em></div>
+    </div>
+    <div class="waitlist-referral"><span>Твоя ссылка</span><code>${escapeHtml(referralUrl)}</code></div>
+    <div class="waitlist-share-actions">
+      <button type="button" data-referral-copy data-referral-url="${escapeHtml(referralUrl)}">Скопировать ссылку</button>
+      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Занимай место в раннем доступе Mani.ai вместе со мной")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
+      <button type="button" data-referral-share data-referral-url="${escapeHtml(referralUrl)}">Поделиться</button>
+      <button type="button" data-referral-card data-referral-url="${escapeHtml(referralUrl)}" data-referral-position="${position}">Скачать карточку</button>
+    </div>
+    <p class="waitlist-success-note">Каждая уникальная заявка по твоей ссылке поднимает тебя на одно место. Повторные и собственные заявки не засчитываются.</p>
+  `;
+  if (dialog) {
+    dialog.classList.add("is-success");
+    dialog.setAttribute("aria-labelledby", "waitlist-success-title");
+    dialog.scrollTop = 0;
+  }
+  trackEvent("referral_link_created", { ref_present: true });
+}
+
 async function submitWaitlist(form) {
+  if (form.dataset.submitting === "true") return;
   const result = form.querySelector("[data-waitlist-result]");
-  const success = form.querySelector("[data-waitlist-success]");
-  const button = form.querySelector("button");
+  const dialog = form.closest(".nm-dialog");
+  const success = dialog?.querySelector("[data-waitlist-success]");
+  const button = form.querySelector("button[type='submit']");
   const formData = new FormData(form);
-  const urlParams = new URLSearchParams(window.location.search);
   const phonePayload = getPhonePayload(form);
+  const email = String(formData.get("email") || "").trim();
+  const firstTouch = readStoredJson(attributionFirstKey) || {};
+  const lastTouch = readStoredJson(attributionLastKey) || {};
+  const idempotencyKey = crypto.randomUUID?.() || `w-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
   const payload = {
     phone: phonePayload.valid ? phonePayload.normalized : "",
-    email: String(formData.get("email") || "").trim(),
+    email,
     contact: "manual",
     contactDetails: String(formData.get("contactDetails") || "").trim(),
     company: String(formData.get("company") || "").trim(),
     pdnConsent: formData.get("pdnConsent") === "yes",
     pdnConsentVersion,
     pdnConsentAt: new Date().toISOString(),
-    ref: urlParams.get("ref") || localStorage.getItem("maniReferralSource") || "",
+    ref: storageGet("localStorage", referralSourceKey) || referralSourceMemory,
     page: window.location.pathname,
+    idempotencyKey,
+    heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant || "",
+    ctaLocation: document.querySelector("#waitlist-dialog")?.dataset.ctaLocation || "unknown",
+    firstTouch,
+    lastTouch,
   };
+  setFieldError(form, "phone");
+  setFieldError(form, "email");
+  setFieldError(form, "consent");
+  let valid = true;
   if (!payload.phone) {
-    result.textContent = "Укажи корректный телефон, чтобы закрепить место.";
-    trackEvent("waitlist_phone_error", { source: payload.page });
-    return;
+    setFieldError(form, "phone", "Укажи корректный номер, чтобы закрепить место.");
+    valid = false;
+    trackEvent("form_error", { field: "phone", error_type: "invalid_phone" });
+  }
+  if (email && !form.elements.email.checkValidity()) {
+    setFieldError(form, "email", "Проверь формат email.");
+    valid = false;
+    trackEvent("form_error", { field: "email", error_type: "invalid_email" });
   }
   if (!payload.pdnConsent) {
-    result.textContent = "Поставь галочку согласия на обработку данных. Без нее мы не можем принять заявку.";
-    trackEvent("waitlist_consent_error", { source: payload.page });
+    setFieldError(form, "consent", "Нужно согласие на обработку данных.");
+    valid = false;
+    trackEvent("form_error", { field: "consent", error_type: "missing_pdn_consent" });
+  }
+  if (!valid) {
+    result.textContent = "Проверь отмеченные поля.";
     return;
   }
 
+  form.dataset.submitting = "true";
   button.disabled = true;
-  result.textContent = "Бронируем место...";
+  button.setAttribute("aria-busy", "true");
+  result.textContent = "Закрепляем место...";
   if (success) {
     success.hidden = true;
     success.innerHTML = "";
   }
+  trackEvent("waitlist_submit", { cta_location: "waitlist_dialog", ref_present: Boolean(payload.ref) });
 
+  let responseStatus = 0;
   try {
     const response = await fetch("/api/waitlist", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
       body: JSON.stringify(payload),
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "request failed");
+    responseStatus = response.status;
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
     waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
-    const referralCode = data.referralCode || `MANI-${String(data.position).padStart(4, "0")}`;
-    const referralUrl = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(referralCode)}`;
-    const statusLabels = {
-      "Founding users": "Основатели Mani",
-      "Early crew": "Ранняя команда",
-      "Last free access": "Последний бесплатный доступ",
-    };
-    const queueStatus = statusLabels[data.status] || "Ранний доступ";
-    const placesLeft = Number(data.stats?.left);
     result.textContent = data.duplicate
-      ? `Ты уже в очереди. Твое место: #${data.position}.`
-      : `Готово. Твое место в очереди: #${data.position}.`;
-    if (success) {
-      success.hidden = false;
-      success.innerHTML = `
-        <div class="waitlist-success-head"><span>Заявка принята</span><strong>Ты в очереди Mani</strong></div>
-        <div class="waitlist-success-grid">
-          <div><small>Твоё место</small><b>#${data.position}</b></div>
-          <div><small>Статус</small><b>${queueStatus}</b></div>
-          ${Number.isFinite(placesLeft) ? `<div><small>Свободно после тебя</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>` : ""}
-        </div>
-        <div class="waitlist-referral"><span>Код приглашения</span><code>${referralCode}</code></div>
-        <p class="waitlist-success-note">Сохрани код. По нему мы узнаем тебя и позже подключим бонусы за приглашения.</p>
-        <a class="waitlist-share" href="${referralUrl}">Твоя персональная ссылка</a>
-      `;
-    }
-    localStorage.setItem("maniReferralCode", referralCode);
+      ? `Ты уже в очереди под номером №${data.position}.`
+      : `Готово. Ты в очереди под номером №${data.position}.`;
+    renderWaitlistSuccess(success, data);
     form.reset();
-    trackEvent("waitlist_submit", { position: data.position, source: payload.page, duplicate: Boolean(data.duplicate) });
-  } catch (error) {
-    trackEvent("waitlist_submit_error", { source: payload.page, message: String(error?.message || "unknown").slice(0, 120) });
-    const localCount = Number(localStorage.getItem("maniWaitlistCount") || 0) + 1;
-    localStorage.setItem("maniWaitlistCount", String(localCount));
-    waitlistStatsUnlocked = false;
-    updateWaitlistStats({ registered: localCount });
-    const referralCode = `MANI-${String(localCount).padStart(4, "0")}`;
-    result.textContent = `Локально сохранено в браузере. Место в демо-очереди: #${localCount}.`;
-    if (success) {
-      success.hidden = false;
-      success.innerHTML = `
-        <div class="waitlist-success-head"><span>Локальная проверка</span><strong>Демо-заявка принята</strong></div>
-        <div class="waitlist-success-grid"><div><small>Демо-место</small><b>#${localCount}</b></div><div><small>Код</small><b>${referralCode}</b></div></div>
-        <p class="waitlist-success-note">На продакшене место выдаёт существующая база заявок на сервере.</p>
-      `;
-    }
-    form.reset();
-    trackEvent("waitlist_submit_local", { source: payload.page });
+    getPhonePayload(form);
+    requestAnimationFrame(() => success?.focus({ preventScroll: true }));
+    trackEvent("waitlist_success", { duplicate: Boolean(data.duplicate), ref_present: Boolean(data.referredByAccepted) });
+    if (!data.duplicate && data.referredByAccepted) trackEvent("referral_signup", { ref_present: true });
+  } catch {
+    trackEvent("api_error", {
+      error_type: responseStatus ? "waitlist_http_error" : "waitlist_network_error",
+      status_code: responseStatus,
+    });
+    result.textContent = "Не удалось отправить заявку. Проверь соединение и попробуй ещё раз.";
+    result.focus?.();
   } finally {
+    form.dataset.submitting = "false";
     button.disabled = false;
+    button.removeAttribute("aria-busy");
   }
 }
+
+function loadCanvasImage(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = src;
+  });
+}
+
+function drawRoundedRect(context, x, y, width, height, radius) {
+  context.beginPath();
+  if (typeof context.roundRect === "function") {
+    context.roundRect(x, y, width, height, radius);
+  } else {
+    const r = Math.min(radius, width / 2, height / 2);
+    context.moveTo(x + r, y);
+    context.lineTo(x + width - r, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + r);
+    context.lineTo(x + width, y + height - r);
+    context.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+    context.lineTo(x + r, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - r);
+    context.lineTo(x, y + r);
+    context.quadraticCurveTo(x, y, x + r, y);
+    context.closePath();
+  }
+  context.fill();
+}
+
+function drawContainedImage(context, image, x, y, width, height) {
+  const scale = Math.min(width / image.width, height / image.height);
+  const drawWidth = image.width * scale;
+  const drawHeight = image.height * scale;
+  context.drawImage(image, x + (width - drawWidth) / 2, y + (height - drawHeight) / 2, drawWidth, drawHeight);
+}
+
+function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines = 4) {
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = "";
+  words.forEach((word) => {
+    const test = line ? `${line} ${word}` : word;
+    if (context.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = test;
+    }
+  });
+  if (line) lines.push(line);
+  lines.slice(0, maxLines).forEach((value, index) => context.fillText(value, x, y + index * lineHeight));
+}
+
+async function createManiCard({ type, mode = "jester", annualLoss = 0, position = 0, referralUrl = "" }) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1350;
+  const context = canvas.getContext("2d");
+  const gradient = context.createLinearGradient(0, 0, 1080, 1350);
+  gradient.addColorStop(0, "#ffffff");
+  gradient.addColorStop(0.55, "#f5f9ff");
+  gradient.addColorStop(1, mode === "jester" ? "#fff0e7" : "#eaf8ff");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  context.fillStyle = "rgba(255,255,255,.86)";
+  context.shadowColor = "rgba(32,72,128,.12)";
+  context.shadowBlur = 42;
+  drawRoundedRect(context, 58, 58, 964, 1234, 58);
+  context.shadowBlur = 0;
+
+  const [logo, mascot] = await Promise.all([
+    loadCanvasImage("assets/logo.svg"),
+    loadCanvasImage(mode === "jester" ? "assets/newmani/interactive/jester.webp" : "assets/newmani/interactive/motivator.webp"),
+  ]);
+  drawContainedImage(context, logo, 105, 105, 300, 86);
+  drawContainedImage(context, mascot, 575, 165, 390, 480);
+
+  context.fillStyle = "#071632";
+  context.font = "700 62px Manrope, Arial, sans-serif";
+  if (type === "calculator") {
+    drawWrappedText(context, "Столько денег может незаметно убегать за год", 110, 330, 500, 72, 4);
+    context.fillStyle = "#ff5a00";
+    context.font = "750 92px Manrope, Arial, sans-serif";
+    context.fillText(`${new Intl.NumberFormat("ru-RU").format(annualLoss)} ₽`, 110, 735);
+    context.fillStyle = "#5d6b86";
+    context.font = "500 33px Manrope, Arial, sans-serif";
+    context.fillText("Расчёт тест-драйва Mani.ai", 112, 795);
+    context.fillStyle = "#071632";
+    context.font = "700 46px Manrope, Arial, sans-serif";
+    drawWrappedText(context, "А сколько убегает у тебя?", 110, 950, 760, 58, 2);
+  } else {
+    drawWrappedText(context, `Я в очереди Mani.ai под номером №${position}`, 110, 350, 520, 74, 4);
+    context.fillStyle = "#ff5a00";
+    context.font = "750 68px Manrope, Arial, sans-serif";
+    context.fillText("Присоединяйся", 110, 790);
+    context.fillStyle = "#5d6b86";
+    context.font = "500 31px Manrope, Arial, sans-serif";
+    drawWrappedText(context, "Первые пользователи помогают сделать финансового ИИ-помощника лучше.", 110, 855, 820, 47, 3);
+  }
+
+  context.fillStyle = "#ff5a00";
+  drawRoundedRect(context, 105, 1080, 870, 112, 30);
+  context.fillStyle = "#ffffff";
+  context.font = "700 38px Manrope, Arial, sans-serif";
+  context.textAlign = "center";
+  context.fillText(type === "calculator" ? "Пройди тест-драйв на MoiMani.ai" : "Займи место на MoiMani.ai", 540, 1152);
+  context.textAlign = "left";
+  context.fillStyle = "#64728b";
+  context.font = "500 24px Manrope, Arial, sans-serif";
+  context.fillText(type === "calculator" ? "moimani.ai/#test-drive" : referralUrl.replace(/^https?:\/\//, ""), 110, 1250);
+  return canvas;
+}
+
+function canvasToBlob(canvas) {
+  return new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+}
+
+async function downloadCanvasCard(canvas, filename) {
+  const blob = await canvasToBlob(canvas);
+  if (!blob) throw new Error("PNG creation failed");
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function shareCanvasCard(canvas, filename, text, url) {
+  const blob = await canvasToBlob(canvas);
+  if (!blob) throw new Error("PNG creation failed");
+  const file = new File([blob], filename, { type: "image/png" });
+  if (navigator.share && navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: "Mani.ai", text, url });
+      return true;
+    } catch (error) {
+      if (error?.name === "AbortError") return null;
+    }
+  }
+  await downloadCanvasCard(canvas, filename);
+  return false;
+}
+
+async function copyText(value) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(value);
+      return true;
+    } catch {
+      // Fall through to the selection-based copy path.
+    }
+  }
+  const input = document.createElement("textarea");
+  input.value = value;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.appendChild(input);
+  input.select();
+  const copied = document.execCommand("copy");
+  input.remove();
+  return copied;
+}
+
+function showCopyButtonFeedback(button, copied) {
+  if (!button) return;
+  const defaultLabel = button.dataset.defaultLabel || button.textContent.trim();
+  button.dataset.defaultLabel = defaultLabel;
+  button.textContent = copied ? "Ссылка скопирована" : "Не удалось скопировать";
+  button.classList.toggle("is-copied", copied);
+  button.classList.toggle("is-copy-error", !copied);
+  button.setAttribute("aria-live", "polite");
+  clearTimeout(button.copyFeedbackTimer);
+  button.copyFeedbackTimer = setTimeout(() => {
+    button.textContent = defaultLabel;
+    button.classList.remove("is-copied", "is-copy-error");
+    button.removeAttribute("aria-live");
+  }, 2600);
+}
+
+async function restoreWaitlistIdentity() {
+  const identity = readStoredJson(waitlistIdentityKey);
+  if (!identity?.referralCode) return;
+  try {
+    const response = await fetch(`/api/waitlist?referralCode=${encodeURIComponent(identity.referralCode)}`);
+    if (!response.ok) return;
+    const data = await response.json();
+    document.querySelectorAll("[data-waitlist-success]").forEach((success) => renderWaitlistSuccess(success, { ...data, duplicate: true }));
+    document.querySelectorAll("[data-waitlist-result]").forEach((result) => {
+      result.textContent = `Твоё место уже закреплено: №${data.position}.`;
+    });
+  } catch {
+    // The form remains available if the status endpoint is temporarily unreachable.
+  }
+}
+
+document.addEventListener("click", async (event) => {
+  const copyButton = event.target.closest("[data-referral-copy]");
+  if (copyButton) {
+    const copied = await copyText(copyButton.dataset.referralUrl);
+    showCopyButtonFeedback(copyButton, copied);
+    if (copied) {
+      showToast("Персональная ссылка скопирована");
+      trackEvent("referral_share", { share_target: "clipboard" });
+    } else {
+      showToast("Не удалось скопировать. Выдели ссылку вручную.");
+    }
+    return;
+  }
+  const telegramLink = event.target.closest("[data-referral-telegram]");
+  if (telegramLink) {
+    trackEvent("referral_share", { share_target: "telegram" });
+    return;
+  }
+  const shareButton = event.target.closest("[data-referral-share]");
+  if (shareButton) {
+    const url = shareButton.dataset.referralUrl;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Mani.ai", text: "Занимай место в раннем доступе Mani.ai вместе со мной", url });
+        trackEvent("referral_share", { share_target: "web_share" });
+      } catch (error) {
+        if (error?.name !== "AbortError" && await copyText(url)) {
+          showToast("Системное меню недоступно — ссылка скопирована.");
+          trackEvent("referral_share", { share_target: "clipboard" });
+        }
+      }
+    } else {
+      if (await copyText(url)) {
+        showToast("Ссылка скопирована");
+        trackEvent("referral_share", { share_target: "clipboard" });
+      } else {
+        showToast("Не удалось скопировать. Выдели ссылку вручную.");
+      }
+    }
+    return;
+  }
+  const cardButton = event.target.closest("[data-referral-card]");
+  if (cardButton) {
+    cardButton.disabled = true;
+    try {
+      const identity = readStoredJson(waitlistIdentityKey) || {};
+      const canvas = await createManiCard({
+        type: "referral",
+        mode: "motivator",
+        position: Number(cardButton.dataset.referralPosition),
+        referralUrl: cardButton.dataset.referralUrl,
+      });
+      await downloadCanvasCard(canvas, `mani-queue-${identity.referralCode || "card"}.png`);
+      trackEvent("referral_share", { share_target: "card_download" });
+    } finally {
+      cardButton.disabled = false;
+    }
+    return;
+  }
+  const storeLink = event.target.closest("[data-store]");
+  if (storeLink) {
+    const eventStore = storeLink.dataset.store === "apple" ? "appstore" : storeLink.dataset.store === "google" ? "googleplay" : "rustore";
+    trackEvent(`store_click_${eventStore}`, { store: eventStore, cta_location: "product_status" });
+  }
+});
 
 function openConfiguredLink(key, fallback) {
   if (links[key]) {
@@ -709,10 +1294,9 @@ document.querySelectorAll("[data-download]").forEach((link) => {
     event.preventDefault();
     const target = link.dataset.download;
     const label = target === "apple" ? "App Store" : "Google Play";
-    trackEvent("download_click", {
+    trackEvent(`store_click_${target === "apple" ? "appstore" : "googleplay"}`, {
       store: target,
-      label,
-      placement: link.closest(".hero") ? "hero" : link.closest(".cta") ? "cta" : link.closest(".reasons") ? "reasons" : "header_or_menu",
+      cta_location: link.closest(".hero") ? "hero" : link.closest(".cta") ? "cta" : link.closest(".reasons") ? "reasons" : "header_or_menu",
     });
     openConfiguredLink(target, `Ссылка на ${label} пока не задана. Подставим реальный URL скачивания.`);
   });
@@ -720,18 +1304,31 @@ document.querySelectorAll("[data-download]").forEach((link) => {
 
 document.querySelectorAll("[data-early-access]").forEach((link) => {
   link.addEventListener("click", () => {
-    trackEvent("early_access_click", {
-      placement: link.dataset.earlyAccess,
+    trackEvent("cta_click", {
+      cta_location: link.dataset.earlyAccess,
+      cta_variant: productStatus,
     });
   });
 });
 
 waitlistForms.forEach((form) => {
   let formStarted = false;
+  form.addEventListener("invalid", (event) => {
+    const name = event.target?.name || "";
+    const field = name === "phoneDisplay" ? "phone" : name === "pdnConsent" ? "consent" : name;
+    const errorType = field === "phone"
+      ? "invalid_phone"
+      : field === "email"
+        ? "invalid_email"
+        : field === "consent"
+          ? "missing_pdn_consent"
+          : "invalid_field";
+    trackEvent("form_error", { field, error_type: errorType });
+  }, true);
   form.addEventListener("input", () => {
     if (formStarted) return;
     formStarted = true;
-    trackEvent("waitlist_form_start", { source: window.location.pathname });
+    trackEvent("waitlist_form_start", { cta_location: "waitlist_dialog" });
   });
   form.querySelectorAll("[data-phone-field]").forEach((field) => {
     const select = field.querySelector("select[name='phoneCountry']");
@@ -739,7 +1336,7 @@ waitlistForms.forEach((form) => {
     if (display) {
       display.addEventListener("input", () => formatPhoneField(field));
       display.addEventListener("blur", () => getPhonePayload(form));
-      display.addEventListener("focus", () => trackEvent("waitlist_phone_focus", { source: window.location.pathname }));
+      display.addEventListener("focus", () => trackEvent("waitlist_phone_focus", { cta_location: "waitlist_dialog" }));
     }
     if (select) {
       select.addEventListener("change", () => {
@@ -756,6 +1353,8 @@ waitlistForms.forEach((form) => {
   });
 });
 
+initProductStatus();
+initHeroHeadlineExperiment();
 initHeroCopyExperiment();
 
 document.querySelectorAll("[data-social]").forEach((link) => {
@@ -853,7 +1452,12 @@ if (initialTone) {
 
 const referralSource = new URLSearchParams(window.location.search).get("ref");
 if (referralSource) {
-  localStorage.setItem("maniReferralSource", referralSource);
+  referralSourceMemory = referralSource.slice(0, 64);
+  const ownIdentity = readStoredJson(waitlistIdentityKey);
+  if (!ownIdentity?.referralCode || ownIdentity.referralCode !== referralSource) {
+    storageSet("localStorage", referralSourceKey, referralSourceMemory);
+    trackEvent("referral_visit", { ref_present: true });
+  }
 }
 
 if (cookieAcceptButton) {
@@ -866,6 +1470,7 @@ if (cookieRejectButton) {
 
 initCookieConsent();
 loadWaitlistStats();
+restoreWaitlistIdentity();
 
 if (menuButton && mobileMenu) {
   menuButton.addEventListener("click", () => {
@@ -893,8 +1498,15 @@ if (waitlistDialog) {
       menuButton?.setAttribute("aria-expanded", "false");
       mobileMenu?.setAttribute("aria-hidden", "true");
       if (!waitlistDialog.open) waitlistDialog.showModal();
-      requestAnimationFrame(() => waitlistDialog.querySelector("input[name='phoneDisplay']")?.focus());
-      trackEvent("waitlist_open", { source: trigger.dataset.earlyAccess || "unknown" });
+      waitlistDialog.dataset.ctaLocation = trigger.dataset.earlyAccess || "unknown";
+      requestAnimationFrame(() => {
+        if (waitlistDialog.classList.contains("is-success")) {
+          waitlistDialog.querySelector("[data-waitlist-success]")?.focus({ preventScroll: true });
+        } else {
+          waitlistDialog.querySelector("input[name='phoneDisplay']")?.focus();
+        }
+      });
+      trackEvent("waitlist_form_open", { cta_location: trigger.dataset.earlyAccess || "unknown" });
     });
   });
 
@@ -935,6 +1547,13 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
   const modeButtons = [...root.querySelectorAll("[data-mtd-mode]")];
   const rubles = new Intl.NumberFormat("ru-RU");
   let mascotMode = "jester";
+  let calculatorStarted = false;
+
+  const markCalculatorStart = (control) => {
+    if (calculatorStarted) return;
+    calculatorStarted = true;
+    trackEvent("calculator_start", { control });
+  };
 
   const setRangeFill = (input) => {
     const percent = ((Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min))) * 100;
@@ -948,6 +1567,8 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
     const monthlySaving = Math.round(annualLoss / 12);
     const annualFormatted = `${rubles.format(annualLoss)} ₽`;
     const monthlyFormatted = `${rubles.format(monthlySaving)} ₽`;
+    root.dataset.annualLoss = String(annualLoss);
+    root.dataset.mascotMode = mascotMode;
     let message;
 
     if (mascotMode === "jester") {
@@ -1014,14 +1635,69 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
     setRangeFill(impulseInput);
   };
 
-  subscriptionsInput.addEventListener("input", render);
-  impulseInput.addEventListener("input", render);
-  subscriptionsInput.addEventListener("change", () => trackEvent("test_drive_slider", { field: "subscriptions", value: Number(subscriptionsInput.value) }));
-  impulseInput.addEventListener("change", () => trackEvent("test_drive_slider", { field: "impulse_buys", value: Number(impulseInput.value) }));
+  subscriptionsInput.addEventListener("input", () => {
+    markCalculatorStart("subscriptions");
+    render();
+  });
+  impulseInput.addEventListener("input", () => {
+    markCalculatorStart("impulse_buys");
+    render();
+  });
+  subscriptionsInput.addEventListener("change", () => {
+    trackEvent("calculator_complete", { control: "subscriptions" });
+  });
+  impulseInput.addEventListener("change", () => {
+    trackEvent("calculator_complete", { control: "impulse_buys" });
+  });
   modeButtons.forEach((button) => button.addEventListener("click", () => {
     mascotMode = button.dataset.mtdMode;
-    trackEvent("test_drive_mode", { mode: mascotMode });
+    markCalculatorStart("mode");
     render();
   }));
+  root.querySelector("[data-calculator-card-download]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+      const canvas = await createManiCard({
+        type: "calculator",
+        mode: root.dataset.mascotMode,
+        annualLoss: Number(root.dataset.annualLoss),
+      });
+      await downloadCanvasCard(canvas, "mani-test-drive.png");
+      trackEvent("calculator_share", { share_target: "download" });
+    } finally {
+      button.disabled = false;
+    }
+  });
+  root.querySelector("[data-calculator-card-share]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+      const canvas = await createManiCard({
+        type: "calculator",
+        mode: root.dataset.mascotMode,
+        annualLoss: Number(root.dataset.annualLoss),
+      });
+      const shared = await shareCanvasCard(
+        canvas,
+        "mani-test-drive.png",
+        "Столько денег может незаметно убегать за год. А сколько убегает у тебя?",
+        `${window.location.origin}/#test-drive`
+      );
+      if (shared !== null) {
+        trackEvent("calculator_share", { share_target: shared ? "web_share" : "download" });
+      }
+    } finally {
+      button.disabled = false;
+    }
+  });
+  if ("IntersectionObserver" in window) {
+    const calculatorObserver = new IntersectionObserver((entries, observer) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      trackEvent("calculator_view", { section: "test-drive" });
+      observer.disconnect();
+    }, { threshold: 0.35 });
+    calculatorObserver.observe(root);
+  }
   render();
 });

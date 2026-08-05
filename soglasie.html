@@ -6,7 +6,7 @@
     <title>Mani.ai - согласие на обработку персональных данных</title>
     <meta name="description" content="Согласие на обработку персональных данных для заявки на ранний доступ Mani.ai: какие данные нужны, зачем они используются и как удалить контакт." />
     <link rel="canonical" href="https://moimani.ai/soglasie" />
-    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
     <style>
       :root { color: #202124; background: #f6f6f7; font-family: Inter, Arial, sans-serif; }
       * { box-sizing: border-box; }
@@ -16,7 +16,7 @@
       .logo { width: 78px; height: auto; }
       .back { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 18px; border-radius: 999px; color: #202124; background: #fff; text-decoration: none; font-size: 14px; font-weight: 800; }
       main { padding: 42px; border-radius: 28px; background: #fff; box-shadow: 0 18px 48px rgba(32, 33, 36, 0.06); }
-      h1 { margin: 0 0 12px; font-size: clamp(34px, 5vw, 56px); line-height: 1.02; letter-spacing: 0; }
+      h1 { margin: 0 0 12px; overflow-wrap: anywhere; font-size: clamp(34px, 5vw, 56px); line-height: 1.02; letter-spacing: 0; }
       .lead, p, li { color: #66676b; font-size: 17px; line-height: 1.55; }
       .lead { margin: 0 0 28px; max-width: 720px; }
       h2 { margin: 34px 0 12px; color: #202124; font-size: 24px; line-height: 1.18; }
@@ -26,7 +26,7 @@
       .updated { margin: 0 0 28px; color: #8a8b90; font-size: 14px; }
       .note { padding: 18px; border-radius: 18px; background: #fff4ee; color: #6f3c25; font-weight: 700; }
       @media (max-width: 640px) {
-        .page { width: min(100% - 24px, 920px); padding-top: 20px; }
+        .page { width: min(calc(100% - 24px), 920px); padding-top: 20px; }
         .header { margin-bottom: 20px; }
         main { padding: 28px 22px; border-radius: 22px; }
         .lead, p, li { font-size: 16px; }
@@ -42,7 +42,7 @@
 
       <main>
         <h1>Согласие на обработку персональных данных</h1>
-        <p class="updated">Последнее обновление: 8 июня 2026</p>
+        <p class="updated">Последнее обновление: 27 июля 2026</p>
         <p class="lead">Это согласие относится к заявке на ранний доступ Mani.ai. Мы не просим лишнего: только данные, чтобы закрепить место, связаться по запуску и не плодить дубли.</p>
 
         <h2>1. Какие данные используются</h2>
@@ -50,7 +50,7 @@
           <li>телефон в международном формате;</li>
           <li>email, если пользователь его указал;</li>
           <li>комментарий к заявке или удобный канал связи;</li>
-          <li>реферальный код и страница заявки;</li>
+          <li>реферальный код, UTM-метки и страница заявки;</li>
           <li>дата, версия согласия и технические данные запроса.</li>
         </ul>
 
@@ -69,5 +69,6 @@
         <p class="note">Коротко: оставляешь телефон - мы держим место в первой 1000 и пишем только по раннему доступу.</p>
       </main>
     </div>
+    <script src="analytics-client.js?v=20260728-first-party-1"></script>
   </body>
 </html>

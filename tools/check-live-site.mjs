@@ -26,10 +26,15 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
-  assert(body.includes("script.js?v=20260705-testdrive-2"), "Expected script cache-bust is missing");
-  assert(body.includes("newmani.css?v=20260705-testdrive-2"), "Expected CSS cache-bust is missing");
+  assert(body.includes("script.js?v=20260805-contact-form-1"), "Expected script cache-bust is missing");
+  assert(body.includes("product-config.js?v=20260727-prelaunch-1"), "Expected product config is missing");
+  assert(body.includes("newmani.css?v=20260728-copy-feedback-1"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
+  assert(body.includes("data-contact-form"), "Contact form is missing from home page");
+  assert(body.includes('href="https://t.me/eto_mani"'), "Direct Telegram contact is missing");
+  assert(body.includes('href="#contacts"'), "Footer contact navigation is missing");
+  assert((body.match(/href="#contacts"/g) || []).length >= 3, "Header contact navigation is missing");
   assert(!body.includes("Осталось мест"), "Public remaining-place counter is still visible");
   [
     "https://www.instagram.com/moimani.ai",
@@ -43,6 +48,24 @@ check("home page loads", async () => {
   assert(body.includes('href="/soglasie"'), "Personal data consent link is missing");
   assert(!body.includes('class="section seo-faq"'), "FAQ section should not be on home page");
   assert(!body.includes('"@type": "FAQPage"'), "FAQPage schema should not be on home page");
+});
+
+check("contact API accepts a valid local message", async () => {
+  const response = await fetch(new URL("/api/contact", baseUrl), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      topic: "Предложение",
+      name: "Local QA",
+      replyTo: "@local_test",
+      message: "Проверка локальной формы обратной связи.",
+      website: "",
+      pdnConsent: true,
+    }),
+  });
+  assert(response.status === 200, `Contact API returned ${response.status}`);
+  const data = await response.json();
+  assert(data.ok === true, "Contact API did not confirm the message");
 });
 
 check("preview conversion pages are reachable", async () => {
@@ -75,6 +98,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
+  assert(body.includes("https://moimani.ai/og-image-v3.jpg"), "Current OG image is missing");
 });
 
 check("FAQ page schema exists", async () => {
@@ -165,6 +189,7 @@ check("key assets are reachable", async () => {
     "/assets/desktop-reasons-card.webp",
     "/assets/mobile-widgets.webp",
     "/assets/og-image.jpg",
+    "/og-image-v3.jpg",
     "/assets/newmani/hero-v1/composition/phones-mascots-alpha.png",
     "/assets/newmani/social-v1/motivator-peek-alpha.png",
     "/assets/newmani/social-v1/veselchak-peek-tight.png",
