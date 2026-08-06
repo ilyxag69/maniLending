@@ -78,7 +78,7 @@
       }
     </script>
   </head>
-  <body class="nm-page">
+  <body class="nm-page cookie-consent-pending">
     <header class="header nm-header">
       <a class="logo nm-logo" href="#top" aria-label="Mani.ai">
         <img src="assets/logo.svg" alt="Mani.ai" />
@@ -526,14 +526,15 @@
 
     <div class="toast" data-toast role="status" aria-live="polite"></div>
     <a class="mobile-sticky-cta" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="mobile-sticky">Занять место среди первых 1000</a>
-    <div class="cookie-banner" data-cookie-banner hidden>
-      <strong>Cookie без сюрпризов</strong>
-      <p>Необходимые cookie нужны для работы сайта и формы. Аналитику подключим только с разрешения. Подробнее — <a href="/cookie">в политике cookie</a>.</p>
+    <div class="cookie-banner" data-cookie-banner role="dialog" aria-modal="true" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-description" hidden>
+      <span class="cookie-icon" aria-hidden="true">🍪</span>
+      <strong id="cookie-consent-title">Cookie без сюрпризов</strong>
+      <p id="cookie-consent-description">Необходимые cookie нужны для работы сайта и формы. Аналитику подключим только с разрешения. Подробнее — <a href="/cookie" target="_blank" rel="noopener">в политике cookie</a>.</p>
       <div class="cookie-actions"><button type="button" data-cookie-accept>Принять аналитику</button><button type="button" data-cookie-reject>Только необходимые</button></div>
     </div>
     <script src="analytics-client.js?v=20260728-first-party-1"></script>
     <script src="product-config.js?v=20260727-prelaunch-1"></script>
     <script src="product-status.js?v=20260727-prelaunch-1"></script>
-    <script src="script.js?v=20260805-contact-form-1"></script>
+    <script src="script.js?v=20260806-cookie-gate-1"></script>
   </body>
 </html>

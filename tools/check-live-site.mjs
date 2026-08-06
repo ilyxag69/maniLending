@@ -26,7 +26,7 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
-  assert(body.includes("script.js?v=20260805-contact-form-1"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20260806-cookie-gate-1"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260727-prelaunch-1"), "Expected product config is missing");
   assert(body.includes("newmani.css?v=20260728-copy-feedback-1"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
@@ -120,6 +120,8 @@ check("analytics tags exist", async () => {
   assert(body.includes("G-P6TDY2N5FK"), "GA4 id missing");
   assert(body.includes("103776176"), "Yandex Metrica id missing");
   assert(body.includes("data-cookie-banner"), "Cookie consent banner missing");
+  assert(body.includes('class="nm-page cookie-consent-pending"'), "Cookie gate must lock the initial page");
+  assert(body.includes('aria-modal="true"'), "Cookie gate modal semantics are missing");
   assert(!body.includes("googletagmanager.com/gtag/js"), "GA4 loads before cookie consent");
   assert(!body.includes("mc.yandex.ru/watch/103776176"), "Yandex noscript loads before cookie consent");
 });

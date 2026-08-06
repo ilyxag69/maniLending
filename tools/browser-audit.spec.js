@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test.use({
   channel: "chrome",
-  baseURL: "http://127.0.0.1:4179",
+  baseURL: process.env.SITE_URL || "http://127.0.0.1:4179",
 });
 
 const successPayload = {
@@ -36,15 +36,62 @@ async function mockWaitlist(page, onPost = () => {}) {
 }
 
 async function submitWaitlist(page) {
+  const cookieChoice = page.locator("[data-cookie-reject]");
+  if (await cookieChoice.isVisible()) await cookieChoice.click();
   await page.locator("[data-open-waitlist]").first().click();
   await page.locator("[name=phoneDisplay]").fill("9013696977");
-  await page.locator("[name=pdnConsent]").check();
+  await page.locator("[data-waitlist-form] [name=pdnConsent]").check();
   await page.locator("[data-waitlist-form] button[type=submit]").click();
   await expect(page.locator("#waitlist-dialog")).toHaveClass(/is-success/);
   await expect(page.locator("[data-waitlist-form]")).toBeHidden();
   await expect(page.locator("[data-waitlist-success]")).toBeVisible();
   await expect(page.locator("[data-waitlist-success]")).toContainText("№410");
 }
+
+test("cookie gate blocks the page and fits desktop and mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const banner = page.locator("[data-cookie-banner]");
+  await expect(banner).toBeVisible();
+  await expect(page.locator("body")).toHaveClass(/cookie-consent-pending/);
+  expect(await page.locator("main").evaluate((element) => element.inert)).toBe(true);
+  const desktopState = await page.evaluate(() => ({
+    overflow: getComputedStyle(document.body).overflow,
+    overlay: getComputedStyle(document.body, "::before").backgroundColor,
+  }));
+  expect(desktopState.overflow).toBe("hidden");
+  expect(desktopState.overlay).not.toBe("rgba(0, 0, 0, 0)");
+  await page.mouse.wheel(0, 900);
+  await page.waitForTimeout(100);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await page.locator("[data-cookie-accept]").click();
+  await expect(banner).toBeHidden();
+  await expect(page.locator("body")).not.toHaveClass(/cookie-consent-pending/);
+  expect(await page.locator("main").evaluate((element) => element.inert)).toBe(false);
+
+  await page.evaluate(() => localStorage.removeItem("maniCookieConsent"));
+  await page.setViewportSize({ width: 360, height: 640 });
+  await page.reload();
+  await expect(banner).toBeVisible();
+  const box = await banner.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.y).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(360);
+  expect(box.y + box.height).toBeLessThanOrEqual(640);
+  await page.locator("[data-cookie-reject]").click();
+  await expect(banner).toBeHidden();
+  expect(await page.evaluate(() => localStorage.getItem("maniCookieConsent"))).toBe("necessary");
+});
+
+test("local preview reset clears saved cookie consent", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => localStorage.setItem("maniCookieConsent", "accepted"));
+  await page.goto("/?cookie-preview=reset");
+  await expect(page.locator("[data-cookie-banner]")).toBeVisible();
+  expect(await page.evaluate(() => localStorage.getItem("maniCookieConsent"))).toBeNull();
+  expect(new URL(page.url()).searchParams.has("cookie-preview")).toBe(false);
+});
 
 test("mobile pages have no horizontal overflow or page errors", async ({ page }) => {
   const errors = [];
