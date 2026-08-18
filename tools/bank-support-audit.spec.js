@@ -34,11 +34,15 @@ test.describe("bank connection support", () => {
     await page.keyboard.press("Escape"); await expect(menu).toHaveAttribute("aria-expanded", "false");
   });
 
-  for (const width of [320, 375, 768, 1440]) {
+  for (const width of [320, 360, 375, 600, 768, 1024, 1440]) {
     test(`has no horizontal overflow at ${width}px`, async ({ page }) => {
       await page.setViewportSize({width,height:900}); await page.goto("http://127.0.0.1:4179/support/bank-connection");
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(overflow).toBeLessThanOrEqual(1);
+      const aggressiveWraps = await page.evaluate(() => [...document.querySelectorAll("main h1,main h2,main h3,main h4,main p,main li,main a,main button,main label,main dd")].filter((element) => {
+        const style = getComputedStyle(element); return style.wordBreak === "break-all" || style.overflowWrap === "anywhere";
+      }).length);
+      expect(aggressiveWraps).toBe(0);
       if (width <= 375) {
         const layout = await page.evaluate(() => {
           const copy = document.querySelector(".bs-hero-copy").getBoundingClientRect();
@@ -52,6 +56,22 @@ test.describe("bank connection support", () => {
         expect(layout.overlap).toBe(0); expect(layout.escaped).toEqual([]);
         if (width === 320) await page.screenshot({path:"test-results/bank-support-mobile-320.png",fullPage:true});
       }
+    });
+  }
+
+  for (const width of [320, 375, 600, 768, 1024, 1440]) {
+    test(`FAQ bank support path fits at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({width,height:900}); await page.goto("http://127.0.0.1:4179/faq");
+      await expect(page.locator("a[href='/support/bank-connection']").first()).toBeVisible();
+      const audit = await page.evaluate(() => ({
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        headerGap: Math.round(document.querySelector(".fp-page").getBoundingClientRect().top - document.querySelector(".nm-header").getBoundingClientRect().bottom),
+        aggressive: [...document.querySelectorAll("main h1,main h2,main h3,main p,main summary,main a")].filter((element) => {
+          const style=getComputedStyle(element); return style.wordBreak === "break-all" || style.overflowWrap === "anywhere";
+        }).length,
+      }));
+      expect(audit.overflow).toBe(0); expect(audit.aggressive).toBe(0); expect(audit.headerGap).toBeGreaterThanOrEqual(4);
+      if (width === 320) await page.screenshot({path:"test-results/faq-bank-support-mobile-320.png",fullPage:true});
     });
   }
 
