@@ -2933,3 +2933,15 @@ body.cookie-consent-pending::before {
 @media (prefers-reduced-motion: reduce) {
   .cookie-actions button { transition: none; }
 }
+
+/* The primary waitlist CTA is intentionally text-only and optically centered. */
+.nm-header-cta,
+.nm-hero-primary,
+.nm-final-card .nm-button-large,
+.mtd-cta,
+.mobile-sticky-cta,
+[data-product-form-submit] {
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
