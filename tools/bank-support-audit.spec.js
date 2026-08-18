@@ -75,6 +75,36 @@ test.describe("bank connection support", () => {
     });
   }
 
+  for (const path of ["/", "/faq", "/bezopasnost", "/support/bank-connection", "/privacy", "/cookie", "/soglasie"]) {
+    test(`shared header and footer are complete on ${path}`, async ({ page }) => {
+      await page.setViewportSize({width: 1440, height: 900});
+      await page.goto(`http://127.0.0.1:4179${path}`);
+      await expect(page.locator("header.nm-header")).toHaveCount(1);
+      await expect(page.locator("footer.nm-footer")).toHaveCount(1);
+      await expect(page.locator("header.nm-header .nm-logo img")).toHaveAttribute("alt", "Mani.ai");
+      await expect(page.locator("header.nm-header .nm-nav a")).toHaveCount(6);
+      await expect(page.locator("header.nm-header .nm-nav")).toContainText("Контакты");
+      await expect(page.locator("footer.nm-footer nav").first()).toContainText("Контакты");
+      await expect(page.locator("footer.nm-footer nav").nth(1)).toContainText("Согласие");
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(overflow).toBeLessThanOrEqual(1);
+    });
+
+    test(`shared mobile chrome fits on ${path}`, async ({ page }) => {
+      await page.setViewportSize({width: 320, height: 800});
+      await page.goto(`http://127.0.0.1:4179${path}`);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(overflow).toBeLessThanOrEqual(1);
+      const cookieAccept = page.locator("[data-cookie-accept]");
+      if (await cookieAccept.isVisible()) await cookieAccept.click();
+      const menu = page.locator(".nm-menu");
+      await menu.click();
+      await expect(menu).toHaveAttribute("aria-expanded", "true");
+      await expect(page.locator(".nm-mobile-menu")).toBeVisible();
+      await expect(page.locator(".nm-mobile-menu")).toContainText("Контакты");
+    });
+  }
+
   test("core guidance remains with JavaScript disabled", async ({ browser }) => {
     const context = await browser.newContext({javaScriptEnabled:false}); const page = await context.newPage();
     await page.goto("http://127.0.0.1:4179/support/bank-connection");

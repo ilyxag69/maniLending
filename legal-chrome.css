@@ -1,0 +1,47 @@
+/* Keeps legal documents inside the same site chrome as every public Mani.ai page. */
+body.nm-page .legal-page {
+  width: min(920px, calc(100% - 32px));
+  margin: 120px auto 0;
+  padding: 32px 0 56px;
+}
+
+body.nm-page .nm-header.header {
+  margin-bottom: 0;
+}
+
+body.nm-page .nm-header .nm-logo,
+body.nm-page .nm-footer .nm-footer-brand img {
+  width: auto;
+}
+
+body.nm-page .legal-page main {
+  padding: 42px;
+}
+
+body.nm-page .legal-page h1 {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+body.nm-page .nm-footer a {
+  color: inherit;
+}
+
+body.nm-page .nm-footer p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  body.nm-page .legal-page { margin-top: 90px; }
+}
+
+@media (max-width: 640px) {
+  body.nm-page .legal-page {
+    width: min(calc(100% - 24px), 920px);
+    margin-top: 82px;
+    padding-top: 20px;
+  }
+
+  body.nm-page .legal-page main { padding: 28px 22px; }
+}
