@@ -104,13 +104,18 @@ test.describe("bank connection support", () => {
       await page.goto(`http://127.0.0.1:4179${path}`);
       await expect(page.locator("header.nm-header")).toHaveCount(1);
       await expect(page.locator("footer.nm-footer")).toHaveCount(1);
-      await expect(page.locator("header.nm-header .nm-logo img")).toHaveAttribute("alt", "Mani.ai");
+      await expect(page.locator("header.nm-header .nm-logo img")).toHaveAttribute("alt", "mani");
       await expect(page.locator("header.nm-header .nm-nav a")).toHaveCount(6);
       await expect(page.locator("header.nm-header .nm-nav")).toContainText("Контакты");
       await expect(page.locator("footer.nm-footer nav").first()).toContainText("Контакты");
       await expect(page.locator("footer.nm-footer nav").nth(1)).toContainText("Согласие");
-      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      expect(overflow).toBeLessThanOrEqual(1);
+      const chromeAudit = await page.evaluate(() => {
+        const header = document.querySelector("header.nm-header").getBoundingClientRect();
+        const logo = document.querySelector("header.nm-header img[data-brand-logo]").getBoundingClientRect();
+        return {overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,logoInside:logo.top>=header.top-1&&logo.bottom<=header.bottom+1};
+      });
+      expect(chromeAudit.overflow).toBeLessThanOrEqual(1);
+      expect(chromeAudit.logoInside).toBe(true);
     });
 
     test(`shared mobile chrome fits on ${path}`, async ({ page }) => {
@@ -125,6 +130,18 @@ test.describe("bank connection support", () => {
       await expect(menu).toHaveAttribute("aria-expanded", "true");
       await expect(page.locator(".nm-mobile-menu")).toBeVisible();
       await expect(page.locator(".nm-mobile-menu")).toContainText("Контакты");
+    });
+  }
+
+  for (const variant of ["black", "orange", "blue"]) {
+    test(`brand logo session variant ${variant} is coherent`, async ({ page }) => {
+      await page.goto("http://127.0.0.1:4179/faq");
+      await page.evaluate((value) => sessionStorage.setItem("maniBrandLogoVariantV1", value), variant);
+      await page.reload();
+      await expect(page.locator("html")).toHaveAttribute("data-mani-logo", variant);
+      const sources = await page.locator("img[data-brand-logo]").evaluateAll((images) => images.map((image) => image.getAttribute("src")));
+      expect(sources.length).toBeGreaterThanOrEqual(2);
+      expect(new Set(sources)).toEqual(new Set([`/assets/brand/mani-${variant}.png`]));
     });
   }
 

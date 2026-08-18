@@ -72,7 +72,7 @@ if (!$sessionAuthenticated && !$headerAuthenticated) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Вход в админку Mani.ai</title>
+        <title>Вход в админку mani</title>
         <style>
           * { box-sizing: border-box; }
           body { min-height: 100vh; display: grid; place-items: center; margin: 0; padding: 20px; background: #f5f8fc; color: #101a2d; font-family: Inter, Arial, sans-serif; }
@@ -88,7 +88,7 @@ if (!$sessionAuthenticated && !$headerAuthenticated) {
       </head>
       <body>
         <main>
-          <h1>Админка Mani.ai</h1>
+          <h1>Админка mani</h1>
           <p>Введи пароль администратора, чтобы открыть список заявок.</p>
           <form method="post" action="/api/waitlist-admin.php">
             <input type="hidden" name="loginCsrf" value="<?= htmlspecialchars($loginCsrf, ENT_QUOTES) ?>" />
@@ -256,7 +256,7 @@ header('Content-Type: text/html; charset=utf-8');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mani.ai waitlist admin</title>
+    <title>mani waitlist admin</title>
     <style>
       body { margin: 24px; color: #222329; font-family: Inter, Arial, sans-serif; }
       .top { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 18px; }

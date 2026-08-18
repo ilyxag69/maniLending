@@ -113,7 +113,7 @@ function currentDiagnostic() {
 }
 
 function refreshDiagnostic() {
-  const dl=$("[data-diagnostic-preview] dl"); dl.replaceChildren(); const labels={incidentId:"Инцидент",bankSlug:"Банк",platform:"Платформа",appVersion:"Версия Mani",occurredAt:"Время",normalizedErrorCode:"Код ошибки",updateStage:"Этап",source:"Источник",timezone:"Часовой пояс"};
+  const dl=$("[data-diagnostic-preview] dl"); dl.replaceChildren(); const labels={incidentId:"Инцидент",bankSlug:"Банк",platform:"Платформа",appVersion:"Версия mani",occurredAt:"Время",normalizedErrorCode:"Код ошибки",updateStage:"Этап",source:"Источник",timezone:"Часовой пояс"};
   Object.entries(currentDiagnostic()).forEach(([key,value])=>{const dt=document.createElement("dt");dt.textContent=labels[key]||key;const dd=document.createElement("dd");dd.textContent=String(value);dl.append(dt,dd);});
 }
 

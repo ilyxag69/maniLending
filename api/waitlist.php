@@ -181,7 +181,7 @@ function normalizeStoredPhone(string $value): string {
 }
 
 function queueStatus(int $position): string {
-    if ($position <= 100) return 'Mani inner circle';
+    if ($position <= 100) return 'mani inner circle';
     if ($position <= 305) return 'Closed beta wave';
     if ($position <= 500) return 'Early crew';
     if ($position <= 750) return 'Ahead of hype';

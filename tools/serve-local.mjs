@@ -120,7 +120,7 @@ function isRateLimited(key) {
 }
 
 function getQueueStatus(position) {
-  if (position <= 100) return "Mani inner circle";
+  if (position <= 100) return "mani inner circle";
   if (position <= 305) return "Closed beta wave";
   if (position <= 500) return "Early crew";
   if (position <= 750) return "Ahead of hype";
@@ -277,7 +277,7 @@ createServer(async (request, response) => {
       ? readFileSync(analyticsFile, "utf8").split("\n").filter(Boolean).map((line) => JSON.parse(line))
       : [];
     const count = (name) => events.filter((event) => event.name === name).length;
-    const html = `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Аналитика Mani.ai</title>
+    const html = `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Аналитика mani</title>
       <style>body{margin:24px;font-family:Arial,sans-serif;color:#101a2d}section{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}div{padding:20px;border:1px solid #dde6f2;border-radius:14px}strong{display:block;font-size:30px;margin-top:8px}@media(max-width:700px){section{grid-template-columns:1fr 1fr}}</style></head>
       <body><h1>Локальная аналитика</h1><section><div>Просмотры<strong>${count("page_view")}</strong></div><div>CTA<strong>${count("cta_click")}</strong></div><div>Форма<strong>${count("waitlist_form_open")}</strong></div><div>Заявки<strong>${count("waitlist_success")}</strong></div></section></body></html>`;
     response.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
@@ -324,7 +324,7 @@ createServer(async (request, response) => {
     `).join("");
     const html = `<!doctype html>
       <html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Mani.ai waitlist admin</title>
+      <title>mani waitlist admin</title>
       <style>body{font-family:Inter,Arial,sans-serif;margin:24px;color:#222}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #eee;padding:10px;text-align:left;vertical-align:top}th{background:#f4f4f6}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:16px}.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}input{min-height:38px;border:1px solid #ddd;border-radius:10px;padding:0 10px}button,.btn{min-height:38px;border:0;border-radius:10px;background:#fa5d27;color:#fff;padding:0 12px;font-weight:800;text-decoration:none;cursor:pointer}.btn.secondary{background:#f4f4f6;color:#222}a{color:#fa5d27}</style>
       </head><body><div class="top"><h1>Waitlist: ${submissions.length}${query ? ` / found ${visibleSubmissions.length}` : ""}</h1><div class="tools"><form method="get"><input name="q" value="${escapeHtml(query)}" placeholder="Search phone, email, code" /><button>Search</button></form><a class="btn secondary" href="/admin/waitlist">Reset</a><a class="btn secondary" href="/api/waitlist-export">JSONL</a><a class="btn secondary" href="/api/waitlist-export?format=csv">CSV</a></div></div>
       <table><thead><tr><th>Место</th><th>Телефон</th><th>Email</th><th>Комментарий / канал связи</th><th>Заголовок</th><th>Согласие</th><th>Версия согласия</th><th>Код</th><th>Пригласил</th><th>Дата</th><th></th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
@@ -568,5 +568,5 @@ createServer(async (request, response) => {
 
   createReadStream(filePath).pipe(response);
 }).listen(port, "127.0.0.1", () => {
-  console.log(`Local Mani.ai server: http://127.0.0.1:${port}`);
+  console.log(`Local mani server: http://127.0.0.1:${port}`);
 });

@@ -2945,3 +2945,15 @@ body.cookie-consent-pending::before {
   gap: 0;
   text-align: center;
 }
+
+/* One coherent wordmark color is selected per browser session. */
+img[data-brand-logo] {
+  display: block;
+  width: 150px;
+  height: auto;
+  aspect-ratio: 626 / 213;
+  object-fit: contain;
+}
+html[data-mani-logo="black"] img[data-brand-logo] { content: url("/assets/brand/mani-black.png"); }
+html[data-mani-logo="orange"] img[data-brand-logo] { content: url("/assets/brand/mani-orange.png"); }
+html[data-mani-logo="blue"] img[data-brand-logo] { content: url("/assets/brand/mani-blue.png"); }

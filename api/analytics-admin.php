@@ -234,7 +234,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Аналитика Mani.ai</title>
+  <title>Аналитика mani</title>
   <style>
     *{box-sizing:border-box}body{margin:0;padding:24px;background:#f5f8fc;color:#101a2d;font-family:Inter,Arial,sans-serif}
     header{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
@@ -251,7 +251,7 @@ header('Content-Type: text/html; charset=utf-8');
 </head>
 <body>
   <header>
-    <div><h1>Аналитика Mani.ai</h1><div class="note">Период: <?= analyticsH($startMoscow->format('d.m.Y')) ?> — <?= analyticsH($nowMoscow->format('d.m.Y H:i')) ?> МСК</div></div>
+    <div><h1>Аналитика mani</h1><div class="note">Период: <?= analyticsH($startMoscow->format('d.m.Y')) ?> — <?= analyticsH($nowMoscow->format('d.m.Y H:i')) ?> МСК</div></div>
     <div class="nav"><a class="button" href="/api/waitlist-admin.php">Заявки</a><a class="button active" href="/api/analytics-admin.php">Аналитика</a></div>
     <div class="periods"><?php foreach ([1 => 'Сегодня', 7 => '7 дней', 30 => '30 дней'] as $days => $label): ?><a class="button <?= $period === $days ? 'active' : '' ?>" href="?period=<?= $days ?>"><?= $label ?></a><?php endforeach; ?></div>
   </header>
@@ -283,7 +283,7 @@ header('Content-Type: text/html; charset=utf-8');
     <article class="panel"><h2>Социальные переходы</h2><?php analyticsTable($social, 'Площадка', 'Переходы'); ?></article>
     <article class="panel"><h2>Реферальная механика</h2><?php analyticsTable($referral, 'Действие', 'Количество'); ?></article>
     <article class="panel"><h2>Тест-драйв</h2><?php analyticsTable($calculator, 'Этап', 'Сессии'); ?><p class="note">Финансовые суммы не сохраняются.</p></article>
-    <article class="panel"><h2>Режим Mani</h2><?php analyticsTable($tone, 'Режим', 'Выборы'); ?></article>
+    <article class="panel"><h2>Режим Мани</h2><?php analyticsTable($tone, 'Режим', 'Выборы'); ?></article>
     <article class="panel"><h2>Устройства</h2><?php analyticsTable($devices, 'Тип', 'Сессии'); ?></article>
     <article class="panel"><h2>Браузеры</h2><?php analyticsTable($browsers, 'Браузер', 'Просмотры'); ?></article>
     <article class="panel"><h2>Операционные системы</h2><?php analyticsTable($systems, 'ОС', 'Просмотры'); ?></article>

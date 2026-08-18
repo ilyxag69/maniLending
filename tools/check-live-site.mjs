@@ -25,7 +25,7 @@ function check(name, fn) {
 check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
-  assert(body.includes("Mani.ai"), "Home does not contain Mani.ai");
+  assert(body.includes("mani"), "Home does not contain mani");
   assert(body.includes("script.js?v=20260806-cookie-gate-1"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260727-prelaunch-1"), "Expected product config is missing");
   assert(body.includes("newmani.css?v=20260728-copy-feedback-1"), "Expected CSS cache-bust is missing");
@@ -98,7 +98,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
-  assert(body.includes("https://moimani.ai/og-image-v3.jpg"), "Current OG image is missing");
+  assert(body.includes("https://moimani.ai/og-image-v4.jpg"), "Current OG image is missing");
 });
 
 check("FAQ page schema exists", async () => {
@@ -156,7 +156,7 @@ check("legal pages are current", async () => {
   for (const [page, canonical] of pages) {
     const { response, body } = await fetchText(page);
     assert(response.ok, `${page} returned ${response.status}`);
-    assert(body.includes("Mani.ai"), `${page} does not contain Mani.ai`);
+    assert(body.includes("mani"), `${page} does not contain mani`);
     assert(!body.includes("MoiMani"), `${page} still contains old MoiMani brand`);
     assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
     assert(body.includes(canonical), `${page} canonical mismatch`);
@@ -182,7 +182,7 @@ check("IndexNow key file is reachable", async () => {
 check("AI discovery file is reachable", async () => {
   const { response, body } = await fetchText("/llms.txt");
   assert(response.ok, `llms.txt returned ${response.status}`);
-  assert(body.includes("Mani.ai is an AI assistant for personal finance control"), "llms.txt summary missing");
+  assert(body.includes("mani is an AI assistant for personal finance control"), "llms.txt summary missing");
 });
 
 check("key assets are reachable", async () => {
@@ -191,7 +191,7 @@ check("key assets are reachable", async () => {
     "/assets/desktop-reasons-card.webp",
     "/assets/mobile-widgets.webp",
     "/assets/og-image.jpg",
-    "/og-image-v3.jpg",
+    "/og-image-v4.jpg",
     "/assets/newmani/hero-v1/composition/phones-mascots-alpha.png",
     "/assets/newmani/social-v1/motivator-peek-alpha.png",
     "/assets/newmani/social-v1/veselchak-peek-tight.png",

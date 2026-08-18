@@ -90,7 +90,7 @@ file_put_contents($rateFile, json_encode($rateData), LOCK_EX);
 @chmod($rateFile, 0600);
 
 $recipient = 'moimani.ai@gmail.com';
-$subjectText = 'Mani.ai: ' . $topic . ' от ' . $name;
+$subjectText = 'mani: ' . $topic . ' от ' . $name;
 $subject = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
 $safeReplyEmail = filter_var($replyTo, FILTER_VALIDATE_EMAIL) ? $replyTo : '';
 $ticketNumber = 'MANI-' . gmdate('ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
@@ -107,7 +107,7 @@ $lines = [
     $message,
 ];
 $headers = [
-    'From: Mani.ai <no-reply@moimani.ai>',
+    'From: mani <no-reply@moimani.ai>',
     'Content-Type: text/plain; charset=UTF-8',
     'MIME-Version: 1.0',
 ];

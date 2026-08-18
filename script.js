@@ -107,7 +107,7 @@ const links = {
   apple: productConfig.stores?.appStore || "",
   google: productConfig.stores?.googlePlay || "",
   rustore: productConfig.stores?.ruStore || "",
-  youtube: "https://www.youtube.com/@Mani.ai_app",
+  youtube: "https://www.youtube.com/@mani_app",
   instagram: "https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&utm_source=qr",
   telegram: "https://t.me/moi_mani_ai",
   vkvideo: "https://vkvideo.ru/@club240056458",
@@ -134,24 +134,24 @@ const tones = {
 
 const roadmapItems = [
   {
-    kicker: "Скоро в Mani.ai",
+    kicker: "Скоро в mani",
     title: "Беспроцентный период по кредиткам",
-    text: "Mani покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на тебе.",
+    text: "Мани покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на тебе.",
   },
   {
-    kicker: "Скоро в Mani.ai",
+    kicker: "Скоро в mani",
     title: "Цели и челленджи",
-    text: "Достигайте цели с игровой механикой. Mani поможет копить и поощрит за успехи.",
+    text: "Достигайте цели с игровой механикой. Мани поможет копить и поощрит за успехи.",
   },
   {
-    kicker: "Скоро в Mani.ai",
+    kicker: "Скоро в mani",
     title: "Сколько стоит моя жизнь",
-    text: "Квартиры, машины, инвестиции, крипта. Mani покажет реальную картину твоих активов и пассивов.",
+    text: "Квартиры, машины, инвестиции, крипта. Мани покажет реальную картину твоих активов и пассивов.",
   },
   {
-    kicker: "Скоро в Mani.ai",
+    kicker: "Скоро в mani",
     title: "Детальные расходы по чекам",
-    text: "Навели камеру на чек - Mani сам добавит сумму, категорию и магазин. Без ручного ввода.",
+    text: "Навели камеру на чек - Мани сам добавит сумму, категорию и магазин. Без ручного ввода.",
   },
 ];
 
@@ -159,7 +159,7 @@ const demoScenarios = {
   subscriptions: {
     status: "видит повтор 649 ₽",
     signals: ["649 ₽ каждый месяц", "13-е число", "Категория: сервис"],
-    title: "Mani показывает повторяющиеся списания",
+    title: "Мани показывает повторяющиеся списания",
     copy: "Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить.",
     main: "Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж.",
     action: "Проверить, нужен ли этот платеж. Если нет — отключение сэкономит до 7 788 ₽ в год.",
@@ -169,7 +169,7 @@ const demoScenarios = {
   leaks: {
     status: "увидел лишний темп",
     signals: ["+42% к обычному темпу", "7 мелких покупок", "2 дня до лимита"],
-    title: "Mani замечает темп, а не следит за человеком",
+    title: "Мани замечает темп, а не следит за человеком",
     copy: "Он сравнивает финансовый ритм: сколько списаний, в каких категориях и как быстро тает бюджет.",
     main: "За неделю мелкие траты выросли на 42% относительно обычного темпа.",
     action: "Поставить лимит на неделю и получить предупреждение до следующего перебора.",
@@ -180,7 +180,7 @@ const demoScenarios = {
     status: "собрал план",
     signals: ["9 дней до зарплаты", "1 850 ₽ в день", "3 категории в риске"],
     title: "Бюджет становится понятным без таблиц",
-    copy: "Mani переводит хаос по картам в простые действия: сколько можно тратить и где стоит притормозить.",
+    copy: "Мани переводит хаос по картам в простые действия: сколько можно тратить и где стоит притормозить.",
     main: "До зарплаты 9 дней. В безопасном темпе можно тратить 1 850 ₽ в день.",
     action: "Разложить лимиты по категориям и предупредить, если день пошёл не по плану.",
     label: "Безопасный лимит",
@@ -226,7 +226,7 @@ if (contactForm) {
     };
     submitButton.disabled = true;
     submitButton.querySelector("span").textContent = "Отправляем…";
-    result.textContent = "Сигнал летит в команду Mani.ai…";
+    result.textContent = "Сигнал летит в команду mani…";
 
     try {
       const response = await fetch("/api/contact", {
@@ -447,7 +447,7 @@ function initHeroCopyExperiment() {
     storageSet("localStorage", heroExperimentKey, variant);
   }
   if (variant === "short") {
-    heroCopy.textContent = "Все счета, расходы и подписки в одном месте. Mani показывает, куда уходят деньги, предупреждает о рисках и помогает разобраться в чате.";
+    heroCopy.textContent = "Все счета, расходы и подписки в одном месте. Мани показывает, куда уходят деньги, предупреждает о рисках и помогает разобраться в чате.";
   }
   document.documentElement.dataset.heroCopyVariant = variant;
   trackEvent("experiment_view", { experiment: "hero_copy_v1", variant });
@@ -648,7 +648,7 @@ function updateWaitlistStats(stats = waitlistStats) {
       node.textContent = showNumbers
         ? (isZeroState
           ? "Очередь только открылась. Успей занять место до публичного запуска."
-          : `${waitlistStats.registered.toLocaleString("ru-RU")} человек уже ждут запуск Mani.ai.`)
+          : `${waitlistStats.registered.toLocaleString("ru-RU")} человек уже ждут запуск mani.`)
         : "Сколько осталось и на каком ты месте, покажем после заявки.";
     });
     block.querySelectorAll("[data-waitlist-cta-title]").forEach((node) => {
@@ -700,8 +700,8 @@ function invitePhrase(value) {
 
 function getQueueStatusPresentation(status, priorityPosition) {
   const statuses = {
-    "Mani inner circle": {
-      label: "Ядро Mani",
+    "mani inner circle": {
+      label: "Ядро mani",
       description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
     },
     "Closed beta wave": {
@@ -729,7 +729,7 @@ function getQueueStatusPresentation(status, priorityPosition) {
       description: "Основная тысяча заполнена, но приглашения всё ещё улучшают приоритет.",
     },
     "Founding users": {
-      label: "Ядро Mani",
+      label: "Ядро mani",
       description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
     },
     "Last free access": {
@@ -742,7 +742,7 @@ function getQueueStatusPresentation(status, priorityPosition) {
     { above: 750, target: 750, label: "В деле до хайпа" },
     { above: 500, target: 500, label: "Ранний экипаж" },
     { above: 305, target: 305, label: "Закрытая волна" },
-    { above: 100, target: 100, label: "Ядро Mani" },
+    { above: 100, target: 100, label: "Ядро mani" },
   ];
   const presentation = statuses[status] || {
     label: "Ранний доступ",
@@ -752,7 +752,7 @@ function getQueueStatusPresentation(status, priorityPosition) {
   if (!next) {
     return {
       ...presentation,
-      motivation: "Ты уже в ядре Mani. Выше только знакомство с командой.",
+      motivation: "Ты уже в ядре mani. Выше только знакомство с командой.",
     };
   }
   const needed = priorityPosition - next.target;
@@ -792,7 +792,7 @@ function renderWaitlistSuccess(success, data) {
     <div class="waitlist-referral"><span>Твоя ссылка</span><code>${escapeHtml(referralUrl)}</code></div>
     <div class="waitlist-share-actions">
       <button type="button" data-referral-copy data-referral-url="${escapeHtml(referralUrl)}">Скопировать ссылку</button>
-      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Занимай место в раннем доступе Mani.ai вместе со мной")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
+      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Занимай место в раннем доступе mani вместе со мной")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
       <button type="button" data-referral-share data-referral-url="${escapeHtml(referralUrl)}">Поделиться</button>
       <button type="button" data-referral-card data-referral-url="${escapeHtml(referralUrl)}" data-referral-position="${position}">Скачать карточку</button>
     </div>
@@ -976,7 +976,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
   context.shadowBlur = 0;
 
   const [logo, mascot] = await Promise.all([
-    loadCanvasImage("assets/logo.svg"),
+    loadCanvasImage("assets/brand/mani-black.png"),
     loadCanvasImage(mode === "jester" ? "assets/newmani/interactive/jester.webp" : "assets/newmani/interactive/motivator.webp"),
   ]);
   drawContainedImage(context, logo, 105, 105, 300, 86);
@@ -991,12 +991,12 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
     context.fillText(`${new Intl.NumberFormat("ru-RU").format(annualLoss)} ₽`, 110, 735);
     context.fillStyle = "#5d6b86";
     context.font = "500 33px Manrope, Arial, sans-serif";
-    context.fillText("Расчёт тест-драйва Mani.ai", 112, 795);
+    context.fillText("Расчёт тест-драйва mani", 112, 795);
     context.fillStyle = "#071632";
     context.font = "700 46px Manrope, Arial, sans-serif";
     drawWrappedText(context, "А сколько убегает у тебя?", 110, 950, 760, 58, 2);
   } else {
-    drawWrappedText(context, `Я в очереди Mani.ai под номером №${position}`, 110, 350, 520, 74, 4);
+    drawWrappedText(context, `Я в очереди mani под номером №${position}`, 110, 350, 520, 74, 4);
     context.fillStyle = "#ff5a00";
     context.font = "750 68px Manrope, Arial, sans-serif";
     context.fillText("Присоединяйся", 110, 790);
@@ -1010,7 +1010,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
   context.fillStyle = "#ffffff";
   context.font = "700 38px Manrope, Arial, sans-serif";
   context.textAlign = "center";
-  context.fillText(type === "calculator" ? "Пройди тест-драйв на MoiMani.ai" : "Займи место на MoiMani.ai", 540, 1152);
+  context.fillText(type === "calculator" ? "Пройди тест-драйв на Moimani" : "Займи место на Moimani", 540, 1152);
   context.textAlign = "left";
   context.fillStyle = "#64728b";
   context.font = "500 24px Manrope, Arial, sans-serif";
@@ -1039,7 +1039,7 @@ async function shareCanvasCard(canvas, filename, text, url) {
   const file = new File([blob], filename, { type: "image/png" });
   if (navigator.share && navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], title: "Mani.ai", text, url });
+      await navigator.share({ files: [file], title: "mani", text, url });
       return true;
     } catch (error) {
       if (error?.name === "AbortError") return null;
@@ -1125,7 +1125,7 @@ document.addEventListener("click", async (event) => {
     const url = shareButton.dataset.referralUrl;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Mani.ai", text: "Занимай место в раннем доступе Mani.ai вместе со мной", url });
+        await navigator.share({ title: "mani", text: "Занимай место в раннем доступе mani вместе со мной", url });
         trackEvent("referral_share", { share_target: "web_share" });
       } catch (error) {
         if (error?.name !== "AbortError" && await copyText(url)) {
@@ -1249,7 +1249,7 @@ function updateLeakCalculator() {
   const note = document.querySelector("[data-calc-note]");
   if (note) {
     if (subscriptions === 0 && leaks === 0) {
-      note.textContent = "Если нет ни подписок, ни лишних мелких трат, расчет честно показывает 0. Mani всё равно полезен для контроля темпа и предупреждений.";
+      note.textContent = "Если нет ни подписок, ни лишних мелких трат, расчет честно показывает 0. mani всё равно полезен для контроля темпа и предупреждений.";
     } else if (subscriptions === 0) {
       note.textContent = `Подписок нет, считаем только мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽ в год.`;
     } else if (leaks === 0) {
@@ -1678,7 +1678,7 @@ document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
     mascot.src = mascotMode === "jester"
       ? "assets/newmani/interactive/jester.webp"
       : "assets/newmani/interactive/motivator.webp";
-    mascot.alt = mascotMode === "jester" ? "Весельчак Mani" : "Мотиватор Mani";
+    mascot.alt = mascotMode === "jester" ? "Весельчак Мани" : "Мотиватор Мани";
     root.classList.toggle("is-motivator", mascotMode === "motivator");
     modeButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.mtdMode === mascotMode));
     setRangeFill(subscriptionsInput);

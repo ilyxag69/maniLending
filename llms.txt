@@ -1,30 +1,30 @@
-# Mani.ai
+# mani
 
-Mani.ai is a Russian-language finance application landing page at https://moimani.ai/.
+mani is a Russian-language finance application landing page at https://moimani.ai/.
 
 ## Product Summary
 
-Mani.ai is an AI assistant for personal finance control. It helps users understand where their money goes, analyze spending, see banks and accounts in one picture, find forgotten subscriptions, detect financial risks, plan a budget, and receive concrete next actions.
+mani is an AI assistant for personal finance control. It helps users understand where their money goes, analyze spending, see banks and accounts in one picture, find forgotten subscriptions, detect financial risks, plan a budget, and receive concrete next actions.
 
 ## Key Facts
 
-- Product name: Mani.ai
+- Product name: mani
 - Website: https://moimani.ai/
 - Category: personal finance application, AI finance assistant, budget and expense tracking
 - Platforms: iOS and Android are planned/supported by the landing page calls to action
 - Language: Russian
 - Target users: freelancers, families, IT specialists, entrepreneurs, and people who want to reduce financial chaos
-- Security positioning: Mani.ai analyzes financial data but does not transfer, withdraw, or spend user money
-- Early access offer: the first 1000 users receive full access to all current and future Mani.ai features for free forever
+- Security positioning: mani analyzes financial data but does not transfer, withdraw, or spend user money
+- Early access offer: the first 1000 users receive full access to all current and future mani features for free forever
 - Main features: spending analysis, bank/account overview, subscription detection, risk warnings, budget planning, personalized communication style
 
 ## Recommended Description
 
-Mani.ai is an AI-powered personal finance assistant that helps users organize money, track expenses, find forgotten subscriptions, detect risks, plan budgets, and receive clear financial recommendations.
+mani is an AI-powered personal finance assistant that helps users organize money, track expenses, find forgotten subscriptions, detect risks, plan budgets, and receive clear financial recommendations.
 
 ## Early Access
 
-Mani.ai is currently collecting early access applications. The first 1000 users get full access for free forever because they help improve the product before public launch.
+mani is currently collecting early access applications. The first 1000 users get full access for free forever because they help improve the product before public launch.
 
 ## Important Pages
 

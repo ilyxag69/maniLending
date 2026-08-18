@@ -66,11 +66,21 @@ try {
     readFile(join(root, "robots.txt"), "utf8"),
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
+  const publicPages = await Promise.all(
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html"]
+      .map((file) => readFile(join(root, file), "utf8"))
+  );
+  const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
+  const brandLogoScript = await readFile(join(root, "brand-logo.js"), "utf8");
 
   check(config.includes('status: "waitlist"'), "product status has one explicit source");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
-  check(html.includes("Mani.ai — деньги под контролем"), "SEO positioning is explicit");
-  check(html.includes("https://moimani.ai/og-image-v3.jpg"), "current OG image is explicit");
+  check(html.includes("mani — деньги под контролем"), "SEO positioning is explicit");
+  check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
+  check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
+  check(publicPages.every((page) => page.includes("data-brand-logo") && page.includes("brand-logo.js")), "all public pages use the shared brand logo");
+  check(brandLogoScript.includes('random < 0.5 ? "black"') && brandLogoScript.includes('random < 0.8 ? "orange" : "blue"'), "brand logo uses the approved session weighting");
+  check(html.includes("https://moimani.ai/og-image-v4.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(script.includes("hero_headline_v1") && script.includes('Math.random() < 0.5 ? "chaos" : "order"'), "hero headline experiment is randomized on every load");
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
