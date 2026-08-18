@@ -34,6 +34,7 @@ function resolvePath(urlPath) {
   if (urlPath === "/cookie") return "cookie.html";
   if (urlPath === "/bezopasnost") return "bezopasnost.html";
   if (urlPath === "/faq") return "faq.html";
+  if (urlPath === "/support/bank-connection" || urlPath === "/support/bank-connection/") return "bank-connection.html";
   if (urlPath === "/soglasie") return "soglasie.html";
   return urlPath.replace(/^\/+/, "");
 }
@@ -244,6 +245,10 @@ createServer(async (request, response) => {
         "referral_visit", "referral_signup", "referral_link_created", "referral_share",
         "calculator_view", "calculator_start", "calculator_complete", "calculator_share",
         "leak_calculator_change", "cookie_consent", "web_vital", "js_error", "api_error",
+        "bank_support_opened", "bank_support_issue_opened", "bank_support_search_used",
+        "bank_support_diagnostic_started", "bank_support_recommendation_shown",
+        "bank_support_contact_clicked", "bank_support_copy_link", "bank_support_feedback",
+        "unknown_support_error",
       ]);
       const clean = events.filter((event) => event && allowed.has(event.name)).map((event) => ({
         ...Object.fromEntries(Object.entries(event).filter(([key]) => [
@@ -252,7 +257,8 @@ createServer(async (request, response) => {
           "term", "hero_copy_variant", "hero_headline_variant", "cta_location",
           "section", "network", "tone", "control", "field", "action", "share_target",
           "target", "error_type", "status_code", "metric_name", "metric_value",
-          "ref_present", "duplicate", "experiment", "variant",
+          "ref_present", "duplicate", "experiment", "variant", "issue_code", "category",
+          "bank_slug", "platform", "app_version",
         ].includes(key))),
         received_at: new Date().toISOString(),
       }));

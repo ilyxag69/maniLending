@@ -12,6 +12,7 @@
     "content", "term", "cta_location", "section", "network", "tone", "control",
     "field", "action", "share_target", "target", "error_type", "status_code",
     "metric_name", "metric_value", "ref_present", "duplicate", "experiment", "variant",
+    "issue_code", "category", "bank_slug", "platform", "app_version",
   ]);
   const queue = [];
   let flushTimer = 0;
