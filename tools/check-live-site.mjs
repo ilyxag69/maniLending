@@ -28,7 +28,7 @@ check("home page loads", async () => {
   assert(body.includes("mani"), "Home does not contain mani");
   assert(body.includes("script.js?v=20260806-cookie-gate-1"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260727-prelaunch-1"), "Expected product config is missing");
-  assert(body.includes("newmani.css?v=20260728-copy-feedback-1"), "Expected CSS cache-bust is missing");
+  assert(body.includes("newmani.css?v=20260818-brand-1"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-contact-form"), "Contact form is missing from home page");
