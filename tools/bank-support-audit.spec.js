@@ -34,6 +34,22 @@ test.describe("bank connection support", () => {
     await page.keyboard.press("Escape"); await expect(menu).toHaveAttribute("aria-expanded", "false");
   });
 
+  test("support form only requires reply contact and consent, then shows ticket", async ({ page }) => {
+    await page.route("**/api/contact", (route) => route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,ticket:"MANI-260818-A1B2C3"})}));
+    await page.goto("http://127.0.0.1:4179/support/bank-connection#contact-support");
+    await expect(page.locator("[data-support-form] [required]")).toHaveCount(2);
+    await page.locator("[name=replyTo]").fill("@eto_mani");
+    await page.locator("[name=diagnosticConsent]").check();
+    await page.locator("[data-support-form]").evaluate((form) => form.requestSubmit());
+    await expect(page.locator("[data-support-fields]")).toBeHidden();
+    await expect(page.locator("[data-support-success]")).toBeVisible();
+    await expect(page.locator("[data-support-ticket]")).toHaveText("MANI-260818-A1B2C3");
+    await page.locator("[data-support-success]").screenshot({path:"test-results/bank-support-success.png"});
+    await page.locator("[data-support-new]").click();
+    await expect(page.locator("[data-support-fields]")).toBeVisible();
+    await expect(page.locator("[name=replyTo]")).toBeFocused();
+  });
+
   for (const width of [320, 360, 375, 600, 768, 1024, 1440]) {
     test(`has no horizontal overflow at ${width}px`, async ({ page }) => {
       await page.setViewportSize({width,height:900}); await page.goto("http://127.0.0.1:4179/support/bank-connection");
@@ -43,6 +59,8 @@ test.describe("bank connection support", () => {
         const style = getComputedStyle(element); return style.wordBreak === "break-all" || style.overflowWrap === "anywhere";
       }).length);
       expect(aggressiveWraps).toBe(0);
+      const contactTitleLines = await page.locator("#contact-title").evaluate((element) => element.getBoundingClientRect().height / parseFloat(getComputedStyle(element).lineHeight));
+      expect(contactTitleLines).toBeLessThan(2.2);
       if (width <= 375) {
         const layout = await page.evaluate(() => {
           const copy = document.querySelector(".bs-hero-copy").getBoundingClientRect();

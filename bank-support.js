@@ -118,10 +118,28 @@ function refreshDiagnostic() {
 }
 
 function setupForm() {
-  const form=$("[data-support-form]"); ["bank","stage","occurredAt"].forEach((name)=>form.elements[name]?.addEventListener("change",refreshDiagnostic));
-  const select=form.elements.bank; banks.forEach((label,value)=>{const option=document.createElement("option");option.value=value;option.textContent=label;select.append(option);}); if(bankSlug)select.value=bankSlug; refreshDiagnostic();
+  const form=$("[data-support-form]"); const fields=$("[data-support-fields]"); const success=$("[data-support-success]"); const result=$("[data-support-result]"); const submit=form.querySelector(".bs-submit"); refreshDiagnostic();
   $("[data-support-telegram]").addEventListener("click",()=>track("bank_support_contact_clicked",{action:"telegram"}));
-  form.addEventListener("submit", async(event)=>{ event.preventDefault(); const result=$("[data-support-result]"); const description=form.elements.description.value.trim(); const sensitive=/(?:\d[ -]?){13,19}|(?:парол|смс.?код|sms.?code|cvv|cvc|pin)/i.test(description); if(sensitive){result.textContent="Удалите из описания пароли, коды и полные реквизиты карты или счёта.";return;} if(!form.reportValidity())return; const diagnostic=currentDiagnostic(); const message=[description,"","Безопасная диагностика:",JSON.stringify(diagnostic,null,2)].join("\n"); result.textContent="Отправляем…"; try{const response=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:"Поддержка подключения банка",replyTo:form.elements.replyTo.value.trim(),topic:"Техподдержка",message,website:form.elements.website.value,pdnConsent:true})}); if(!response.ok)throw new Error(); result.textContent=form.elements.screenshot.files.length?"Обращение отправлено. Скриншот не прикреплён: отправьте его отдельно в Telegram @eto_mani без паролей, кодов и реквизитов.":"Обращение отправлено. Ответ придёт на указанную почту."; form.reset(); refreshDiagnostic(); track("bank_support_feedback",{action:"sent"});}catch{result.textContent="Не удалось отправить форму. Напишите нам в Telegram @eto_mani.";track("bank_support_feedback",{action:"error"});}});
+  form.addEventListener("submit", async(event)=>{
+    event.preventDefault();
+    result.classList.remove("is-error");
+    if(!form.reportValidity())return;
+    const diagnostic=currentDiagnostic();
+    const message=["Безопасная диагностика:",JSON.stringify(diagnostic,null,2)].join("\n");
+    result.textContent="Отправляем…"; submit.disabled=true;
+    try{
+      const response=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:"Поддержка подключения банка",replyTo:form.elements.replyTo.value.trim(),topic:"Техподдержка",message,website:form.elements.website.value,pdnConsent:form.elements.diagnosticConsent.checked})});
+      const payload=await response.json().catch(()=>({}));
+      if(!response.ok || !payload.ticket)throw new Error(payload.message||"");
+      $("[data-support-ticket]").textContent=payload.ticket;
+      fields.hidden=true; success.hidden=false; success.focus?.();
+      track("bank_support_feedback",{action:"sent"});
+    }catch(error){
+      result.textContent=error.message||"Не удалось отправить форму. Напишите нам в Telegram @eto_mani.";
+      result.classList.add("is-error"); track("bank_support_feedback",{action:"error"});
+    }finally{submit.disabled=false;}
+  });
+  $("[data-support-new]").addEventListener("click",()=>{form.reset();success.hidden=true;fields.hidden=false;result.classList.remove("is-error");result.textContent="Только контакт и согласие — остальное приложится автоматически.";refreshDiagnostic();form.elements.replyTo.focus();track("bank_support_feedback",{action:"new_request"});});
 }
 
 function setupSiteNavigation() {

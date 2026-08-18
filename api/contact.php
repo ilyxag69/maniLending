@@ -93,9 +93,11 @@ $recipient = 'moimani.ai@gmail.com';
 $subjectText = 'Mani.ai: ' . $topic . ' от ' . $name;
 $subject = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
 $safeReplyEmail = filter_var($replyTo, FILTER_VALIDATE_EMAIL) ? $replyTo : '';
+$ticketNumber = 'MANI-' . gmdate('ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
 $lines = [
     'Новое обращение с moimani.ai',
     '',
+    'Номер обращения: ' . $ticketNumber,
     'Тема: ' . $topic,
     'Имя: ' . $name,
     'Контакт для ответа: ' . $replyTo,
@@ -115,4 +117,4 @@ if (!mail($recipient, $subject, implode("\r\n", $lines), implode("\r\n", $header
     contactRespond(503, ['message' => 'Не удалось отправить сообщение. Напиши нам в Telegram.']);
 }
 
-contactRespond(200, ['ok' => true, 'message' => 'Сигнал принят']);
+contactRespond(200, ['ok' => true, 'message' => 'Сигнал принят', 'ticket' => $ticketNumber]);
