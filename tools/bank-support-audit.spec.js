@@ -38,6 +38,11 @@ test.describe("bank connection support", () => {
     await page.route("**/api/contact", (route) => route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,ticket:"MANI-260818-A1B2C3"})}));
     await page.goto("http://127.0.0.1:4179/support/bank-connection#contact-support");
     await expect(page.locator("[data-support-form] [required]")).toHaveCount(2);
+    await expect(page.locator("[name=bank]")).toBeVisible();
+    await expect(page.locator("[name=stage]")).toBeVisible();
+    await expect(page.locator("[name=occurredAt]")).toBeVisible();
+    await expect(page.locator("[data-support-form] [name=description]")).toBeVisible();
+    await expect(page.locator("[name=screenshot]")).toBeVisible();
     await page.locator("[name=replyTo]").fill("@eto_mani");
     await page.locator("[name=diagnosticConsent]").check();
     await page.locator("[data-support-form]").evaluate((form) => form.requestSubmit());

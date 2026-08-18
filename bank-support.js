@@ -118,14 +118,19 @@ function refreshDiagnostic() {
 }
 
 function setupForm() {
-  const form=$("[data-support-form]"); const fields=$("[data-support-fields]"); const success=$("[data-support-success]"); const result=$("[data-support-result]"); const submit=form.querySelector(".bs-submit"); refreshDiagnostic();
+  const form=$("[data-support-form]"); const fields=$("[data-support-fields]"); const success=$("[data-support-success]"); const result=$("[data-support-result]"); const submit=form.querySelector(".bs-submit");
+  ["bank","stage","occurredAt"].forEach((name)=>form.elements[name]?.addEventListener("change",refreshDiagnostic));
+  const bankSelect=form.elements.bank; banks.forEach((label,value)=>{const option=document.createElement("option");option.value=value;option.textContent=label;bankSelect.append(option);}); if(bankSlug)bankSelect.value=bankSlug; refreshDiagnostic();
   $("[data-support-telegram]").addEventListener("click",()=>track("bank_support_contact_clicked",{action:"telegram"}));
   form.addEventListener("submit", async(event)=>{
     event.preventDefault();
     result.classList.remove("is-error");
     if(!form.reportValidity())return;
+    const description=form.elements.description.value.trim();
+    const sensitive=/(?:\d[ -]?){13,19}|(?:парол|смс.?код|sms.?code|cvv|cvc|pin)/i.test(description);
+    if(sensitive){result.textContent="Удалите из описания пароли, коды и полные реквизиты карты или счёта.";result.classList.add("is-error");return;}
     const diagnostic=currentDiagnostic();
-    const message=["Безопасная диагностика:",JSON.stringify(diagnostic,null,2)].join("\n");
+    const message=[description||"Описание не добавлено.","","Безопасная диагностика:",JSON.stringify(diagnostic,null,2)].join("\n");
     result.textContent="Отправляем…"; submit.disabled=true;
     try{
       const response=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:"Поддержка подключения банка",replyTo:form.elements.replyTo.value.trim(),topic:"Техподдержка",message,website:form.elements.website.value,pdnConsent:form.elements.diagnosticConsent.checked})});
@@ -139,7 +144,7 @@ function setupForm() {
       result.classList.add("is-error"); track("bank_support_feedback",{action:"error"});
     }finally{submit.disabled=false;}
   });
-  $("[data-support-new]").addEventListener("click",()=>{form.reset();success.hidden=true;fields.hidden=false;result.classList.remove("is-error");result.textContent="Только контакт и согласие — остальное приложится автоматически.";refreshDiagnostic();form.elements.replyTo.focus();track("bank_support_feedback",{action:"new_request"});});
+  $("[data-support-new]").addEventListener("click",()=>{form.reset();success.hidden=true;fields.hidden=false;result.classList.remove("is-error");result.textContent="Обязательны только контакт для ответа и согласие.";refreshDiagnostic();form.elements.replyTo.focus();track("bank_support_feedback",{action:"new_request"});});
 }
 
 function setupSiteNavigation() {

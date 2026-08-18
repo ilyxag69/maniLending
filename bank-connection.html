@@ -127,12 +127,15 @@
         <div class="bs-contact-copy"><p>Поддержка Mani</p><h2 id="contact-title">Передать диагностику</h2><span>Мы отправим только показанные рядом безопасные технические данные. Пароли, коды и реквизиты вводить не нужно.</span><a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-support-telegram>Написать @eto_mani <b aria-hidden="true">↗</b></a></div>
         <form class="bs-support-form" data-support-form novalidate>
           <div data-support-fields>
-            <label><span>Контакт для ответа</span><input name="replyTo" maxlength="120" placeholder="Email или @telegram" autocomplete="email" required /></label>
+            <div class="bs-form-grid"><label><span>Банк <em>необязательно</em></span><select name="bank"><option value="">Выберите банк</option><option value="other">Другой банк</option></select></label><label><span>Этап проблемы <em>необязательно</em></span><select name="stage"><option value="">Выберите этап</option><option>Выбор банка</option><option>Ввод данных</option><option>SMS или подтверждение</option><option>Загрузка данных</option><option>Банк уже подключён</option></select></label></div>
+            <div class="bs-form-grid"><label><span>Когда произошло <em>необязательно</em></span><input name="occurredAt" type="datetime-local" /></label><label><span>Контакт для ответа</span><input name="replyTo" maxlength="120" placeholder="Email или @telegram" autocomplete="email" required /></label></div>
+            <label><span>Описание без секретных данных <em>необязательно</em></span><textarea name="description" maxlength="2000" rows="5" placeholder="Что произошло и на каком шаге? Не указывайте пароль, SMS-код, PIN, CVC/CVV и полный номер карты."></textarea></label>
             <div class="bs-diagnostic-preview" data-diagnostic-preview><strong>Автоматически приложим безопасную диагностику</strong><dl></dl></div>
+            <label class="bs-file"><span>Скриншот <em>необязательно</em></span><input name="screenshot" type="file" accept="image/png,image/jpeg,image/webp" /><small>Файл автоматически не прикрепляется. Если он важен, после отправки обращения перешлите его в Telegram @eto_mani, предварительно закрыв секретные данные.</small></label>
             <label class="bs-consent"><input name="diagnosticConsent" type="checkbox" value="yes" required /><span>Согласен на передачу показанной технической диагностики для обработки обращения.</span></label>
             <input class="bs-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <button class="bs-submit" type="submit">Отправить обращение <span aria-hidden="true">→</span></button>
-            <p class="bs-form-result" data-support-result role="status" aria-live="polite">Только контакт и согласие — остальное приложится автоматически.</p>
+            <p class="bs-form-result" data-support-result role="status" aria-live="polite">Обязательны только контакт для ответа и согласие.</p>
           </div>
           <div class="bs-form-success" data-support-success role="status" aria-live="polite" hidden>
             <span class="bs-success-icon" aria-hidden="true">✓</span>
