@@ -192,6 +192,7 @@ check("key assets are reachable", async () => {
     "/assets/mobile-widgets.webp",
     "/assets/og-image.jpg",
     "/og-image-v4.jpg",
+    "/assets/brand/mani-black.png",
     "/assets/newmani/hero-v1/composition/phones-mascots-alpha.png",
     "/assets/newmani/social-v1/motivator-peek-alpha.png",
     "/assets/newmani/social-v1/veselchak-peek-tight.png",
