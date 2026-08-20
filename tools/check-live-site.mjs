@@ -26,7 +26,7 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.js?v=20260806-cookie-gate-1"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20260820-perf-2"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260727-prelaunch-1"), "Expected product config is missing");
   assert(body.includes("newmani.css?v=20260820-perf-1"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");

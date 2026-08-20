@@ -188,11 +188,6 @@ const demoScenarios = {
   },
 };
 
-Object.values(tones).forEach((tone) => {
-  const image = new Image();
-  image.src = tone.image;
-});
-
 const contactForm = document.querySelector("[data-contact-form]");
 if (contactForm) {
   const messageField = contactForm.elements.message;
