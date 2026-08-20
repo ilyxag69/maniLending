@@ -2954,6 +2954,3 @@ img[data-brand-logo] {
   aspect-ratio: 626 / 213;
   object-fit: contain;
 }
-html[data-mani-logo="black"] img[data-brand-logo] { content: url("/assets/brand/mani-black.png"); }
-html[data-mani-logo="orange"] img[data-brand-logo] { content: url("/assets/brand/mani-orange.png"); }
-html[data-mani-logo="blue"] img[data-brand-logo] { content: url("/assets/brand/mani-blue.png"); }

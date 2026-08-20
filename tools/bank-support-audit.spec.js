@@ -133,17 +133,13 @@ test.describe("bank connection support", () => {
     });
   }
 
-  for (const variant of ["black", "orange", "blue"]) {
-    test(`brand logo session variant ${variant} is coherent`, async ({ page }) => {
+  test("brand logo is consistently black", async ({ page }) => {
       await page.goto("http://127.0.0.1:4179/faq");
-      await page.evaluate((value) => sessionStorage.setItem("maniBrandLogoVariantV1", value), variant);
-      await page.reload();
-      await expect(page.locator("html")).toHaveAttribute("data-mani-logo", variant);
       const sources = await page.locator("img[data-brand-logo]").evaluateAll((images) => images.map((image) => image.getAttribute("src")));
       expect(sources.length).toBeGreaterThanOrEqual(2);
-      expect(new Set(sources)).toEqual(new Set([`/assets/brand/mani-${variant}.png`]));
-    });
-  }
+      expect(new Set(sources)).toEqual(new Set(["/assets/brand/mani-black.png"]));
+      await expect(page.locator("script[src*='brand-logo.js']")).toHaveCount(0);
+  });
 
   test("core guidance remains with JavaScript disabled", async ({ browser }) => {
     const context = await browser.newContext({javaScriptEnabled:false}); const page = await context.newPage();
