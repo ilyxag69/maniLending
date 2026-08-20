@@ -9,7 +9,7 @@ mani is an AI assistant for personal finance control. It helps users understand 
 ## Key Facts
 
 - Product name: mani
-- Website: https://moimani.ai/
+- Website: [moimani.ai](https://moimani.ai/)
 - Category: personal finance application, AI finance assistant, budget and expense tracking
 - Platforms: iOS and Android are planned/supported by the landing page calls to action
 - Language: Russian
@@ -28,12 +28,13 @@ mani is currently collecting early access applications. The first 1000 users get
 
 ## Important Pages
 
-- Home page: https://moimani.ai/
-- Early access for first 1000 users: https://moimani.ai/#early-access
-- Security and data access: https://moimani.ai/bezopasnost
-- FAQ: https://moimani.ai/faq
-- Privacy policy: https://moimani.ai/privacy
-- Cookie policy: https://moimani.ai/cookie
-- Personal data consent: https://moimani.ai/soglasie
-- Sitemap: https://moimani.ai/sitemap.xml
-- Robots: https://moimani.ai/robots.txt
+- [Home page](https://moimani.ai/)
+- [Early access for first 1000 users](https://moimani.ai/#early-access)
+- [Security and data access](https://moimani.ai/bezopasnost)
+- [FAQ](https://moimani.ai/faq)
+- [Bank connection support](https://moimani.ai/support/bank-connection)
+- [Privacy policy](https://moimani.ai/privacy)
+- [Cookie policy](https://moimani.ai/cookie)
+- [Personal data consent](https://moimani.ai/soglasie)
+- [Sitemap](https://moimani.ai/sitemap.xml)
+- [Robots](https://moimani.ai/robots.txt)

@@ -1,4 +1,4 @@
-@font-face{font-family:"Manrope";src:url("/assets/fonts/Manrope-Variable.ttf") format("truetype");font-weight:300 800;font-display:swap}
+@font-face{font-family:"Manrope";src:url("/assets/fonts/Manrope-Variable.woff2") format("woff2");font-weight:300 800;font-display:swap}
 :root{--bs-ink:#101c34;--bs-muted:#58677e;--bs-orange:#ff642b;--bs-blue:#1674f5;--bs-line:#e2eaf4;--bs-soft:#f7f9fc;--bs-green:#20935a}
 *{box-sizing:border-box}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 html{scroll-behavior:smooth;scroll-padding-top:92px}.bs-page{margin:0;overflow-x:hidden;background:#f7f9fc;color:var(--bs-ink);font-family:"Manrope",system-ui,sans-serif;-webkit-font-smoothing:antialiased}.bs-page button,.bs-page input,.bs-page select,.bs-page textarea{font:inherit}.bs-page button,.bs-page a{-webkit-tap-highlight-color:transparent}.bs-page :focus-visible{outline:3px solid rgba(22,116,245,.28);outline-offset:3px}.bs-page h1,.bs-page h2,.bs-page h3,.bs-page h4,.bs-page p,.bs-page li,.bs-page a,.bs-page button,.bs-page label,.bs-page dd{overflow-wrap:break-word;word-break:normal;hyphens:none}.bs-page main *{min-width:0}
@@ -22,3 +22,14 @@ html{scroll-behavior:smooth;scroll-padding-top:92px}.bs-page{margin:0;overflow-x
 @media(max-width:340px){.bs-hero h1{font-size:37px}.bs-lead{font-size:14px}.bs-hero-art{height:145px}.bs-support-form,.bs-contact-copy{padding-inline:13px}.bs-security{padding-inline:14px}}
 .bs-back{position:fixed;z-index:29;top:112px;left:max(18px,calc((100vw - 1040px)/2));padding:0 12px;box-shadow:0 8px 22px rgba(27,56,99,.09)}
 @media(max-width:600px){.bs-back{top:78px;left:10px}.bs-page.menu-open{overflow:hidden}}
+/* WCAG AA contrast corrections */
+.bs-breadcrumbs,.bs-results-count{color:#596a80}
+.bs-kicker,.bs-section-heading>p,.bs-contact-copy>p,.bs-wizard-head p,.bs-security>div>p{color:#b83f09}
+.bs-hero h1 em{color:#d8490d}
+.bs-wizard-head>span{color:#0d58bd}
+.bs-filters button[aria-pressed="true"]{color:#a83b08}
+.bs-contact-copy>a{background:#087db8}
+.bs-support-form label>span em,.bs-file span em{color:#5f6d80}
+.bs-diagnostic-preview dt{color:#56667b}
+.bs-form-result{color:#56657a}
+.bs-security>div>p{color:#ffb08a}

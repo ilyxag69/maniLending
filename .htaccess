@@ -47,6 +47,10 @@ RewriteRule ^soglasie/?$ /soglasie.html [L]
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header set X-Frame-Options "DENY"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header set Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://mc.yandex.ru; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://mc.yandex.ru https://*.mc.yandex.ru"
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache, must-revalidate"
     Header set Content-Type "text/html; charset=UTF-8"
@@ -54,7 +58,12 @@ RewriteRule ^soglasie/?$ /soglasie.html [L]
   <Files "product-config.js">
     Header set Cache-Control "no-cache, must-revalidate"
   </Files>
+  <FilesMatch "\.(?:woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
 </IfModule>
+
+AddType font/woff2 .woff2
 
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -64,6 +73,7 @@ RewriteRule ^soglasie/?$ /soglasie.html [L]
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType text/css "access plus 7 days"
   ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
 <IfModule mod_deflate.c>

@@ -80,6 +80,8 @@ try {
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
   check(html.includes("https://moimani.ai/og-image-v4.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
+  check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
+  check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
   check(script.includes("hero_headline_v1") && script.includes('Math.random() < 0.5 ? "chaos" : "order"'), "hero headline experiment is randomized on every load");
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
   check(html.includes("product-config.js"), "product configuration loads before application logic");
@@ -89,6 +91,7 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq"), "sitemap contains public content routes");
+  check((sitemap.match(/<lastmod>2026-08-20<\/lastmod>/g) || []).length === 7, "sitemap modification dates match the current release");
 
   await writeFile(
     join(temporaryData, "waitlist-submissions.jsonl"),
