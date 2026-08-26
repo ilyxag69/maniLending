@@ -67,7 +67,7 @@ try {
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
   const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html"]
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html"]
       .map((file) => readFile(join(root, file), "utf8"))
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
@@ -90,7 +90,7 @@ try {
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
-  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq"), "sitemap contains public content routes");
+  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account"), "sitemap contains public content routes");
   check((sitemap.match(/<lastmod>2026-08-20<\/lastmod>/g) || []).length === 7, "sitemap modification dates match the current release");
 
   await writeFile(
@@ -155,6 +155,10 @@ try {
 
   const privacyRedirect = await fetch(`${baseUrl}/privacy.html`, { redirect: "manual" });
   check(privacyRedirect.status === 301 && privacyRedirect.headers.get("location") === "/privacy", "local SEO redirect works");
+  const deleteAccountPage = await fetch(`${baseUrl}/delete-account`);
+  check(deleteAccountPage.ok && (await deleteAccountPage.text()).includes("Удаление аккаунта и данных в MoiMani"), "account deletion page is available at its public route");
+  const deleteAccountRedirect = await fetch(`${baseUrl}/delete-account.html`, { redirect: "manual" });
+  check(deleteAccountRedirect.status === 301 && deleteAccountRedirect.headers.get("location") === "/delete-account", "account deletion duplicate route redirects to canonical URL");
 } finally {
   if (server) server.kill();
   await rm(temporaryData, { recursive: true, force: true });

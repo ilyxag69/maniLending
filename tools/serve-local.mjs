@@ -36,6 +36,7 @@ function resolvePath(urlPath) {
   if (urlPath === "/faq") return "faq.html";
   if (urlPath === "/support/bank-connection" || urlPath === "/support/bank-connection/") return "bank-connection.html";
   if (urlPath === "/soglasie") return "soglasie.html";
+  if (urlPath === "/delete-account" || urlPath === "/delete-account/") return "delete-account.html";
   return urlPath.replace(/^\/+/, "");
 }
 
@@ -537,6 +538,12 @@ createServer(async (request, response) => {
 
   if (url.pathname === "/consent" || url.pathname === "/consent.html" || url.pathname === "/soglasie.html") {
     response.writeHead(301, { Location: redirectLocation("/soglasie", url) });
+    response.end();
+    return;
+  }
+
+  if (url.pathname === "/delete-account.html") {
+    response.writeHead(301, { Location: redirectLocation("/delete-account", url) });
     response.end();
     return;
   }
