@@ -311,7 +311,7 @@ header('Content-Type: text/html; charset=utf-8');
             <td><?= htmlspecialchars(match ($row['heroHeadlineVariant'] ?? '') {
                 'chaos' => 'Хаос',
                 'order' => 'Порядок',
-                default => '—',
+                default => 'Нет данных',
             }, ENT_QUOTES) ?></td>
             <td><?= !empty($row['pdnConsent']) ? 'да' : '' ?></td>
             <td><?= htmlspecialchars((string) ($row['pdnConsentVersion'] ?? ''), ENT_QUOTES) ?></td>

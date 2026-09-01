@@ -81,7 +81,7 @@ function ensureStorage(string $directory, array $files): void {
 function acquireWaitlistLock(string $file, int $operation): void {
     $GLOBALS['waitlistLock'] = fopen($file, 'c+');
     if (!is_resource($GLOBALS['waitlistLock']) || !flock($GLOBALS['waitlistLock'], $operation)) {
-        respond(503, ['message' => 'Waitlist is temporarily busy']);
+        respond(503, ['message' => 'Waitlist is temporarily busy', 'code' => 'waitlist_unavailable']);
     }
     @chmod($file, 0600);
 }
@@ -159,7 +159,7 @@ function rateLimited(string $file, string $key): bool {
     $hits[] = $now;
     $state[$key] = $hits;
     if (file_put_contents($file, json_encode($state, JSON_UNESCAPED_SLASHES), LOCK_EX) === false) {
-        respond(503, ['message' => 'Rate limiter is unavailable']);
+        respond(503, ['message' => 'Rate limiter is unavailable', 'code' => 'waitlist_unavailable']);
     }
     @chmod($file, 0600);
     return count($hits) > $limit;
@@ -293,7 +293,7 @@ if ($contentLength <= 0 || $contentLength > 32768) {
 $fileSalt = is_file($saltFile) ? trim((string) file_get_contents($saltFile)) : '';
 $fraudSalt = trim((string) (getenv('MANI_REFERRAL_SALT') ?: $fileSalt));
 if (strlen($fraudSalt) < 32) {
-    respond(503, ['message' => 'Waitlist is temporarily unavailable']);
+    respond(503, ['message' => 'Waitlist is temporarily unavailable', 'code' => 'waitlist_unavailable']);
 }
 
 $raw = file_get_contents('php://input') ?: '';
@@ -306,7 +306,7 @@ $phone = trim((string) ($body['phone'] ?? ''));
 $email = strtolower(trim((string) ($body['email'] ?? '')));
 $contact = trim((string) ($body['contact'] ?? 'manual'));
 $contactDetails = trim((string) ($body['contactDetails'] ?? ''));
-$company = trim((string) ($body['company'] ?? ''));
+$honeypot = trim((string) ($body['website'] ?? ($body['company'] ?? '')));
 $pdnConsent = ($body['pdnConsent'] ?? false) === true;
 $pdnConsentVersion = trim((string) ($body['pdnConsentVersion'] ?? ''));
 $pdnConsentAt = trim((string) ($body['pdnConsentAt'] ?? ''));
@@ -318,20 +318,20 @@ $ctaLocation = strtolower(trim((string) ($body['ctaLocation'] ?? 'unknown')));
 $firstTouch = sanitizeAttribution($body['firstTouch'] ?? []);
 $lastTouch = sanitizeAttribution($body['lastTouch'] ?? []);
 
-if ($company !== '') {
-    respond(400, ['message' => 'Bot request rejected']);
+if ($honeypot !== '') {
+    respond(400, ['message' => 'Bot request rejected', 'code' => 'bot_field_filled']);
 }
 if ($idempotencyKey !== '' && !preg_match('/^[A-Za-z0-9-]{16,100}$/', $idempotencyKey)) {
-    respond(400, ['message' => 'Invalid idempotency key']);
+    respond(400, ['message' => 'Invalid idempotency key', 'code' => 'invalid_client_state']);
 }
 if ($heroHeadlineVariant !== '' && !in_array($heroHeadlineVariant, ['chaos', 'order'], true)) {
-    respond(400, ['message' => 'Invalid hero headline variant']);
+    respond(400, ['message' => 'Invalid hero headline variant', 'code' => 'invalid_client_state']);
 }
 if (!preg_match('/^[a-z0-9_-]{1,64}$/', $ctaLocation)) {
-    respond(400, ['message' => 'Invalid CTA location']);
+    respond(400, ['message' => 'Invalid CTA location', 'code' => 'invalid_client_state']);
 }
 if ($referredBy !== '' && !preg_match('/^[A-Z0-9-]{6,64}$/', $referredBy)) {
-    respond(400, ['message' => 'Invalid referral code']);
+    respond(400, ['message' => 'Invalid referral code', 'code' => 'invalid_client_state']);
 }
 if (
     strlen($email) > 254 ||
@@ -341,13 +341,13 @@ if (
     strlen($pdnConsentVersion) > 400 ||
     strlen($pdnConsentAt) > 200
 ) {
-    respond(400, ['message' => 'One or more fields are too long']);
+    respond(400, ['message' => 'One or more fields are too long', 'code' => 'invalid_client_state']);
 }
 if (!preg_match('/^\+\d{10,15}$/', $phone) || ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL))) {
-    respond(400, ['message' => 'Valid international phone is required. Email must be valid if provided.']);
+    respond(400, ['message' => 'Valid international phone is required. Email must be valid if provided.', 'code' => 'invalid_phone_or_email']);
 }
 if (!$pdnConsent) {
-    respond(400, ['message' => 'Personal data consent is required.']);
+    respond(400, ['message' => 'Personal data consent is required.', 'code' => 'missing_pdn_consent']);
 }
 
 acquireWaitlistLock($lockFile, LOCK_EX);
@@ -372,7 +372,7 @@ if (rateLimited($rateFile, $rateKey)) {
         'status_code' => 429,
         'error_type' => 'waitlist_rate_limit',
     ]);
-    respond(429, ['message' => 'Too many requests. Try again later.']);
+    respond(429, ['message' => 'Too many requests. Try again later.', 'code' => 'rate_limited']);
 }
 
 foreach ($allSubmissions as $item) {

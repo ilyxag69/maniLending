@@ -18,7 +18,7 @@
       google: config.stores?.googlePlay || "",
       rustore: config.stores?.ruStore || "",
     };
-    const waitlistLabel = config.waitlist?.cta || "Занять место среди первых 1000";
+    const waitlistLabel = config.waitlist?.cta || "Получить ранний доступ";
     const storeLabels = status === "preorder"
       ? { apple: "Предзаказать в App Store", google: "Пройти предрегистрацию в Google Play", rustore: "Скоро в RuStore" }
       : { apple: "Скачать в App Store", google: "Скачать в Google Play", rustore: "Скачать в RuStore" };

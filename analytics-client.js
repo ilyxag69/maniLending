@@ -49,7 +49,6 @@
     return created;
   })();
   const visitorId = () => {
-    if (consentState() !== "accepted") return "";
     const existing = storageGet("localStorage", visitorKey);
     if (existing) return existing;
     const created = uuid();
@@ -85,10 +84,7 @@
     };
   };
   const attribution = () => {
-    if (consentState() === "accepted") {
-      return readJson(lastAttributionKey) || currentAttribution();
-    }
-    return currentAttribution();
+    return readJson(lastAttributionKey) || currentAttribution();
   };
   const screenClass = () => {
     const width = Math.min(window.innerWidth || 0, window.screen?.width || Infinity);
@@ -144,7 +140,6 @@
   }
 
   function captureConsentAttribution() {
-    if (consentState() !== "accepted") return;
     const snapshot = currentAttribution();
     if (!storageGet("localStorage", firstAttributionKey)) {
       storageSet("localStorage", firstAttributionKey, JSON.stringify(snapshot));

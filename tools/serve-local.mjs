@@ -314,7 +314,7 @@ createServer(async (request, response) => {
         <td>${escapeHtml(item.phone || "")}</td>
         <td>${escapeHtml(item.email || "")}</td>
         <td>${escapeHtml(item.contactDetails || "")}</td>
-        <td>${escapeHtml(item.heroHeadlineVariant === "chaos" ? "Хаос" : item.heroHeadlineVariant === "order" ? "Порядок" : "—")}</td>
+        <td>${escapeHtml(item.heroHeadlineVariant === "chaos" ? "Хаос" : item.heroHeadlineVariant === "order" ? "Порядок" : "Нет данных")}</td>
         <td>${item.pdnConsent ? "yes" : ""}</td>
         <td>${escapeHtml(item.pdnConsentVersion || "")}</td>
         <td>${escapeHtml(item.referralCode || "")}</td>
@@ -385,7 +385,7 @@ createServer(async (request, response) => {
       const email = String(body.email || "").trim().toLowerCase();
       const contact = String(body.contact || "manual").trim();
       const contactDetails = String(body.contactDetails || "").trim();
-      const company = String(body.company || "").trim();
+      const honeypot = String(body.website || body.company || "").trim();
       const pdnConsent = body.pdnConsent === true;
       const pdnConsentVersion = String(body.pdnConsentVersion || "").trim();
       const pdnConsentAt = String(body.pdnConsentAt || "").trim();
@@ -397,16 +397,16 @@ createServer(async (request, response) => {
       const lastTouch = cleanAttribution(body.lastTouch);
       const rateKey = request.socket.remoteAddress || "local";
 
-      if (company) {
-        sendJson(response, 400, { message: "Bot request rejected" });
+      if (honeypot) {
+        sendJson(response, 400, { message: "Bot request rejected", code: "bot_field_filled" });
         return;
       }
       if (idempotencyKey && !/^[A-Za-z0-9-]{16,100}$/.test(idempotencyKey)) {
-        sendJson(response, 400, { message: "Invalid idempotency key" });
+        sendJson(response, 400, { message: "Invalid idempotency key", code: "invalid_client_state" });
         return;
       }
       if (heroHeadlineVariant && !["chaos", "order"].includes(heroHeadlineVariant)) {
-        sendJson(response, 400, { message: "Invalid hero headline variant" });
+        sendJson(response, 400, { message: "Invalid hero headline variant", code: "invalid_client_state" });
         return;
       }
       if (
@@ -416,7 +416,7 @@ createServer(async (request, response) => {
         pdnConsentVersion.length > 100 ||
         pdnConsentAt.length > 50
       ) {
-        sendJson(response, 400, { message: "One or more fields are too long" });
+        sendJson(response, 400, { message: "One or more fields are too long", code: "invalid_client_state" });
         return;
       }
 
@@ -434,17 +434,17 @@ createServer(async (request, response) => {
       }
 
       if (isRateLimited(rateKey)) {
-        sendJson(response, 429, { message: "Too many requests. Try again later." });
+        sendJson(response, 429, { message: "Too many requests. Try again later.", code: "rate_limited" });
         return;
       }
 
       if (!/^\+\d{10,15}$/.test(phone) || (email && !email.includes("@"))) {
-        sendJson(response, 400, { message: "Valid international phone is required. Email must be valid if provided." });
+        sendJson(response, 400, { message: "Valid international phone is required. Email must be valid if provided.", code: "invalid_phone_or_email" });
         return;
       }
 
       if (!pdnConsent) {
-        sendJson(response, 400, { message: "Personal data consent is required." });
+        sendJson(response, 400, { message: "Personal data consent is required.", code: "missing_pdn_consent" });
         return;
       }
 

@@ -19,12 +19,28 @@ header('X-Content-Type-Options: nosniff');
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,follow" />
-  <title>Страница не найдена — mani</title>
+  <title>Страница не найдена. mani</title>
+  <link rel="stylesheet" href="/newmani.css?v=20260820-perf-1" />
+  <link rel="stylesheet" href="/site-chrome.css?v=20260901-form-chrome-1" />
   <style>
-    body{min-height:100vh;display:grid;place-items:center;margin:0;padding:24px;background:#f6f9ff;color:#071632;font-family:Arial,sans-serif}
-    main{max-width:560px;text-align:center}h1{margin:0 0 12px;font-size:clamp(42px,8vw,72px)}p{color:#5d6b86;font-size:18px;line-height:1.5}
-    a{display:inline-flex;align-items:center;min-height:52px;margin-top:16px;padding:0 24px;border-radius:16px;background:#ff641f;color:#fff;font-weight:800;text-decoration:none}
+    .nm-error-page{min-height:100vh;display:flex;flex-direction:column;background:#f6f9ff;color:#071632}
+    .nm-error-page main{width:min(560px,calc(100% - 32px));min-height:calc(100vh - 190px);display:grid;place-content:center;margin:auto;padding:120px 0 48px;text-align:center}
+    .nm-error-page main h1{margin:0 0 12px;font-size:clamp(42px,8vw,72px)}
+    .nm-error-page main p{margin:0;color:#5d6b86;font-size:18px;line-height:1.5}
+    .nm-error-page main a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;margin:20px auto 0;padding:0 24px;border-radius:16px;background:#ff641f;color:#fff;font-weight:800;text-decoration:none}
+    @media(max-width:700px){.nm-error-page main{min-height:62vh;padding:48px 0}}
   </style>
 </head>
-<body><main><h1>404</h1><p>Такой страницы нет. Вернись на главную mani.</p><a href="/">На главную</a></main></body>
+<body class="nm-page nm-error-page">
+  <header class="header nm-header">
+    <a class="logo nm-logo" href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a>
+    <nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav>
+    <a class="nm-button nm-button-primary nm-header-cta" href="/#early-access">Получить ранний доступ</a>
+    <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+  <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav><a class="nm-button nm-button-primary" href="/#early-access">Получить ранний доступ</a></div>
+  <main><h1>404</h1><p>Такой страницы нет. Вернись на главную mani.</p><a href="/">На главную</a></main>
+  <footer class="nm-footer"><div class="nm-container nm-footer-grid"><div class="nm-footer-brand"><a href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><p>mani. Финансовый радар с характером</p></div><nav aria-label="Навигация в подвале"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#contacts">Контакты</a><a href="/faq">FAQ</a></nav><nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a><a href="/delete-account">Удаление аккаунта</a></nav><p class="nm-copyright">© 2026 mani</p></div></footer>
+  <script>const menu=document.querySelector('.nm-menu'),nav=document.querySelector('.nm-mobile-menu');menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('menu-open',open);});</script>
+</body>
 </html>

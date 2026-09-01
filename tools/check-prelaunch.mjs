@@ -36,7 +36,7 @@ async function submit(overrides = {}) {
     email: "",
     contact: "manual",
     contactDetails: "",
-    company: "",
+    website: "",
     pdnConsent: true,
     pdnConsentVersion: "test",
     pdnConsentAt: new Date().toISOString(),
@@ -56,28 +56,34 @@ async function submit(overrides = {}) {
 }
 
 try {
-  const [html, script, config, productStatus, pageAnalytics, htaccess, robots, sitemap] = await Promise.all([
+  const [html, script, config, productStatus, pageAnalytics, analyticsClient, siteChrome, htaccess, robots, sitemap] = await Promise.all([
     readFile(join(root, "index.html"), "utf8"),
     readFile(join(root, "script.js"), "utf8"),
     readFile(join(root, "product-config.js"), "utf8"),
     readFile(join(root, "product-status.js"), "utf8"),
     readFile(join(root, "page-analytics.js"), "utf8"),
+    readFile(join(root, "analytics-client.js"), "utf8"),
+    readFile(join(root, "site-chrome.css"), "utf8"),
     readFile(join(root, ".htaccess"), "utf8"),
     readFile(join(root, "robots.txt"), "utf8"),
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
   const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html"]
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "404.php"]
       .map((file) => readFile(join(root, file), "utf8"))
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
 
   check(config.includes('status: "waitlist"'), "product status has one explicit source");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
-  check(html.includes("mani — деньги под контролем"), "SEO positioning is explicit");
+  check(html.includes("mani. Деньги под контролем"), "SEO positioning is explicit");
   check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
   check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
+  check(publicPages.every((page) => page.includes("site-chrome.css")), "all public pages use the shared header and footer styles");
+  check(publicPages.every((page) => page.includes("Получить ранний доступ") && !page.includes("Занять место среди первых 1000")), "all public headers use the same early access message");
+  check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
+  check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
   check(html.includes("https://moimani.ai/og-image-v4.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
@@ -86,7 +92,19 @@ try {
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
   check(html.includes("product-config.js"), "product configuration loads before application logic");
   check(script.includes("analyticsAllowedFields"), "analytics fields are allowlisted");
-  check(script.includes("loadYandexMetrica();\ninitCookieConsent();"), "Yandex Metrica starts independently of cookie consent");
+  check(script.includes("loadYandexMetrica();\nloadAnalytics();\ninitCookieConsent();"), "external analytics starts independently of the cookie notice");
+  check(
+    !html.includes("cookie-consent-pending")
+      && !script.includes("cookieBlockedElements")
+      && !script.includes("element.inert = true")
+      && html.includes('role="status"'),
+    "cookie notice never blocks page access or scrolling"
+  );
+  check(
+    !analyticsClient.includes("consentState() !== \"accepted\"")
+      && analyticsClient.includes("visitor_id: visitorId()"),
+    "first-party visitor analytics is always enabled"
+  );
   check(
     script.includes('["hero", "header", "mobile-menu", "mobile-sticky"].includes(ctaLocation)')
       && script.includes('ctaLocation === "test-drive"')
@@ -94,10 +112,13 @@ try {
     "waitlist entry points map to the three campaign goals"
   );
   check(
-    script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);')
+    script.includes('trackWaitlistConversion(payload.ctaLocation);')
+      && !script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);')
       && script.includes('"reachGoal", goal'),
-    "campaign goals fire only after a new waitlist submission succeeds"
+    "campaign goals fire after every server-confirmed waitlist submission"
   );
+  check(html.includes('name="website"') && !html.includes('name="company"') && script.includes('formData.get("website")'), "waitlist honeypot avoids browser company autofill");
+  check(script.includes("invalid_phone_or_email") && script.includes("rate_limited") && script.includes("errorMessages"), "waitlist failures show safe actionable messages");
   check(!/(phone|email|contactDetails|annualLoss|monthlySaving|position|message)/.test(pageAnalytics), "shared page analytics contains no PII or financial fields");
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
@@ -137,7 +158,9 @@ try {
   check(storedAfterFirst.at(-1)?.heroHeadlineVariant === "order", "headline variant is stored with the submission");
 
   const invalidVariant = await submit({ phone: "+79990000009", heroHeadlineVariant: "tampered" });
-  check(invalidVariant.response.status === 400, "invalid headline variant is rejected");
+  check(invalidVariant.response.status === 400 && invalidVariant.data.code === "invalid_client_state", "invalid headline variant is rejected with a safe code");
+  const autofilledHoneypot = await submit({ phone: "+79990000010", website: "Example LLC" });
+  check(autofilledHoneypot.response.status === 400 && autofilledHoneypot.data.code === "bot_field_filled", "autofilled honeypot returns a diagnosable safe code");
 
   const retry = await submit({ phone: "+79990000002", idempotencyKey: first.data.referralCode.padEnd(16, "X") });
   check(retry.response.ok, "independent submission contract remains available");

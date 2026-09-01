@@ -2,7 +2,7 @@ import { bankConnectionIssues, bankIssueByCode, bankIssueCategories, searchableI
 import { sanitizeBankSupportDiagnostic } from "/support/bank-support-diagnostics.js";
 
 const $ = (selector, root = document) => root.querySelector(selector);
-const banks = new Map([["tbank","Т‑Банк"],["sber","Сбер"],["alfa","Альфа-Банк"],["vtb","ВТБ"],["gazprombank","Газпромбанк"],["raiffeisen","Райффайзен Банк"],["ozon","Ozon Банк"],["yandex","Яндекс Банк"]]);
+const banks = new Map([["tbank","Т-Банк"],["sber","Сбер"],["alfa","Альфа-Банк"],["vtb","ВТБ"],["gazprombank","Газпромбанк"],["raiffeisen","Райффайзен Банк"],["ozon","Ozon Банк"],["yandex","Яндекс Банк"]]);
 const allowed = {
   source: new Set(["app", "web", "support"]),
   platform: new Set(["ios", "android", "web"]),

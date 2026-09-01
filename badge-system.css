@@ -1,0 +1,85 @@
+/* Unified glass labels for the primary landing sections. The layout rules
+   stay in each section stylesheet; this layer only standardises appearance. */
+:root {
+  --mani-label-graphite: #414a59;
+  --mani-label-border: rgba(170, 185, 205, 0.48);
+  --mani-label-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(246, 249, 253, 0.68));
+  --mani-motivator-accent: linear-gradient(100deg, #087cff 0%, #69d8f4 100%);
+  --mani-fun-accent: linear-gradient(100deg, #ff6b2c 0%, #ffb28a 100%);
+}
+
+.nm-page :is(
+  .nm-capabilities-eyebrow,
+  .mcs-eyebrow,
+  .msp-eyebrow,
+  .mani-social-eyebrow,
+  .nm-final-eyebrow,
+  .nm-contact-kicker
+) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  width: fit-content !important;
+  max-width: 100%;
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 0 15px !important;
+  border: 1px solid var(--mani-label-border) !important;
+  border-radius: 999px !important;
+  color: var(--mani-label-graphite) !important;
+  background: var(--mani-label-glass) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96), 0 7px 18px rgba(45, 64, 91, 0.055) !important;
+  font-family: "Inter", "Manrope", system-ui, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+  backdrop-filter: blur(14px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.08) !important;
+}
+
+.nm-page :is(
+  .nm-capabilities-eyebrow,
+  .mcs-eyebrow,
+  .msp-eyebrow,
+  .mani-social-eyebrow,
+  .nm-final-eyebrow,
+  .nm-contact-kicker
+) :is(img, svg) {
+  display: none !important;
+}
+
+.nm-page .mcs-section.mcs-motivator .mcs-title > span {
+  background: var(--mani-motivator-accent) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.nm-page .mcs-section.mcs-fun .mcs-title > span {
+  background: var(--mani-fun-accent) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+@media (max-width: 620px) {
+  .nm-page :is(
+    .nm-capabilities-eyebrow,
+    .mcs-eyebrow,
+    .msp-eyebrow,
+    .mani-social-eyebrow,
+    .nm-final-eyebrow,
+    .nm-contact-kicker
+  ) {
+    min-height: 36px !important;
+    height: auto !important;
+    padding: 9px 13px !important;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+    white-space: normal;
+  }
+}

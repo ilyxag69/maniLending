@@ -79,7 +79,7 @@ function analyticsQuery(PDO $pdo, string $sql, array $params): array {
 }
 
 function analyticsPercent(int $part, int $whole): string {
-    return $whole > 0 ? number_format(($part / $whole) * 100, 1, ',', ' ') . '%' : '—';
+    return $whole > 0 ? number_format(($part / $whole) * 100, 1, ',', ' ') . '%' : 'Нет данных';
 }
 
 function analyticsP75(array $values): ?float {
@@ -200,7 +200,7 @@ try {
     $vitals = [];
     foreach ($vitalValues as $metric => $values) {
         $p75 = analyticsP75($values);
-        $vitals[$metric . ' p75'] = $p75 === null ? '—' : ($metric === 'CLS' ? number_format($p75, 3, ',', '') : number_format($p75, 0, ',', ' ') . ' мс');
+        $vitals[$metric . ' p75'] = $p75 === null ? 'Нет данных' : ($metric === 'CLS' ? number_format($p75, 3, ',', '') : number_format($p75, 0, ',', ' ') . ' мс');
     }
     $botViews = analyticsScalar($pdo, "SELECT COUNT(*) FROM mani_analytics_events WHERE $sqlWindow AND event_name = 'page_view' AND is_bot = 1", $params);
     $visitorRows = analyticsQuery($pdo, "SELECT
@@ -251,7 +251,7 @@ header('Content-Type: text/html; charset=utf-8');
 </head>
 <body>
   <header>
-    <div><h1>Аналитика mani</h1><div class="note">Период: <?= analyticsH($startMoscow->format('d.m.Y')) ?> — <?= analyticsH($nowMoscow->format('d.m.Y H:i')) ?> МСК</div></div>
+    <div><h1>Аналитика mani</h1><div class="note">Период с <?= analyticsH($startMoscow->format('d.m.Y')) ?> по <?= analyticsH($nowMoscow->format('d.m.Y H:i')) ?> МСК</div></div>
     <div class="nav"><a class="button" href="/api/waitlist-admin.php">Заявки</a><a class="button active" href="/api/analytics-admin.php">Аналитика</a></div>
     <div class="periods"><?php foreach ([1 => 'Сегодня', 7 => '7 дней', 30 => '30 дней'] as $days => $label): ?><a class="button <?= $period === $days ? 'active' : '' ?>" href="?period=<?= $days ?>"><?= $label ?></a><?php endforeach; ?></div>
   </header>

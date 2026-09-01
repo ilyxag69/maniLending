@@ -1,21 +1,19 @@
 const toast = document.querySelector("[data-toast]");
 const menuButton = document.querySelector(".menu");
 const mobileMenu = document.querySelector(".mobile-menu-panel");
-const toneSection = document.querySelector(".tone");
-const toneSwitch = document.querySelector(".tone-switch");
+const toneSection = document.querySelector("[data-mani-character-switcher]");
 const toneButtons = document.querySelectorAll("[data-tone]");
 const toneImage = document.querySelector("[data-tone-image]");
-const toneNote = document.querySelector("[data-tone-note]");
-const toneMessages = document.querySelector("[data-tone-messages]");
+const toneQuote = document.querySelector("[data-tone-quote]");
 const roadmapGrid = document.querySelector(".roadmap-grid");
 const waitlistBlocks = document.querySelectorAll("[data-waitlist]");
 const waitlistForms = document.querySelectorAll("[data-waitlist-form]");
 const cookieBanner = document.querySelector("[data-cookie-banner]");
 const cookieAcceptButton = document.querySelector("[data-cookie-accept]");
-const cookieRejectButton = document.querySelector("[data-cookie-reject]");
 const demoTabs = document.querySelectorAll("[data-demo-tab]");
 const demoPhone = document.querySelector(".demo-phone");
 const stickyCta = document.querySelector(".mobile-sticky-cta");
+const siteHeader = document.querySelector(".nm-header");
 const calcSubscriptions = document.querySelector("[data-calc-subscriptions]");
 const calcPrice = document.querySelector("[data-calc-price]");
 const calcLeaks = document.querySelector("[data-calc-leaks]");
@@ -28,7 +26,7 @@ const yandexMetricaId = 103776176;
 const productConfig = window.MANI_PRODUCT_CONFIG || {
   status: "waitlist",
   stores: {},
-  waitlist: { limit: 1000, cta: "Занять место среди первых 1000" },
+  waitlist: { limit: 1000, cta: "Получить ранний доступ" },
 };
 const productStatus = ["waitlist", "preorder", "launched"].includes(productConfig.status)
   ? productConfig.status
@@ -37,6 +35,7 @@ const attributionFirstKey = "maniAttributionFirstV1";
 const attributionLastKey = "maniAttributionLastV1";
 const referralSourceKey = "maniReferralSource";
 const waitlistIdentityKey = "maniWaitlistIdentityV1";
+const characterPreferenceKey = "maniCharacterPreferenceV1";
 
 function storageGet(type, key) {
   try {
@@ -74,7 +73,6 @@ const phoneCountries = [
   { iso: "OTHER", code: "+", length: [8, 15] },
 ];
 let toastTimer;
-let toneAnimationTimer;
 let currentTone = "motivator";
 let referralSourceMemory = "";
 const viewedSections = new Set();
@@ -85,6 +83,13 @@ let waitlistStats = {
   percent: 0,
 };
 let waitlistStatsUnlocked = false;
+
+function updateGlassHeader() {
+  siteHeader?.classList.toggle("is-compact", window.scrollY > 28);
+}
+
+updateGlassHeader();
+window.addEventListener("scroll", updateGlassHeader, { passive: true });
 
 if ("scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
@@ -117,18 +122,14 @@ const links = {
 
 const tones = {
   motivator: {
-    image: "assets/mani-motivator.png",
-    note: "Поддержит, разложит всё по шагам и поможет не паниковать, даже когда бюджет трещит.",
-    messages: ["Я рядом.<br />Мы разберёмся.", "Ты справишься.<br />Давай по шагам.", "Сначала найдем утечку.<br />Потом вернем контроль."],
+    image: "/assets/mani/character-switcher/mascots/motivator-pointing-fixed-v3.png",
+    alt: "Белый Мани, Мотиватор",
+    quote: "Спокойно разберёмся и найдём лучший следующий шаг.",
   },
-  roaster: {
-    image: "assets/mani-prozharschik.png",
-    note: "Скажет прямо, с юмором и без паники: где бюджет течет, где подписка притворяется нужной, а где пора прикрутить траты.",
-    messages: [
-      "Бюджет не резиновый.<br />Он уже сидит в углу и шепчет: «Спроси у него, он чё, ах.ел?»",
-      "Третья доставка за неделю?<br />Ты что, ресторанную франшизу спонсируешь? Как я тебе с такой тратой бюджет выровняю, волшебной палкой?",
-      "Подписка опять списалась.<br />Пойдём смотреть, что это за паразит: полезный сервис или очередная месячная крыса на автоплатеже.",
-    ],
+  fun: {
+    image: "/assets/mani/character-switcher/mascots/veselchak-pointing-master-1254x1254.png",
+    alt: "Чёрный Мани, Весельчак",
+    quote: "Деньги опять дали дёру. Сейчас поймаем беглецов и устроим им финансовый допрос.",
   },
 };
 
@@ -162,7 +163,7 @@ const demoScenarios = {
     title: "Мани показывает повторяющиеся списания",
     copy: "Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить.",
     main: "Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж.",
-    action: "Проверить, нужен ли этот платеж. Если нет — отключение сэкономит до 7 788 ₽ в год.",
+    action: "Проверить, нужен ли этот платеж. Отключение ненужной подписки сэкономит до 7 788 ₽ в год.",
     label: "Потенциально лишний расход",
     value: "7 788 ₽/год",
   },
@@ -205,7 +206,7 @@ if (contactForm) {
     result.classList.remove("is-error", "is-success");
     if (!contactForm.checkValidity()) {
       contactForm.reportValidity();
-      result.textContent = "Заполни обязательные поля — и сигнал можно отправлять.";
+      result.textContent = "Заполните обязательные поля.";
       result.classList.add("is-error");
       return;
     }
@@ -221,7 +222,7 @@ if (contactForm) {
     };
     submitButton.disabled = true;
     submitButton.querySelector("span").textContent = "Отправляем…";
-    result.textContent = "Сигнал летит в команду mani…";
+    result.textContent = "Отправляем сообщение…";
 
     try {
       const response = await fetch("/api/contact", {
@@ -233,14 +234,14 @@ if (contactForm) {
       if (!response.ok) throw new Error(responseData.message || "Не удалось отправить сообщение");
       contactForm.reset();
       updateContactCounter();
-      result.textContent = "Сигнал принят! Ответим на указанный контакт.";
+      result.textContent = "Сообщение отправлено. Ответим по указанному контакту.";
       result.classList.add("is-success");
     } catch (error) {
       result.textContent = `${error.message}. Можно написать напрямую в Telegram @eto_mani.`;
       result.classList.add("is-error");
     } finally {
       submitButton.disabled = false;
-      submitButton.querySelector("span").textContent = "Отправить сигнал";
+      submitButton.querySelector("span").textContent = "Отправить сообщение";
     }
   });
 }
@@ -294,32 +295,16 @@ function setCookieConsent(value) {
   window.ManiAnalytics?.consentChanged();
   closeCookieConsent();
   if (stickyCta) stickyCta.hidden = false;
-  if (value === "accepted") loadAnalytics();
   trackEvent("cookie_consent", { value });
 }
 
-const cookieBlockedElements = [
-  document.querySelector("body > header"),
-  document.querySelector("body > .nm-mobile-menu"),
-  document.querySelector("body > main"),
-  document.querySelector("body > footer"),
-  document.querySelector("body > .toast"),
-  stickyCta,
-].filter(Boolean);
-
 function openCookieConsent() {
   if (!cookieBanner) return;
-  document.body.classList.add("cookie-consent-pending");
   cookieBanner.hidden = false;
-  cookieBlockedElements.forEach((element) => { element.inert = true; });
-  if (stickyCta) stickyCta.hidden = true;
-  requestAnimationFrame(() => cookieAcceptButton?.focus({ preventScroll: true }));
 }
 
 function closeCookieConsent() {
-  document.body.classList.remove("cookie-consent-pending");
   if (cookieBanner) cookieBanner.hidden = true;
-  cookieBlockedElements.forEach((element) => { element.inert = false; });
 }
 
 function initCookieConsent() {
@@ -332,12 +317,7 @@ function initCookieConsent() {
     window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
   }
   const consent = storageGet("localStorage", cookieConsentKey);
-  if (consent === "accepted") {
-    closeCookieConsent();
-    loadAnalytics();
-    return;
-  }
-  if (consent === "necessary") {
+  if (consent === "acknowledged") {
     closeCookieConsent();
     return;
   }
@@ -453,9 +433,8 @@ function initProductStatus() {
 function initHeroCopyExperiment() {
   const heroCopy = document.querySelector("[data-hero-copy]");
   if (!heroCopy) return;
-  const analyticsConsent = storageGet("localStorage", cookieConsentKey) === "accepted";
-  let variant = analyticsConsent ? storageGet("localStorage", heroExperimentKey) : "control";
-  if (analyticsConsent && variant !== "control" && variant !== "short") {
+  let variant = storageGet("localStorage", heroExperimentKey);
+  if (variant !== "control" && variant !== "short") {
     variant = Math.random() < 0.5 ? "control" : "short";
     storageSet("localStorage", heroExperimentKey, variant);
   }
@@ -473,7 +452,7 @@ function initHeroHeadlineExperiment() {
 
   if (variant === "order") {
     headline.replaceChildren(
-      document.createTextNode("Порядок в деньгах — "),
+      document.createTextNode("Порядок в деньгах. "),
       Object.assign(document.createElement("span"), { textContent: "здесь и сейчас!" }),
     );
   }
@@ -584,10 +563,10 @@ function getPhonePayload(form) {
   if (hint) {
     hint.classList.toggle("is-error", hasInput && !valid);
     hint.textContent = !hasInput
-      ? "Можно ввести 9013696977 — подставим +7 сами. Telegram укажи в комментарии, если так удобнее."
+      ? "Например, 999 123 45 67."
       : valid
-      ? `Сохраним как ${normalized}.`
-      : `Введи номер для ${selectedCountry.code}: ${Array.isArray(selectedCountry.length) ? "8-15 цифр" : `${selectedCountry.length} цифр`} без кода страны.`;
+      ? "Номер заполнен."
+      : `Нужно ${Array.isArray(selectedCountry.length) ? "от 8 до 15 цифр" : `${selectedCountry.length} цифр`} без кода страны.`;
   }
 
   return { valid: hasInput && valid, normalized, nationalDigits, country: selectedCountry };
@@ -771,7 +750,7 @@ function getQueueStatusPresentation(status, priorityPosition) {
   const needed = priorityPosition - next.target;
   return {
     ...presentation,
-    motivation: `Ещё ${invitePhrase(needed)} — и статус «${next.label}».`,
+    motivation: `Осталось ${invitePhrase(needed)}, чтобы получить статус «${next.label}».`,
   };
 }
 
@@ -836,7 +815,7 @@ async function submitWaitlist(form) {
     email,
     contact: "manual",
     contactDetails: String(formData.get("contactDetails") || "").trim(),
-    company: String(formData.get("company") || "").trim(),
+    website: String(formData.get("website") || "").trim(),
     pdnConsent: formData.get("pdnConsent") === "yes",
     pdnConsentVersion,
     pdnConsentAt: new Date().toISOString(),
@@ -891,7 +870,12 @@ async function submitWaitlist(form) {
     });
     responseStatus = response.status;
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
+    if (!response.ok) {
+      const requestError = new Error(data.message || `HTTP ${response.status}`);
+      requestError.status = response.status;
+      requestError.code = String(data.code || "");
+      throw requestError;
+    }
     waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
     result.textContent = data.duplicate
@@ -902,14 +886,24 @@ async function submitWaitlist(form) {
     getPhonePayload(form);
     requestAnimationFrame(() => success?.focus({ preventScroll: true }));
     trackEvent("waitlist_success", { duplicate: Boolean(data.duplicate), ref_present: Boolean(data.referredByAccepted) });
-    if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);
+    trackWaitlistConversion(payload.ctaLocation);
     if (!data.duplicate && data.referredByAccepted) trackEvent("referral_signup", { ref_present: true });
-  } catch {
+  } catch (error) {
+    const safeCode = /^[a-z0-9_]{1,64}$/.test(String(error?.code || "")) ? String(error.code) : "";
     trackEvent("api_error", {
-      error_type: responseStatus ? "waitlist_http_error" : "waitlist_network_error",
+      error_type: safeCode || (responseStatus ? "waitlist_http_error" : "waitlist_network_error"),
       status_code: responseStatus,
     });
-    result.textContent = "Не удалось отправить заявку. Проверь соединение и попробуй ещё раз.";
+    const errorMessages = {
+      invalid_phone_or_email: "Проверь номер телефона и email. Одно из полей заполнено некорректно.",
+      missing_pdn_consent: "Подтверди согласие на обработку персональных данных.",
+      rate_limited: "Слишком много попыток подряд. Подожди минуту и попробуй снова.",
+      bot_field_filled: "Браузер заполнил служебное поле. Обнови страницу и повтори отправку.",
+      invalid_client_state: "Страница устарела. Обнови её и повтори отправку.",
+      waitlist_unavailable: "Форма временно недоступна. Попробуй ещё раз через несколько минут.",
+    };
+    result.textContent = errorMessages[safeCode]
+      || (responseStatus >= 400 ? "Не удалось проверить данные формы. Обнови страницу и попробуй ещё раз." : "Не удалось отправить заявку. Проверь соединение и попробуй ещё раз.");
     result.focus?.();
   } finally {
     form.dataset.submitting = "false";
@@ -1143,7 +1137,7 @@ document.addEventListener("click", async (event) => {
         trackEvent("referral_share", { share_target: "web_share" });
       } catch (error) {
         if (error?.name !== "AbortError" && await copyText(url)) {
-          showToast("Системное меню недоступно — ссылка скопирована.");
+          showToast("Системное меню недоступно. Ссылка скопирована.");
           trackEvent("referral_share", { share_target: "clipboard" });
         }
       }
@@ -1190,28 +1184,32 @@ function openConfiguredLink(key, fallback) {
   }
 }
 
-function setTone(name) {
+function setTone(requestedName, { track = true, persist = true } = {}) {
+  const name = requestedName === "roaster" ? "fun" : requestedName;
   const tone = tones[name];
-  if (!tone || !toneSection || !toneImage || !toneNote || !toneMessages) return;
+  if (!tone || !toneSection || !toneImage || !toneQuote) return;
   const isSameTone = currentTone === name;
   currentTone = name;
-  toneSection.classList.toggle("roaster", name === "roaster");
-  toneButtons.forEach((button) => button.classList.toggle("active", button.dataset.tone === name));
-  clearTimeout(toneAnimationTimer);
+  toneSection.classList.toggle("mcs-motivator", name === "motivator");
+  toneSection.classList.toggle("mcs-fun", name === "fun");
+  toneSection.dataset.character = name;
+  toneButtons.forEach((button) => {
+    const isActive = button.dataset.tone === name;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
   if (!toneImage.src.endsWith(tone.image)) {
     toneImage.src = tone.image;
   }
+  toneImage.alt = tone.alt;
   if (!isSameTone) {
-    toneImage.classList.remove("is-changing");
+    toneImage.classList.remove("mcs-animate");
     void toneImage.offsetWidth;
-    toneImage.classList.add("is-changing");
-    toneAnimationTimer = setTimeout(() => toneImage.classList.remove("is-changing"), 180);
-    trackEvent("tone_switch", { tone: name });
+    toneImage.classList.add("mcs-animate");
+    if (track) trackEvent("tone_switch", { tone: name });
   }
-  toneNote.textContent = tone.note;
-  toneMessages.querySelectorAll(".message-card b").forEach((node, index) => {
-    node.innerHTML = tone.messages[index] || "";
-  });
+  toneQuote.textContent = tone.quote;
+  if (persist) storageSet("localStorage", characterPreferenceKey, name);
 }
 
 function setDemoScenario(name) {
@@ -1275,33 +1273,10 @@ function updateLeakCalculator() {
 }
 
 toneButtons.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    const isDesktopSwitchLabel = button.closest(".tone-switch") && window.matchMedia("(min-width: 701px)").matches;
-    if (isDesktopSwitchLabel) {
-      event.preventDefault();
-      event.stopPropagation();
-      setTone(button.dataset.tone);
-      return;
-    }
+  button.addEventListener("click", () => {
     setTone(button.dataset.tone);
   });
 });
-
-if (toneSwitch) {
-  toneSwitch.addEventListener("click", (event) => {
-    const rect = toneSwitch.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const isDesktopSwitch = window.matchMedia("(min-width: 701px)").matches;
-
-    if (!isDesktopSwitch) return;
-
-    const switchStart = parseFloat(getComputedStyle(toneSwitch).getPropertyValue("--switch-left")) || 132;
-    const switchWidth = parseFloat(getComputedStyle(toneSwitch).getPropertyValue("--switch-width")) || 92;
-    if (x < switchStart || x > switchStart + switchWidth) return;
-
-    setTone(currentTone === "motivator" ? "roaster" : "motivator");
-  });
-}
 
 demoTabs.forEach((button) => {
   button.addEventListener("click", () => setDemoScenario(button.dataset.demoTab));
@@ -1495,9 +1470,8 @@ if ("IntersectionObserver" in window) {
 }
 
 const initialTone = new URLSearchParams(window.location.search).get("tone");
-if (initialTone) {
-  setTone(initialTone);
-}
+const savedTone = storageGet("localStorage", characterPreferenceKey);
+setTone(initialTone || savedTone || "motivator", { track: false, persist: false });
 
 const referralSource = new URLSearchParams(window.location.search).get("ref");
 if (referralSource) {
@@ -1510,29 +1484,11 @@ if (referralSource) {
 }
 
 if (cookieAcceptButton) {
-  cookieAcceptButton.addEventListener("click", () => setCookieConsent("accepted"));
+  cookieAcceptButton.addEventListener("click", () => setCookieConsent("acknowledged"));
 }
-
-if (cookieRejectButton) {
-  cookieRejectButton.addEventListener("click", () => setCookieConsent("necessary"));
-}
-
-document.addEventListener("keydown", (event) => {
-  if (!document.body.classList.contains("cookie-consent-pending") || !cookieBanner || event.key !== "Tab") return;
-  const focusable = [...cookieBanner.querySelectorAll("a[href], button:not([disabled])")];
-  if (!focusable.length) return;
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
-});
 
 loadYandexMetrica();
+loadAnalytics();
 initCookieConsent();
 loadWaitlistStats();
 restoreWaitlistIdentity();
@@ -1605,164 +1561,3 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
-
-document.querySelectorAll("[data-mani-test-drive]").forEach((root) => {
-  const subscriptionsInput = root.querySelector("[data-mtd-subscriptions]");
-  const impulseInput = root.querySelector("[data-mtd-impulse]");
-  const modeButtons = [...root.querySelectorAll("[data-mtd-mode]")];
-  const rubles = new Intl.NumberFormat("ru-RU");
-  let mascotMode = "jester";
-  let calculatorStarted = false;
-
-  const markCalculatorStart = (control) => {
-    if (calculatorStarted) return;
-    calculatorStarted = true;
-    trackEvent("calculator_start", { control });
-  };
-
-  const setRangeFill = (input) => {
-    const percent = ((Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min))) * 100;
-    input.style.setProperty("--range-fill", `linear-gradient(90deg,#ff650e 0 ${percent}%,#e7edf7 ${percent}% 100%)`);
-  };
-
-  const render = () => {
-    const subscriptions = Number(subscriptionsInput.value);
-    const impulseBuys = Number(impulseInput.value);
-    const annualLoss = subscriptions * 500 * 12 + impulseBuys * 350 * 52;
-    const monthlySaving = Math.round(annualLoss / 12);
-    const annualFormatted = `${rubles.format(annualLoss)} ₽`;
-    const monthlyFormatted = `${rubles.format(monthlySaving)} ₽`;
-    root.dataset.annualLoss = String(annualLoss);
-    root.dataset.mascotMode = mascotMode;
-    let message;
-
-    if (mascotMode === "jester") {
-      if (annualLoss === 0) message = "Ноль утечек? Либо ты финансовый ниндзя, либо сейчас очень уверенно врёшь ползункам. Ладно, засчитываю победу — бюджет сегодня может выдохнуть.";
-      else if (annualLoss <= 12000) message = `Всего ${annualFormatted} в год. Не пожар, но деньги понемногу уносят тапочки из прихожей. Поймаем мелких беглецов, пока они не позвали друзей.`;
-      else if (annualLoss <= 30000) message = `${annualFormatted} в год испаряются без аплодисментов. Это уже не мелочь из кармана, а несколько хороших ужинов, которые съел автоплатёж. Прикроем эту лавочку.`;
-      else if (annualLoss <= 70000) message = `Ого... Твои деньги устроили профессиональный побег! На эти ${annualFormatted} в год можно было слетать в отпуск, но ты предпочёл спонсировать сервисы, которые даже не открываешь. Красиво жить не запретишь, да?`;
-      else message = `${annualFormatted} в год?! Бюджет уже сидит в углу и шепчет: «Спроси у него, он вообще видел эти цифры?» Это не утечка, это финансовый аквапарк. Срочно перекрываем краны.`;
-    } else {
-      if (annualLoss === 0) message = "Отлично: сейчас расчёт не показывает скрытых потерь. Это сильная база. Я помогу сохранить такой порядок и вовремя замечать изменения, если они появятся.";
-      else if (annualLoss <= 12000) message = `У тебя совсем небольшие утечки — около ${annualFormatted} в год. Ты уже хорошо держишь финансы в руках. Давай спокойно найдём пару точек роста и направим эти деньги на то, что действительно важно.`;
-      else if (annualLoss <= 30000) message = `Сейчас незаметно уходит около ${annualFormatted} в год. Ничего страшного: такие траты легко пропустить. Разберём их вместе без резких ограничений и вернём деньгам понятную цель.`;
-      else if (annualLoss <= 70000) message = `Я вижу, что сейчас уходит около ${annualFormatted} в год. Не переживай и не кори себя — это скрытые маркеры, которые трудно отследить вручную. Мы разберёмся вместе и шаг за шагом вернём полный контроль.`;
-      else message = `${annualFormatted} в год выглядит серьёзно, но это не повод паниковать. Большая сумма складывается из понятных привычек. Начнём с самых простых изменений, сохраним комфорт и постепенно высвободим заметную часть бюджета.`;
-    }
-
-    if (annualLoss > 0) {
-      const jesterDetails = [
-        "Автоплатежи уже открыли шампанское за твой счёт.",
-        "Где-то сейчас маркетплейс довольно потирает руки.",
-        "Мелкие траты снова притворились незаметными. Очень убедительно. Почти.",
-        "Подписки ведут себя как квартиранты: живут тихо, платишь почему-то ты.",
-        "Твой бюджет просил передать, что он не бездонный банкомат.",
-        "Каждая покупка вроде мелочь, а вместе они уже собрали профсоюз.",
-        "Деньги уходят красиво. Жаль, что без твоего согласия.",
-        "Пара ползунков — и финансовое алиби рассыпалось.",
-        "С таким темпом копилка скоро начнёт брать кредит.",
-        "Не расходы, а гастрольный тур по банковской выписке.",
-        "Хорошая новость: виновники уже светятся на табло.",
-      ];
-      const motivatorDetails = [
-        "Начнём с одного простого изменения — этого уже достаточно для движения вперёд.",
-        "Тебе не нужно менять всю жизнь: выберем самые лёгкие точки экономии.",
-        "Даже небольшая корректировка каждый месяц даст заметный результат за год.",
-        "Ты уже сделал важное — посмотрел на цифры спокойно и без самообвинений.",
-        "Сначала сохраним комфорт, затем аккуратно уберём то, что не приносит пользы.",
-        "Эти деньги можно постепенно направить на цель, которая действительно радует.",
-        "Мы будем двигаться в удобном темпе и оставим только полезные привычки.",
-        "Здесь нет плохих решений — есть данные, которые помогают выбрать лучше.",
-        "Порядок начинается не с запретов, а с ясной картины.",
-        "Каждая найденная утечка — это дополнительная свобода для будущих планов.",
-        "Цифры уже понятны, значит следующий шаг будет гораздо легче.",
-      ];
-      const details = mascotMode === "jester" ? jesterDetails : motivatorDetails;
-      message += ` ${details[(subscriptions * 16 + impulseBuys) % details.length]}`;
-    }
-
-    root.querySelector("[data-mtd-subscriptions-output]").textContent = subscriptions;
-    root.querySelector("[data-mtd-impulse-output]").textContent = impulseBuys;
-    root.querySelector("[data-mtd-subscriptions-metric]").textContent = subscriptions;
-    root.querySelector("[data-mtd-impulse-metric]").textContent = impulseBuys;
-    root.querySelector("[data-mtd-annual]").textContent = annualFormatted;
-    root.querySelector("[data-mtd-monthly]").textContent = monthlyFormatted;
-    root.querySelector("[data-mtd-message]").textContent = message;
-
-    const mascot = root.querySelector("[data-mtd-mascot]");
-    mascot.src = mascotMode === "jester"
-      ? "assets/newmani/interactive/jester.webp"
-      : "assets/newmani/interactive/motivator.webp";
-    mascot.alt = mascotMode === "jester" ? "Весельчак Мани" : "Мотиватор Мани";
-    root.classList.toggle("is-motivator", mascotMode === "motivator");
-    modeButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.mtdMode === mascotMode));
-    setRangeFill(subscriptionsInput);
-    setRangeFill(impulseInput);
-  };
-
-  subscriptionsInput.addEventListener("input", () => {
-    markCalculatorStart("subscriptions");
-    render();
-  });
-  impulseInput.addEventListener("input", () => {
-    markCalculatorStart("impulse_buys");
-    render();
-  });
-  subscriptionsInput.addEventListener("change", () => {
-    trackEvent("calculator_complete", { control: "subscriptions" });
-  });
-  impulseInput.addEventListener("change", () => {
-    trackEvent("calculator_complete", { control: "impulse_buys" });
-  });
-  modeButtons.forEach((button) => button.addEventListener("click", () => {
-    mascotMode = button.dataset.mtdMode;
-    markCalculatorStart("mode");
-    render();
-  }));
-  root.querySelector("[data-calculator-card-download]")?.addEventListener("click", async (event) => {
-    const button = event.currentTarget;
-    button.disabled = true;
-    try {
-      const canvas = await createManiCard({
-        type: "calculator",
-        mode: root.dataset.mascotMode,
-        annualLoss: Number(root.dataset.annualLoss),
-      });
-      await downloadCanvasCard(canvas, "mani-test-drive.png");
-      trackEvent("calculator_share", { share_target: "download" });
-    } finally {
-      button.disabled = false;
-    }
-  });
-  root.querySelector("[data-calculator-card-share]")?.addEventListener("click", async (event) => {
-    const button = event.currentTarget;
-    button.disabled = true;
-    try {
-      const canvas = await createManiCard({
-        type: "calculator",
-        mode: root.dataset.mascotMode,
-        annualLoss: Number(root.dataset.annualLoss),
-      });
-      const shared = await shareCanvasCard(
-        canvas,
-        "mani-test-drive.png",
-        "Столько денег может незаметно убегать за год. А сколько убегает у тебя?",
-        `${window.location.origin}/#test-drive`
-      );
-      if (shared !== null) {
-        trackEvent("calculator_share", { share_target: shared ? "web_share" : "download" });
-      }
-    } finally {
-      button.disabled = false;
-    }
-  });
-  if ("IntersectionObserver" in window) {
-    const calculatorObserver = new IntersectionObserver((entries, observer) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      trackEvent("calculator_view", { section: "test-drive" });
-      observer.disconnect();
-    }, { threshold: 0.35 });
-    calculatorObserver.observe(root);
-  }
-  render();
-});

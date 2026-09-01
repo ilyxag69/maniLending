@@ -1,0 +1,80 @@
+/* One headline language across every primary landing section. */
+:root {
+  --mani-heading-ink: #07142b;
+  --mani-heading-accent: linear-gradient(100deg, #ff6b2c 0%, #ffb28a 100%);
+}
+
+.nm-page :is(
+  .nm-capabilities-heading h2,
+  .mcs-title,
+  .msp-title,
+  .nm-vision .nm-section-heading h2,
+  .nm-social-intro h2,
+  .mani-social-copy h2,
+  .nm-final-card h2,
+  .nm-contact-intro h2
+) {
+  color: var(--mani-heading-ink) !important;
+  font-family: "Inter", "Manrope", system-ui, sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (min-width: 981px) {
+  .nm-page .msp-title {
+    width: 700px !important;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 980px) {
+  .nm-page .msp-title {
+    white-space: normal;
+  }
+}
+
+.nm-page :is(
+  .nm-capabilities-heading h2,
+  .mcs-title,
+  .msp-title,
+  .nm-vision .nm-section-heading h2,
+  .nm-social-intro h2,
+  .mani-social-copy h2,
+  .nm-final-card h2,
+  .nm-contact-intro h2
+) > span {
+  color: transparent !important;
+  background: var(--mani-heading-accent) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Variable-font glyphs can extend beyond a tight line box. The gradient is
+   painted only inside the element box, so descenders such as Cyrillic "у"
+   may otherwise look cut off. Padding expands the paint area while the
+   matching negative margins keep the original heading rhythm unchanged. */
+.nm-page :is(
+  .nm-capabilities-heading h2,
+  .mcs-title,
+  .msp-title,
+  .nm-vision .nm-section-heading h2,
+  .mani-social-copy h2,
+  .nm-final-card h2,
+  .nm-contact-intro h2
+) > span {
+  padding: 0.13em 0.06em 0.18em !important;
+  margin: -0.13em -0.06em -0.18em !important;
+}
+
+.nm-page :is(
+  .nm-capability-group-heading h3,
+  .nm-capability-card h4,
+  .nm-vision-card h3,
+  .nm-social-card h3,
+  .nm-contact-form h3
+) {
+  color: var(--mani-heading-ink) !important;
+  font-family: "Inter", "Manrope", system-ui, sans-serif !important;
+  letter-spacing: 0 !important;
+}

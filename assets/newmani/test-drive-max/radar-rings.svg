@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" fill="none">
+  <defs>
+    <linearGradient id="ring" x1="120" y1="80" x2="690" y2="730">
+      <stop stop-color="#FFFFFF" stop-opacity=".96"/>
+      <stop offset=".38" stop-color="#D9EDFF" stop-opacity=".24"/>
+      <stop offset=".7" stop-color="#63B6FF" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity=".68"/>
+    </linearGradient>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+  <ellipse cx="400" cy="400" rx="320" ry="276" transform="rotate(-12 400 400)" stroke="url(#ring)" stroke-width="3" opacity=".88"/>
+  <ellipse cx="400" cy="400" rx="286" ry="318" transform="rotate(17 400 400)" stroke="url(#ring)" stroke-width="2" opacity=".68"/>
+  <ellipse cx="400" cy="400" rx="244" ry="214" transform="rotate(-20 400 400)" stroke="url(#ring)" stroke-width="2" opacity=".56"/>
+  <path d="M86 298c95-196 279-225 423-137 106 65 137 202 232 247" stroke="#FF8A42" stroke-opacity=".32" stroke-width="3" stroke-linecap="round" filter="url(#soft)"/>
+  <path d="M733 486c-88 187-258 236-411 160-117-58-161-188-260-222" stroke="#4BA8FF" stroke-opacity=".34" stroke-width="3" stroke-linecap="round" filter="url(#soft)"/>
+</svg>

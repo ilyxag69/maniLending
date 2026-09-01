@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" fill="none">
+  <defs>
+    <linearGradient id="page" x1="80" y1="10" x2="1480" y2="1010" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0F5FB"/>
+      <stop offset=".42" stop-color="#F8FAFE"/>
+      <stop offset="1" stop-color="#EDF6FC"/>
+    </linearGradient>
+    <radialGradient id="pageTop" cx="0" cy="0" r="1" gradientTransform="translate(850 -90) rotate(88) scale(500 980)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".76"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cyan" cx="0" cy="0" r="1" gradientTransform="translate(1515 50) rotate(138) scale(520 670)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DDF7FF" stop-opacity=".78"/>
+      <stop offset="1" stop-color="#DDF7FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="warm" cx="0" cy="0" r="1" gradientTransform="translate(-20 760) rotate(-24) scale(510 400)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF2EE" stop-opacity=".48"/>
+      <stop offset="1" stop-color="#FFF2EE" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="62" y1="54" x2="1472" y2="970" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".78"/>
+      <stop offset=".48" stop-color="#FFFFFF" stop-opacity=".60"/>
+      <stop offset="1" stop-color="#F5FBFF" stop-opacity=".70"/>
+    </linearGradient>
+    <radialGradient id="glassCyan" cx="0" cy="0" r="1" gradientTransform="translate(1420 180) rotate(145) scale(520 570)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8F6FF" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#D8F6FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-6%" y="-8%" width="112%" height="122%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#456987" flood-opacity=".11"/>
+    </filter>
+  </defs>
+  <rect width="1536" height="1024" fill="url(#page)"/>
+  <rect width="1536" height="1024" fill="url(#pageTop)"/>
+  <rect width="1536" height="1024" fill="url(#cyan)"/>
+  <rect width="1536" height="1024" fill="url(#warm)"/>
+  <g filter="url(#shadow)">
+    <rect x="24.5" y="29.5" width="1487" height="965" rx="29.5" fill="url(#glass)"/>
+    <rect x="24.5" y="29.5" width="1487" height="965" rx="29.5" fill="url(#glassCyan)"/>
+    <rect x="25" y="30" width="1486" height="964" rx="29" stroke="#FFFFFF" stroke-opacity=".92"/>
+    <path d="M54 31h1428" stroke="#FFFFFF" stroke-opacity=".58" stroke-linecap="round"/>
+  </g>
+</svg>

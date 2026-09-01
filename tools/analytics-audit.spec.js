@@ -13,7 +13,7 @@ async function captureFirstParty(page) {
   return events;
 }
 
-test("first-party analytics works without consent and sends no PII", async ({ page }) => {
+test("all analytics works before the notice is closed and sends no PII", async ({ page }) => {
   const events = await captureFirstParty(page);
   const external = [];
   page.on("request", (request) => {
@@ -30,9 +30,9 @@ test("first-party analytics works without consent and sends no PII", async ({ pa
 
   expect(events.some((event) => event.name === "page_view")).toBeTruthy();
   expect(events.some((event) => event.name === "experiment_view" && event.hero_headline_variant)).toBeTruthy();
-  expect(events.every((event) => !event.visitor_id)).toBeTruthy();
+  expect(events.every((event) => event.visitor_id)).toBeTruthy();
   expect(events.every((event) => event.consent_state === "unknown")).toBeTruthy();
-  expect(external).toHaveLength(0);
+  expect(external.length).toBeGreaterThan(0);
 
   const serialized = JSON.stringify(events).toLowerCase();
   for (const forbidden of ["phone", "email", "contactdetails", "annualloss", "monthlysaving"]) {
@@ -40,17 +40,17 @@ test("first-party analytics works without consent and sends no PII", async ({ pa
   }
 });
 
-test("consent enables external analytics and persistent anonymous visitor", async ({ page }) => {
+test("closing the notice keeps external analytics and persistent anonymous visitor", async ({ page }) => {
   const events = await captureFirstParty(page);
   const external = [];
   page.on("request", (request) => {
     if (/googletagmanager|google-analytics|mc\.yandex/.test(request.url())) external.push(request.url());
   });
-  await page.addInitScript(() => localStorage.setItem("maniCookieConsent", "accepted"));
+  await page.addInitScript(() => localStorage.setItem("maniCookieConsent", "acknowledged"));
   await page.goto(siteUrl);
   await page.waitForTimeout(1800);
 
-  expect(events.some((event) => event.consent_state === "accepted" && event.visitor_id)).toBeTruthy();
+  expect(events.some((event) => event.visitor_id)).toBeTruthy();
   expect(external.length).toBeGreaterThan(0);
 });
 

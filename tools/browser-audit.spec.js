@@ -36,7 +36,7 @@ async function mockWaitlist(page, onPost = () => {}) {
 }
 
 async function submitWaitlist(page) {
-  const cookieChoice = page.locator("[data-cookie-reject]");
+  const cookieChoice = page.locator("[data-cookie-accept]");
   if (await cookieChoice.isVisible()) await cookieChoice.click();
   await page.locator("[data-open-waitlist]").first().click();
   await page.locator("[name=phoneDisplay]").fill("9013696977");
@@ -48,22 +48,20 @@ async function submitWaitlist(page) {
   await expect(page.locator("[data-waitlist-success]")).toContainText("№410");
 }
 
-test("cookie gate blocks the page and fits desktop and mobile", async ({ page }) => {
+test("cookie notice stays non-blocking and fits desktop and mobile", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   const banner = page.locator("[data-cookie-banner]");
   await expect(banner).toBeVisible();
-  await expect(page.locator("body")).toHaveClass(/cookie-consent-pending/);
-  expect(await page.locator("main").evaluate((element) => element.inert)).toBe(true);
+  await expect(page.locator("body")).not.toHaveClass(/cookie-consent-pending/);
+  expect(await page.locator("main").evaluate((element) => element.inert)).toBe(false);
   const desktopState = await page.evaluate(() => ({
     overflow: getComputedStyle(document.body).overflow,
-    overlay: getComputedStyle(document.body, "::before").backgroundColor,
   }));
-  expect(desktopState.overflow).toBe("hidden");
-  expect(desktopState.overlay).not.toBe("rgba(0, 0, 0, 0)");
+  expect(desktopState.overflow).not.toBe("hidden");
   await page.mouse.wheel(0, 900);
   await page.waitForTimeout(100);
-  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
   await page.locator("[data-cookie-accept]").click();
   await expect(banner).toBeHidden();
   await expect(page.locator("body")).not.toHaveClass(/cookie-consent-pending/);
@@ -79,9 +77,9 @@ test("cookie gate blocks the page and fits desktop and mobile", async ({ page })
   expect(box.y).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(360);
   expect(box.y + box.height).toBeLessThanOrEqual(640);
-  await page.locator("[data-cookie-reject]").click();
+  await page.locator("[data-cookie-accept]").click();
   await expect(banner).toBeHidden();
-  expect(await page.evaluate(() => localStorage.getItem("maniCookieConsent"))).toBe("necessary");
+  expect(await page.evaluate(() => localStorage.getItem("maniCookieConsent"))).toBe("acknowledged");
 });
 
 test("local preview reset clears saved cookie consent", async ({ page }) => {
@@ -152,7 +150,7 @@ test("success identity reopens and PNG is generated from same-origin assets", as
   await expect(page.locator("[data-waitlist-success]")).toContainText("№410");
 });
 
-test("analytics stays off after necessary-only consent", async ({ page }) => {
+test("external analytics starts before the notice is closed", async ({ page }) => {
   const analyticsRequests = [];
   page.on("request", (request) => {
     if (/googletagmanager|google-analytics|mc\.yandex/.test(request.url())) {
@@ -161,7 +159,6 @@ test("analytics stays off after necessary-only consent", async ({ page }) => {
   });
   await mockWaitlist(page);
   await page.goto("/");
-  await page.locator("[data-cookie-reject]").click();
-  await page.waitForTimeout(300);
-  expect(analyticsRequests).toEqual([]);
+  await page.waitForTimeout(1000);
+  expect(analyticsRequests.length).toBeGreaterThan(0);
 });

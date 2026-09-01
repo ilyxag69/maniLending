@@ -1,0 +1,311 @@
+/* Security in plain language: three guarantees followed by three clear steps. */
+.msp-host {
+  width: min(1620px, calc(100% - 80px)) !important;
+  margin: 18px auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(211, 224, 239, .82) !important;
+  border-radius: 36px !important;
+  background:
+    url("/assets/mani/security/effects/glass-caustics.svg") center / cover no-repeat,
+    radial-gradient(ellipse 60% 76% at 84% 18%, rgba(177, 221, 255, .42) 0%, rgba(219, 238, 253, .20) 44%, transparent 74%),
+    radial-gradient(ellipse 52% 70% at 10% 88%, rgba(255, 211, 188, .26) 0%, rgba(255, 231, 217, .12) 44%, transparent 70%),
+    linear-gradient(135deg, #fcfdff 0%, #f4f8fc 48%, #eaf2fa 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .98), 0 8px 24px rgba(45, 72, 108, .045) !important;
+}
+
+.msp-host .msp-section {
+  width: 100% !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: inherit !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.msp-host .msp-shell {
+  position: relative !important;
+  inset: auto !important;
+  padding: 48px 54px 34px;
+  overflow: hidden;
+  border-radius: inherit;
+  background: transparent;
+}
+
+.msp-host .msp-top-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.42fr) minmax(360px, .78fr);
+  align-items: center;
+  gap: 34px;
+  min-height: 450px;
+}
+
+.msp-host .msp-copy,
+.msp-host .msp-visual,
+.msp-host .msp-steps-row {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.msp-host .msp-copy {
+  z-index: 3;
+}
+
+.msp-host .msp-eyebrow {
+  min-height: 42px;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  color: #3f4c60 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.msp-host .msp-title {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  margin: 28px 0 0 !important;
+  white-space: normal !important;
+  font-size: clamp(52px, 4.4vw, 68px) !important;
+  font-weight: 500 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em !important;
+}
+
+.msp-host .msp-title span {
+  display: block;
+}
+
+.msp-host .msp-description {
+  position: relative !important;
+  inset: auto !important;
+  width: min(100%, 760px) !important;
+  margin: 20px 0 0 !important;
+  color: #52617a !important;
+  font-size: 17px !important;
+  line-height: 1.5 !important;
+}
+
+.msp-host .msp-features {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: auto !important;
+  gap: 12px !important;
+  margin: 28px 0 0 !important;
+}
+
+.msp-host .msp-features li,
+.msp-host .msp-features li:nth-child(even),
+.msp-host .msp-features li:nth-child(n+3) {
+  min-height: 148px !important;
+  display: block !important;
+  padding: 20px !important;
+  border: 1px solid rgba(255, 255, 255, .9) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .79), rgba(245, 249, 254, .51)) !important;
+  box-shadow: inset 0 1px 0 #fff, 0 12px 28px rgba(42, 70, 107, .065) !important;
+}
+
+.msp-host .msp-features strong {
+  width: auto !important;
+  margin: 0 !important;
+  color: #122039 !important;
+  background: none !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.msp-host .msp-features small {
+  margin-top: 10px !important;
+  color: #5d6d84 !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+}
+
+.msp-host .msp-visual {
+  z-index: 2;
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  margin: 0 !important;
+}
+
+.msp-host .msp-mascot {
+  position: relative !important;
+  inset: auto !important;
+  width: min(100%, 430px) !important;
+  height: auto !important;
+  transform: none !important;
+  filter: drop-shadow(0 25px 25px rgba(33, 62, 94, .13));
+}
+
+.msp-host .msp-steps-row {
+  z-index: 4;
+  display: grid !important;
+  grid-template-columns: 1fr;
+  align-items: stretch !important;
+  gap: 18px;
+  margin-top: 36px !important;
+  padding-top: 30px !important;
+  border-top: 1px solid rgba(109, 141, 180, .18) !important;
+}
+
+.msp-host .msp-process-list {
+  width: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.msp-host .msp-process-list article {
+  min-height: 112px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, .90);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .72), rgba(244, 249, 255, .46));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .98), 0 10px 24px rgba(42, 70, 107, .055);
+  backdrop-filter: blur(16px) saturate(118%);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+}
+
+.msp-host .msp-process-list strong {
+  display: block;
+  margin: 0 0 8px;
+  color: #17253d;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.msp-host .msp-steps-row li::after,
+.msp-host .msp-steps-row li:not(:last-child)::after,
+.msp-host .msp-steps-row img {
+  display: none !important;
+}
+
+.msp-host .msp-step-number {
+  display: none !important;
+}
+
+.msp-host .msp-process-list p {
+  margin: 0;
+  color: #43536b !important;
+  font-size: 15px !important;
+  line-height: 1.48 !important;
+}
+
+.msp-host .msp-details-link {
+  align-self: center;
+  justify-self: end;
+  margin: 0 !important;
+  color: #1674f5 !important;
+  font-size: 14px !important;
+  white-space: nowrap;
+}
+
+.msp-host .msp-details-link span {
+  font-size: 18px;
+  transition: transform .18s ease;
+}
+
+.msp-host .msp-details-link:hover span { transform: translateX(3px); }
+
+@media (max-width: 1100px) {
+  .msp-host .msp-top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .msp-host .msp-visual {
+    min-height: 360px;
+  }
+
+  .msp-host .msp-mascot {
+    width: min(62%, 390px) !important;
+  }
+
+  .msp-host .msp-steps-row {
+    grid-template-columns: 1fr;
+  }
+
+  .msp-host .msp-details-link {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .msp-host {
+    width: calc(100% - 16px) !important;
+    border-radius: 26px !important;
+  }
+
+  .msp-host .msp-shell {
+    padding: 32px 14px 22px;
+  }
+
+  .msp-host .msp-title {
+    margin-top: 24px !important;
+    font-size: clamp(41px, 12vw, 50px) !important;
+  }
+
+  .msp-host .msp-description {
+    margin-top: 17px !important;
+    font-size: 15px !important;
+  }
+
+  .msp-host .msp-features {
+    grid-template-columns: 1fr !important;
+    margin-top: 23px !important;
+    gap: 9px !important;
+  }
+
+  .msp-host .msp-features li,
+  .msp-host .msp-features li:nth-child(even),
+  .msp-host .msp-features li:nth-child(n+3) {
+    min-height: 0 !important;
+    padding: 18px !important;
+    border-radius: 19px !important;
+  }
+
+  .msp-host .msp-visual {
+    min-height: 248px;
+    margin-top: 6px !important;
+  }
+
+  .msp-host .msp-mascot {
+    width: min(68%, 255px) !important;
+  }
+
+  .msp-host .msp-steps-row {
+    margin-top: 22px !important;
+    padding-top: 24px !important;
+    gap: 20px;
+  }
+
+  .msp-host .msp-process-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  .msp-host .msp-process-list article {
+    min-height: 0;
+    padding: 18px !important;
+  }
+
+  .msp-host .msp-details-link { justify-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msp-host .msp-details-link,
+  .msp-host .msp-details-link span { transition: none; }
+}

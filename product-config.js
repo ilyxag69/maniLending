@@ -7,6 +7,6 @@ window.MANI_PRODUCT_CONFIG = Object.freeze({
   }),
   waitlist: Object.freeze({
     limit: 1000,
-    cta: "Занять место среди первых 1000",
+    cta: "Получить ранний доступ",
   }),
 });

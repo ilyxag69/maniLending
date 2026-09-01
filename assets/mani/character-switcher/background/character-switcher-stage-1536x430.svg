@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="430" viewBox="0 0 1536 430" fill="none">
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="1536" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FBFF"/><stop offset=".53" stop-color="#F7FAFF"/><stop offset="1" stop-color="#F5F9FE"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="80" y1="45" x2="1445" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity=".78"/><stop offset=".48" stop-color="#FBFDFF" stop-opacity=".64"/><stop offset="1" stop-color="#F7FBFF" stop-opacity=".62"/>
+    </linearGradient>
+    <radialGradient id="cyan" cx="0" cy="0" r="1" gradientTransform="translate(1115 123) rotate(13) scale(355 225)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D6F3FF" stop-opacity=".75"/><stop offset="1" stop-color="#D6F3FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="peach" cx="0" cy="0" r="1" gradientTransform="translate(1372 174) rotate(110) scale(210 250)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE8DE" stop-opacity=".58"/><stop offset="1" stop-color="#FFE8DE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bubbleGlow" cx="0" cy="0" r="1" gradientTransform="translate(827 190) scale(330 180)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3F2FF" stop-opacity=".46"/><stop offset="1" stop-color="#E3F2FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="stageShadow" x="0" y="-20" width="1536" height="470" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#385D88" flood-opacity=".09"/></filter>
+    <filter id="blur" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="36"/></filter>
+  </defs>
+  <rect width="1536" height="430" fill="url(#page)"/>
+  <g filter="url(#stageShadow)">
+    <rect x="56.5" y="35.5" width="1415" height="352" rx="40.5" fill="url(#glass)"/>
+    <ellipse cx="1115" cy="123" rx="355" ry="225" fill="url(#cyan)" filter="url(#blur)"/>
+    <ellipse cx="1372" cy="174" rx="250" ry="210" fill="url(#peach)" filter="url(#blur)"/>
+    <ellipse cx="827" cy="190" rx="330" ry="180" fill="url(#bubbleGlow)" filter="url(#blur)"/>
+    <rect x="56.5" y="35.5" width="1415" height="352" rx="40.5" stroke="#DDE7F2" stroke-opacity=".92"/>
+    <path d="M96 37H1430" stroke="white" stroke-opacity=".86"/>
+  </g>
+</svg>
