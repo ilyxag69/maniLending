@@ -1,6 +1,9 @@
 # Local editor settings
 .vscode/
 
+# Private credentials and operator handoff notes
+.private/
+
 # Generated verification screenshots and debug crops
 screenshot-*.png
 crop-*.png

@@ -86,6 +86,18 @@ try {
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
   check(html.includes("product-config.js"), "product configuration loads before application logic");
   check(script.includes("analyticsAllowedFields"), "analytics fields are allowlisted");
+  check(script.includes("loadYandexMetrica();\ninitCookieConsent();"), "Yandex Metrica starts independently of cookie consent");
+  check(
+    script.includes('["hero", "header", "mobile-menu", "mobile-sticky"].includes(ctaLocation)')
+      && script.includes('ctaLocation === "test-drive"')
+      && script.includes('ctaLocation === "final"'),
+    "waitlist entry points map to the three campaign goals"
+  );
+  check(
+    script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);')
+      && script.includes('"reachGoal", goal'),
+    "campaign goals fire only after a new waitlist submission succeeds"
+  );
   check(!/(phone|email|contactDetails|annualLoss|monthlySaving|position|message)/.test(pageAnalytics), "shared page analytics contains no PII or financial fields");
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");

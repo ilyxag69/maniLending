@@ -245,23 +245,9 @@ if (contactForm) {
   });
 }
 
-function loadAnalytics() {
-  if (window.maniAnalyticsLoaded) return;
-  window.maniAnalyticsLoaded = true;
-  captureAttribution();
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function gtag() {
-    window.dataLayer.push(arguments);
-  };
-  window.gtag("js", new Date());
-  window.gtag("config", googleAnalyticsId);
-
-  const gaScript = document.createElement("script");
-  gaScript.async = true;
-  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
-  document.head.appendChild(gaScript);
-
+function loadYandexMetrica() {
+  if (window.maniYandexMetricaLoaded) return;
+  window.maniYandexMetricaLoaded = true;
   (function initYandex(m, e, t, r, i, k, a) {
     m[i] = m[i] || function ym() {
       (m[i].a = m[i].a || []).push(arguments);
@@ -283,6 +269,24 @@ function loadAnalytics() {
     accurateTrackBounce: true,
     webvisor: false,
   });
+}
+
+function loadAnalytics() {
+  if (window.maniAnalyticsLoaded) return;
+  window.maniAnalyticsLoaded = true;
+  captureAttribution();
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag("js", new Date());
+  window.gtag("config", googleAnalyticsId);
+
+  const gaScript = document.createElement("script");
+  gaScript.async = true;
+  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`;
+  document.head.appendChild(gaScript);
 }
 
 function setCookieConsent(value) {
@@ -426,6 +430,20 @@ function trackEvent(name, params = {}) {
   if (typeof window.ym === "function") {
     window.ym(yandexMetricaId, "reachGoal", name, payload);
   }
+}
+
+function getWaitlistConversionGoal(ctaLocation) {
+  if (["hero", "header", "mobile-menu", "mobile-sticky"].includes(ctaLocation)) return "form1";
+  if (ctaLocation === "test-drive") return "form2";
+  if (ctaLocation === "final") return "form3";
+  return "";
+}
+
+function trackWaitlistConversion(ctaLocation) {
+  const goal = getWaitlistConversionGoal(ctaLocation);
+  if (!goal) return;
+  loadYandexMetrica();
+  window.ym?.(yandexMetricaId, "reachGoal", goal, { cta_location: ctaLocation });
 }
 
 function initProductStatus() {
@@ -884,6 +902,7 @@ async function submitWaitlist(form) {
     getPhonePayload(form);
     requestAnimationFrame(() => success?.focus({ preventScroll: true }));
     trackEvent("waitlist_success", { duplicate: Boolean(data.duplicate), ref_present: Boolean(data.referredByAccepted) });
+    if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);
     if (!data.duplicate && data.referredByAccepted) trackEvent("referral_signup", { ref_present: true });
   } catch {
     trackEvent("api_error", {
@@ -1513,6 +1532,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+loadYandexMetrica();
 initCookieConsent();
 loadWaitlistStats();
 restoreWaitlistIdentity();
