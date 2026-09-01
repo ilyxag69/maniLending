@@ -81,6 +81,13 @@ try {
   check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
   check(publicPages.every((page) => page.includes("site-chrome.css")), "all public pages use the shared header and footer styles");
+  check(
+    publicPages.every((page) => page.includes("site-chrome.css?v=20260902-mobile-polish-1"))
+      && siteChrome.includes('grid-template-areas:')
+      && siteChrome.includes('.nm-final-benefits')
+      && siteChrome.includes('.nm-contact .nm-contact-form'),
+    "all public pages load the mobile layout fixes"
+  );
   check(publicPages.every((page) => page.includes("Получить ранний доступ") && !page.includes("Занять место среди первых 1000")), "all public headers use the same early access message");
   check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");

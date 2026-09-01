@@ -21,7 +21,7 @@ header('X-Content-Type-Options: nosniff');
   <meta name="robots" content="noindex,follow" />
   <title>Страница не найдена. mani</title>
   <link rel="stylesheet" href="/newmani.css?v=20260820-perf-1" />
-  <link rel="stylesheet" href="/site-chrome.css?v=20260901-form-chrome-1" />
+  <link rel="stylesheet" href="/site-chrome.css?v=20260902-mobile-polish-1" />
   <style>
     .nm-error-page{min-height:100vh;display:flex;flex-direction:column;background:#f6f9ff;color:#071632}
     .nm-error-page main{width:min(560px,calc(100% - 32px));min-height:calc(100vh - 190px);display:grid;place-content:center;margin:auto;padding:120px 0 48px;text-align:center}

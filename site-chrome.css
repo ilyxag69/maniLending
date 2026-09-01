@@ -301,6 +301,250 @@ body .nm-footer .nm-footer-brand p {
 
 @media (max-width: 420px) {
   .phone-field {
-    grid-template-columns: 96px minmax(0, 1fr) !important;
+    grid-template-columns: 74px minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .phone-field select {
+    padding-inline: 8px !important;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 980px) {
+  .mcs-section {
+    display: grid !important;
+    grid-template-areas:
+      "copy"
+      "mascot"
+      "quote"
+      "selector";
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start !important;
+    gap: 12px !important;
+    width: calc(100% - 32px) !important;
+    min-height: 0 !important;
+    margin: 18px auto !important;
+    padding: 36px 30px 24px !important;
+  }
+
+  .mcs-copy-column { grid-area: copy; }
+
+  .mcs-main-mascot,
+  .mcs-fun .mcs-main-mascot {
+    grid-area: mascot;
+    align-self: center;
+    justify-self: center;
+    width: min(360px, 52vw) !important;
+    margin: -8px auto -6px !important;
+  }
+
+  .mcs-quote {
+    grid-area: quote;
+    align-self: center;
+    justify-self: center;
+    width: min(100%, 360px) !important;
+    height: 160px !important;
+    margin: 0 auto !important;
+  }
+
+  .mcs-selector {
+    grid-area: selector;
+    width: min(100%, 440px) !important;
+    margin: 2px auto 0 !important;
+  }
+}
+
+/* Mobile layout pass: keep every action inside the card and remove cramped overlaps. */
+@media (max-width: 700px) {
+  html {
+    scroll-padding-top: 88px;
+  }
+
+  main > section[id],
+  main section[id] {
+    scroll-margin-top: 88px;
+  }
+
+  .nm-hero .nm-hero-composition {
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+    object-fit: contain !important;
+  }
+
+  .mcs-section {
+    display: grid !important;
+    grid-template-areas:
+      "copy"
+      "mascot"
+      "quote"
+      "selector";
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start !important;
+    gap: 10px !important;
+    width: calc(100% - 16px) !important;
+    min-height: 0 !important;
+    margin: 14px auto !important;
+    padding: 30px 16px 18px !important;
+  }
+
+  .mcs-copy-column {
+    grid-area: copy;
+    min-width: 0;
+  }
+
+  .mcs-title {
+    margin-top: 20px !important;
+    font-size: clamp(36px, 10.4vw, 42px) !important;
+    line-height: 1.06 !important;
+  }
+
+  .mcs-subtitle {
+    margin-top: 13px !important;
+  }
+
+  .mcs-main-mascot,
+  .mcs-fun .mcs-main-mascot {
+    grid-area: mascot;
+    align-self: center;
+    justify-self: center;
+    width: min(300px, 76vw) !important;
+    max-width: 100% !important;
+    margin: -4px auto -6px !important;
+  }
+
+  .mcs-quote {
+    grid-area: quote;
+    align-self: center;
+    justify-self: center;
+    width: min(100%, 330px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 150px;
+    margin: 0 auto !important;
+    padding: 28px 28px 24px 34px !important;
+  }
+
+  .mcs-quote p {
+    font-size: clamp(16px, 4.5vw, 18px) !important;
+    line-height: 1.45 !important;
+  }
+
+  .mcs-selector {
+    grid-area: selector;
+    width: 100% !important;
+    max-width: 420px !important;
+    height: 58px !important;
+    margin: 2px auto 0 !important;
+  }
+
+  .mcs-option {
+    min-width: 0 !important;
+    min-height: 46px;
+  }
+
+  .nm-capabilities > .nm-container,
+  .nm-vision > .nm-container,
+  .mani-social > .mani-social-shell {
+    padding-inline: 16px !important;
+  }
+
+  .nm-final-cta > .nm-final-card {
+    padding: 30px 18px 18px !important;
+  }
+
+  .nm-final-card h2 {
+    font-size: clamp(38px, 11vw, 46px) !important;
+  }
+
+  .nm-final-benefits {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .nm-final-benefits li {
+    grid-template-columns: minmax(88px, auto) minmax(0, 1fr);
+    align-items: center;
+    min-height: 56px !important;
+    padding: 10px 14px !important;
+  }
+
+  .nm-final-benefits strong {
+    font-size: 14px !important;
+  }
+
+  .nm-final-benefits span {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+  }
+
+  .nm-final-card .nm-final-actions {
+    margin-top: 14px !important;
+  }
+
+  .nm-final-card .nm-button-large,
+  .mani-social-featured a,
+  .nm-contact-submit,
+  .nm-mobile-menu .nm-button {
+    max-width: 100% !important;
+    white-space: normal !important;
+    text-align: center;
+  }
+
+  .nm-contact .nm-contact-intro {
+    padding: 30px 18px !important;
+  }
+
+  .nm-contact .nm-contact-form {
+    padding: 24px 16px !important;
+  }
+
+  .nm-contact .nm-contact-topics label span {
+    min-height: 44px;
+    padding-inline: 12px !important;
+  }
+
+  .nm-contact .nm-contact-fields input,
+  .nm-contact .nm-contact-message textarea {
+    min-width: 0;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .nm-header {
+    padding-inline: 14px !important;
+  }
+
+  .nm-header .nm-logo img {
+    width: 122px !important;
+  }
+
+  .mcs-section {
+    padding-inline: 14px !important;
+  }
+
+  .mcs-main-mascot,
+  .mcs-fun .mcs-main-mascot {
+    width: min(270px, 78vw) !important;
+  }
+
+  .mcs-quote {
+    min-height: 158px;
+    padding-inline: 30px 24px !important;
+  }
+
+  .nm-final-benefits li {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .nm-dialog-copy h2 {
+    max-width: calc(100% - 28px);
+    font-size: 28px !important;
+  }
+
+  .nm-waitlist-form {
+    padding: 16px !important;
   }
 }
