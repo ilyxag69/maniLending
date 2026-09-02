@@ -4,6 +4,7 @@ const mobileMenu = document.querySelector(".mobile-menu-panel");
 const toneSection = document.querySelector("[data-mani-character-switcher]");
 const toneButtons = document.querySelectorAll("[data-tone]");
 const toneImage = document.querySelector("[data-tone-image]");
+const toneSource = document.querySelector("[data-tone-source]");
 const toneQuote = document.querySelector("[data-tone-quote]");
 const roadmapGrid = document.querySelector(".roadmap-grid");
 const waitlistBlocks = document.querySelectorAll("[data-waitlist]");
@@ -19,16 +20,15 @@ const calcPrice = document.querySelector("[data-calc-price]");
 const calcLeaks = document.querySelector("[data-calc-leaks]");
 const calcLeakPrice = document.querySelector("[data-calc-leak-price]");
 const cookieConsentKey = "maniCookieConsent";
-const heroExperimentKey = "maniHeroCopyVariantV1";
 const pdnConsentVersion = "waitlist-pdn-2026-06-08";
 const googleAnalyticsId = "G-P6TDY2N5FK";
 const yandexMetricaId = 103776176;
 const productConfig = window.MANI_PRODUCT_CONFIG || {
-  status: "waitlist",
+  status: "closed_beta",
   stores: {},
-  waitlist: { limit: 1000, cta: "Получить ранний доступ" },
+  waitlist: { limit: 1000, cta: "Получить приглашение" },
 };
-const productStatus = ["waitlist", "preorder", "launched"].includes(productConfig.status)
+const productStatus = ["waitlist", "closed_beta", "preorder", "launched"].includes(productConfig.status)
   ? productConfig.status
   : "waitlist";
 const attributionFirstKey = "maniAttributionFirstV1";
@@ -108,13 +108,27 @@ window.addEventListener("pageshow", resetInitialScrollPosition);
 window.addEventListener("DOMContentLoaded", resetInitialScrollPosition);
 window.addEventListener("load", resetInitialScrollPosition);
 
+function alignInitialHashTarget() {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  if (!id || id === "waitlist-dialog") return;
+  const target = document.getElementById(id);
+  target?.scrollIntoView({ block: "start", behavior: "auto" });
+}
+
+if (window.location.hash) {
+  window.addEventListener("load", () => {
+    requestAnimationFrame(() => requestAnimationFrame(alignInitialHashTarget));
+    setTimeout(alignInitialHashTarget, 450);
+  });
+}
+
 const links = {
   apple: productConfig.stores?.appStore || "",
   google: productConfig.stores?.googlePlay || "",
   rustore: productConfig.stores?.ruStore || "",
   youtube: "https://www.youtube.com/@mani_app",
   instagram: "https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&utm_source=qr",
-  telegram: "https://t.me/moi_mani_ai",
+  telegram: "https://t.me/eto_mani",
   vkvideo: "https://vkvideo.ru/@club240056458",
   dzen: "https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve?share_to=link",
   x: "",
@@ -123,11 +137,13 @@ const links = {
 const tones = {
   motivator: {
     image: "/assets/mani/character-switcher/mascots/motivator-pointing-fixed-v3.png",
+    source: "/assets/mani/character-switcher/mascots/motivator-pointing-960.webp",
     alt: "Белый Мани, Мотиватор",
     quote: "Спокойно разберёмся и найдём лучший следующий шаг.",
   },
   fun: {
     image: "/assets/mani/character-switcher/mascots/veselchak-pointing-clean-v4.png",
+    source: "/assets/mani/character-switcher/mascots/veselchak-pointing-960.webp",
     alt: "Чёрный Мани, Весельчак",
     quote: "Деньги опять дали дёру. Сейчас поймаем беглецов и устроим им финансовый допрос.",
   },
@@ -433,32 +449,13 @@ function initProductStatus() {
 function initHeroCopyExperiment() {
   const heroCopy = document.querySelector("[data-hero-copy]");
   if (!heroCopy) return;
-  let variant = storageGet("localStorage", heroExperimentKey);
-  if (variant !== "control" && variant !== "short") {
-    variant = Math.random() < 0.5 ? "control" : "short";
-    storageSet("localStorage", heroExperimentKey, variant);
-  }
-  if (variant === "short") {
-    heroCopy.textContent = "Все счета, расходы и подписки в одном месте. Мани показывает, куда уходят деньги, предупреждает о рисках и помогает разобраться в чате.";
-  }
-  document.documentElement.dataset.heroCopyVariant = variant;
-  trackEvent("experiment_view", { experiment: "hero_copy_v1", variant });
+  document.documentElement.dataset.heroCopyVariant = "control";
 }
 
 function initHeroHeadlineExperiment() {
   const headline = document.querySelector("[data-hero-headline]");
   if (!headline) return;
-  const variant = Math.random() < 0.5 ? "chaos" : "order";
-
-  if (variant === "order") {
-    headline.replaceChildren(
-      document.createTextNode("Порядок в деньгах. "),
-      Object.assign(document.createElement("span"), { textContent: "здесь и сейчас!" }),
-    );
-  }
-
-  document.documentElement.dataset.heroHeadlineVariant = variant;
-  trackEvent("experiment_view", { experiment: "hero_headline_v1", variant });
+  document.documentElement.dataset.heroHeadlineVariant = "chaos";
 }
 
 function showToast(message) {
@@ -609,8 +606,8 @@ function updateWaitlistStats(stats = waitlistStats) {
     });
     block.querySelectorAll("[data-waitlist-registered-label]").forEach((node) => {
       node.textContent = showNumbers
-        ? (isZeroState ? "1000 мест для ранних пользователей" : "уже в очереди")
-        : "очередь открыта для первых 1000 пользователей";
+        ? (isZeroState ? "1000 приглашений для первых пользователей" : "заявок на приглашение")
+        : "приглашения доступны для первой 1000 пользователей";
     });
     block.querySelectorAll("[data-waitlist-left]").forEach((node) => {
       node.textContent = showNumbers ? waitlistStats.left.toLocaleString("ru-RU") : "1000 мест";
@@ -618,7 +615,7 @@ function updateWaitlistStats(stats = waitlistStats) {
     block.querySelectorAll("[data-waitlist-left-label]").forEach((node) => {
       node.textContent = showNumbers
         ? (isZeroState ? "мест для ранних пользователей" : "мест осталось")
-        : "ранний доступ бесплатно навсегда";
+        : "условия первой 1000 закрепляются навсегда";
     });
     block.querySelectorAll("[data-waitlist-percent]").forEach((node) => {
       node.textContent = showNumbers
@@ -737,7 +734,7 @@ function getQueueStatusPresentation(status, priorityPosition) {
     { above: 100, target: 100, label: "Ядро mani" },
   ];
   const presentation = statuses[status] || {
-    label: "Ранний доступ",
+    label: "Заявка принята",
     description: "Место закреплено. Приглашения помогают подняться выше.",
   };
   const next = milestones.find((milestone) => priorityPosition > milestone.above);
@@ -772,10 +769,10 @@ function renderWaitlistSuccess(success, data) {
 
   success.hidden = false;
   success.innerHTML = `
-    <div class="waitlist-success-head"><span>${data.duplicate ? "Место уже закреплено" : "Заявка принята"}</span><strong id="waitlist-success-title">Ты в очереди под номером №${position}</strong></div>
+    <div class="waitlist-success-head"><span>${data.duplicate ? "Заявка уже есть" : "Заявка принята"}</span><strong id="waitlist-success-title">Твоя позиция на приглашение №${position}</strong></div>
     <p class="waitlist-success-lead">${escapeHtml(queueStatus.motivation)}</p>
     <div class="waitlist-success-grid">
-      <div><small>Номер в очереди</small><b>№${position}</b></div>
+      <div><small>Позиция на приглашение</small><b>№${position}</b></div>
       <div><small>Приглашено</small><b>${invitedCount}</b></div>
       <div><small>Приоритет</small><b>№${priorityPosition}</b></div>
       <div><small>Осталось мест</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>
@@ -784,7 +781,7 @@ function renderWaitlistSuccess(success, data) {
     <div class="waitlist-referral"><span>Твоя ссылка</span><code>${escapeHtml(referralUrl)}</code></div>
     <div class="waitlist-share-actions">
       <button type="button" data-referral-copy data-referral-url="${escapeHtml(referralUrl)}">Скопировать ссылку</button>
-      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Занимай место в раннем доступе mani вместе со мной")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
+      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Я подал заявку в закрытую бету mani. Присоединяйся")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
       <button type="button" data-referral-share data-referral-url="${escapeHtml(referralUrl)}">Поделиться</button>
       <button type="button" data-referral-card data-referral-url="${escapeHtml(referralUrl)}" data-referral-position="${position}">Скачать карточку</button>
     </div>
@@ -879,8 +876,8 @@ async function submitWaitlist(form) {
     waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
     result.textContent = data.duplicate
-      ? `Ты уже в очереди под номером №${data.position}.`
-      : `Готово. Ты в очереди под номером №${data.position}.`;
+      ? `Твоя заявка уже есть. Позиция на приглашение №${data.position}.`
+      : `Готово. Позиция на приглашение №${data.position}.`;
     renderWaitlistSuccess(success, data);
     form.reset();
     getPhonePayload(form);
@@ -1004,10 +1001,10 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
     context.font = "700 46px Manrope, Arial, sans-serif";
     drawWrappedText(context, "А сколько убегает у тебя?", 110, 950, 760, 58, 2);
   } else {
-    drawWrappedText(context, `Я в очереди mani под номером №${position}`, 110, 350, 520, 74, 4);
+    drawWrappedText(context, `Моя позиция на приглашение в mani №${position}`, 110, 350, 520, 74, 4);
     context.fillStyle = "#ff5a00";
     context.font = "750 68px Manrope, Arial, sans-serif";
-    context.fillText("Присоединяйся", 110, 790);
+    context.fillText("Подавай заявку", 110, 790);
     context.fillStyle = "#5d6b86";
     context.font = "500 31px Manrope, Arial, sans-serif";
     drawWrappedText(context, "Первые пользователи помогают сделать финансового ИИ-помощника лучше.", 110, 855, 820, 47, 3);
@@ -1018,7 +1015,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
   context.fillStyle = "#ffffff";
   context.font = "700 38px Manrope, Arial, sans-serif";
   context.textAlign = "center";
-  context.fillText(type === "calculator" ? "Пройди тест-драйв на Moimani" : "Займи место на Moimani", 540, 1152);
+  context.fillText(type === "calculator" ? "Попробуй mani" : "Получи приглашение в mani", 540, 1152);
   context.textAlign = "left";
   context.fillStyle = "#64728b";
   context.font = "500 24px Manrope, Arial, sans-serif";
@@ -1133,7 +1130,7 @@ document.addEventListener("click", async (event) => {
     const url = shareButton.dataset.referralUrl;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "mani", text: "Занимай место в раннем доступе mani вместе со мной", url });
+        await navigator.share({ title: "mani", text: "Я подал заявку в закрытую бету mani. Присоединяйся", url });
         trackEvent("referral_share", { share_target: "web_share" });
       } catch (error) {
         if (error?.name !== "AbortError" && await copyText(url)) {
@@ -1198,9 +1195,11 @@ function setTone(requestedName, { track = true, persist = true } = {}) {
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
   });
+  if (toneSource && tone.source) toneSource.srcset = tone.source;
   if (!toneImage.src.endsWith(tone.image)) {
     toneImage.src = tone.image;
   }
+  toneImage.parentElement?.load?.();
   toneImage.alt = tone.alt;
   if (!isSameTone) {
     toneImage.classList.remove("mcs-animate");
@@ -1404,6 +1403,12 @@ document.querySelectorAll(".security-accordion details").forEach((item) => {
   });
 });
 
+document.querySelectorAll(".nm-faq details").forEach((item) => {
+  item.addEventListener("toggle", () => {
+    if (item.open) trackEvent("faq_open");
+  });
+});
+
 if ("IntersectionObserver" in window) {
   const sectionObserver = new IntersectionObserver(
     (entries) => {
@@ -1422,11 +1427,16 @@ if ("IntersectionObserver" in window) {
     document.querySelector(".hero"),
     document.querySelector("#about"),
     document.querySelector("#features"),
+    document.querySelector("#how"),
     document.querySelector("#tone"),
     document.querySelector(".reasons"),
     document.querySelector(".widgets"),
     document.querySelector("#future"),
     document.querySelector("#security"),
+    document.querySelector("#early-access"),
+    document.querySelector("#faq"),
+    document.querySelector("#social"),
+    document.querySelector("#contacts"),
     document.querySelector(".cta"),
     document.querySelector("#demo"),
     document.querySelector("#leak-calc"),
@@ -1497,6 +1507,7 @@ if (menuButton && mobileMenu) {
   menuButton.addEventListener("click", () => {
     const isOpen = document.body.classList.toggle("menu-open");
     menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Закрыть меню" : "Открыть меню");
     mobileMenu.setAttribute("aria-hidden", String(!isOpen));
   });
 
@@ -1504,6 +1515,7 @@ if (menuButton && mobileMenu) {
     link.addEventListener("click", () => {
       document.body.classList.remove("menu-open");
       menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Открыть меню");
       mobileMenu.setAttribute("aria-hidden", "true");
     });
   });
@@ -1517,6 +1529,7 @@ if (waitlistDialog) {
       event.preventDefault();
       document.body.classList.remove("menu-open");
       menuButton?.setAttribute("aria-expanded", "false");
+      menuButton?.setAttribute("aria-label", "Открыть меню");
       mobileMenu?.setAttribute("aria-hidden", "true");
       if (!waitlistDialog.open) waitlistDialog.showModal();
       waitlistDialog.dataset.ctaLocation = trigger.dataset.earlyAccess || "unknown";

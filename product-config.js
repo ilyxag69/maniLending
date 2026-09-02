@@ -1,5 +1,5 @@
 window.MANI_PRODUCT_CONFIG = Object.freeze({
-  status: "waitlist",
+  status: "closed_beta",
   stores: Object.freeze({
     appStore: "",
     googlePlay: "",
@@ -7,6 +7,6 @@ window.MANI_PRODUCT_CONFIG = Object.freeze({
   }),
   waitlist: Object.freeze({
     limit: 1000,
-    cta: "Получить ранний доступ",
+    cta: "Получить приглашение",
   }),
 });

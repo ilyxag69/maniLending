@@ -26,12 +26,14 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.js?v=20260902-contact-modal-1"), "Expected script cache-bust is missing");
-  assert(body.includes("product-config.js?v=20260901-copy-1"), "Expected product config is missing");
-  assert(body.includes("newmani.css?v=20260901-cookie-notice-1"), "Expected CSS cache-bust is missing");
+  assert(body.includes("script.min.js?v=20260902-conversion-2"), "Expected script cache-bust is missing");
+  assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
+  assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-contact-form"), "Contact form is missing from home page");
+  assert(body.includes("Уже работает в закрытой бете"), "Closed beta status is missing");
+  assert(body.includes("Получить приглашение"), "Invitation CTA is missing");
   assert(body.includes("data-open-contact"), "Mobile contact trigger is missing from home page");
   assert(body.includes('id="contact-dialog"'), "Mobile contact dialog is missing from home page");
   assert(body.includes('href="https://t.me/eto_mani"'), "Direct Telegram contact is missing");
@@ -40,7 +42,7 @@ check("home page loads", async () => {
   assert(!body.includes("Осталось мест"), "Public remaining-place counter is still visible");
   [
     "https://www.instagram.com/moimani.ai",
-    "https://t.me/moi_mani_ai",
+    "https://t.me/eto_mani",
     "https://www.youtube.com/@Mani.ai_app",
     "https://vkvideo.ru/@club240056458",
     "https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve",
@@ -48,7 +50,7 @@ check("home page loads", async () => {
   assert(body.includes("data-phone-field"), "Phone formatter field is missing from home page");
   assert(body.includes('name="pdnConsent"'), "Personal data consent checkbox is missing");
   assert(body.includes('href="/soglasie"'), "Personal data consent link is missing");
-  assert(!body.includes('class="section seo-faq"'), "FAQ section should not be on home page");
+  assert(body.includes('id="faq"'), "Inline FAQ section is missing from home page");
   assert(!body.includes('"@type": "FAQPage"'), "FAQPage schema should not be on home page");
 });
 

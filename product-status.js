@@ -12,13 +12,14 @@
 
   function apply() {
     const config = window.MANI_PRODUCT_CONFIG || {};
-    const status = ["waitlist", "preorder", "launched"].includes(config.status) ? config.status : "waitlist";
+    const status = ["waitlist", "closed_beta", "preorder", "launched"].includes(config.status) ? config.status : "waitlist";
     const stores = {
       apple: config.stores?.appStore || "",
       google: config.stores?.googlePlay || "",
       rustore: config.stores?.ruStore || "",
     };
-    const waitlistLabel = config.waitlist?.cta || "Получить ранний доступ";
+    const waitlistLabel = config.waitlist?.cta || "Получить приглашение";
+    const acceptsInvites = status === "waitlist" || status === "closed_beta";
     const storeLabels = status === "preorder"
       ? { apple: "Предзаказать в App Store", google: "Пройти предрегистрацию в Google Play", rustore: "Скоро в RuStore" }
       : { apple: "Скачать в App Store", google: "Скачать в Google Play", rustore: "Скачать в RuStore" };
@@ -36,7 +37,7 @@
     });
 
     document.querySelectorAll("[data-product-cta]").forEach((cta) => {
-      if (status === "waitlist") {
+      if (acceptsInvites) {
         setLabel(cta, waitlistLabel);
         if (!cta.hasAttribute("data-open-waitlist")) cta.href = "/#early-access";
         return;
@@ -55,7 +56,7 @@
     });
 
     document.querySelectorAll("[data-product-store-actions]").forEach((container) => {
-      if (status === "waitlist") return;
+      if (acceptsInvites) return;
       const available = ["apple", "google", "rustore"].filter((store) => stores[store]);
       if (!available.length) return;
       container.hidden = false;

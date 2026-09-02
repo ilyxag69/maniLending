@@ -74,28 +74,31 @@ try {
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
 
-  check(config.includes('status: "waitlist"'), "product status has one explicit source");
+  check(config.includes('status: "closed_beta"'), "closed beta product status has one explicit source");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
   check(html.includes("mani. Деньги под контролем"), "SEO positioning is explicit");
   check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
   check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
-  check(publicPages.every((page) => page.includes("site-chrome.css")), "all public pages use the shared header and footer styles");
   check(
-    publicPages.every((page) => page.includes("site-chrome.css?v=20260902-mobile-polish-1"))
+    publicPages.every((page, index) => index === 0 ? page.includes("mani-home.min.css") : page.includes("site-chrome.css")),
+    "all public pages use the shared header and footer styles"
+  );
+  check(
+    publicPages.every((page, index) => index === 0 ? page.includes("mani-home.min.css?v=20260902-closed-beta-2") : page.includes("site-chrome.css?v=20260902-mobile-polish-1"))
       && siteChrome.includes('grid-template-areas:')
       && siteChrome.includes('.nm-final-benefits')
       && siteChrome.includes('.nm-contact .nm-contact-form'),
     "all public pages load the mobile layout fixes"
   );
-  check(publicPages.every((page) => page.includes("Получить ранний доступ") && !page.includes("Занять место среди первых 1000")), "all public headers use the same early access message");
+  check(publicPages.every((page) => page.includes("Получить приглашение") && !page.includes("Получить ранний доступ")), "all public headers use the same invitation message");
   check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
   check(html.includes("https://moimani.ai/og-image-v4.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
   check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
-  check(script.includes("hero_headline_v1") && script.includes('Math.random() < 0.5 ? "chaos" : "order"'), "hero headline experiment is randomized on every load");
+  check(!script.includes("hero_headline_v1") && script.includes('dataset.heroHeadlineVariant = "chaos"'), "hero headline uses one stable canonical version");
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
   check(html.includes("product-config.js"), "product configuration loads before application logic");
   check(script.includes("analyticsAllowedFields"), "analytics fields are allowlisted");

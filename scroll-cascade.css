@@ -10,7 +10,7 @@ body.nm-page main {
   gap: var(--nm-section-gap);
 }
 
-body.nm-page :is(.nm-capabilities, .mcs-section, .nm-vision, .mani-social, .nm-final-cta, .nm-contact) {
+body.nm-page :is(.nm-capabilities, .mcs-section, .nm-vision, .nm-faq, .mani-social, .nm-final-cta, .nm-contact) {
   margin-block: 0 !important;
   padding-block: 0 !important;
 }
@@ -28,6 +28,7 @@ body.nm-page :is(
   .nm-capabilities > .nm-container,
   .msp-host,
   .nm-vision > .nm-container,
+  .nm-faq > .nm-faq-shell,
   .mani-social > .mani-social-shell,
   .nm-final-cta > .nm-final-card,
   .nm-contact > .nm-contact-shell
@@ -54,6 +55,7 @@ body.nm-page :is(
   .nm-capabilities > .nm-container,
   .msp-host,
   .nm-vision > .nm-container,
+  .nm-faq > .nm-faq-shell,
   .mani-social > .mani-social-shell,
   .nm-final-cta > .nm-final-card,
   .nm-contact > .nm-contact-shell
@@ -462,6 +464,7 @@ body.nm-page .mobile-sticky-cta:focus-visible {
     .nm-capabilities > .nm-container,
     .msp-host,
     .nm-vision > .nm-container,
+    .nm-faq > .nm-faq-shell,
     .mani-social > .mani-social-shell,
     .nm-final-cta > .nm-final-card,
     .nm-contact > .nm-contact-shell
@@ -655,7 +658,7 @@ body.nm-page .mobile-sticky-cta:focus-visible {
   body.nm-page .mcs-quote::before {
     content: "";
     position: absolute;
-    z-index: -1;
+    z-index: 0;
     top: -10px;
     left: 46%;
     width: 20px;
@@ -669,11 +672,276 @@ body.nm-page .mobile-sticky-cta:focus-visible {
   body.nm-page .mcs-quote-glass {
     display: none !important;
   }
+
+  body.nm-page .mcs-quote > p {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 @media (max-width: 360px) {
   body.nm-page .nm-contact-dialog-copy h2 {
     font-size: 25px;
     white-space: nowrap;
+  }
+}
+
+/* Closed beta conversion pass. */
+body.nm-page .nm-hero-media-slot > picture,
+body.nm-page .msp-visual > picture,
+body.nm-page .mcs-mascot-picture {
+  display: contents;
+}
+
+body.nm-page .nm-hero .nm-early-proof {
+  width: min(100%, 560px) !important;
+  min-height: 94px !important;
+  grid-template-columns: 1fr !important;
+  padding: 17px 20px !important;
+}
+
+body.nm-page .nm-hero .nm-proof-copy {
+  gap: 5px !important;
+}
+
+body.nm-page .nm-hero .nm-proof-copy strong {
+  color: #18253a !important;
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+}
+
+body.nm-page .nm-hero .nm-proof-copy span,
+body.nm-page .nm-hero .nm-proof-copy small {
+  color: #52637a !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+body.nm-page .nm-capabilities-heading > p:last-child {
+  max-width: 660px;
+}
+
+body.nm-page .nm-capability-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body.nm-page .nm-capability-card {
+  min-height: 176px !important;
+  padding: 25px 24px !important;
+}
+
+body.nm-page .nm-capability-card h4 {
+  max-width: 290px;
+  font-size: 20px !important;
+  line-height: 1.18 !important;
+}
+
+body.nm-page .nm-capability-card p {
+  margin-top: 12px !important;
+  font-size: 14px !important;
+  line-height: 1.48 !important;
+}
+
+body.nm-page .nm-capabilities-feedback {
+  margin-top: 22px !important;
+}
+
+body.nm-page .nm-section-eyebrow {
+  width: fit-content;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 24px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 999px;
+  color: #303946;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .66), rgba(204, 213, 223, .34));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .88), inset 0 -1px 0 rgba(46, 60, 75, .08);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0 !important;
+}
+
+body.nm-page .nm-how .nm-section-heading h2 {
+  max-width: 900px;
+}
+
+body.nm-page .nm-how .nm-section-heading h2 span {
+  display: block;
+  color: #ff6415;
+}
+
+body.nm-page .nm-how-grid .nm-vision-stage {
+  color: #365f94 !important;
+}
+
+body.nm-page .nm-how-grid .nm-vision-card-next .nm-vision-stage {
+  color: #f05a1d !important;
+}
+
+body.nm-page .nm-how-grid .nm-vision-card-goal .nm-vision-stage {
+  color: #6357bd !important;
+}
+
+body.nm-page .nm-final-cta > .nm-final-card {
+  min-height: 0 !important;
+}
+
+body.nm-page .nm-final-card .nm-final-copy {
+  max-width: 1200px !important;
+}
+
+body.nm-page .nm-final-card h2 {
+  max-width: 980px;
+}
+
+body.nm-page .nm-final-card .nm-final-copy > p.nm-final-next {
+  max-width: 720px !important;
+  margin: 20px 0 0 !important;
+  color: #55667c !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+}
+
+body.nm-page .nm-faq > .nm-faq-shell {
+  width: calc(100% - 64px);
+  max-width: 1500px;
+  margin-inline: auto;
+  padding: clamp(42px, 4.6vw, 72px);
+  border-radius: 36px;
+}
+
+body.nm-page .nm-faq .nm-section-heading {
+  margin-bottom: 28px;
+}
+
+body.nm-page .nm-faq .nm-section-heading h2 {
+  max-width: 920px;
+}
+
+body.nm-page .nm-faq .nm-section-heading h2 span {
+  display: block;
+  color: #ff6415;
+}
+
+body.nm-page .nm-faq-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body.nm-page .nm-faq-list details {
+  min-width: 0;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, .76);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .44), rgba(215, 228, 238, .22));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .82), inset 0 -1px 0 rgba(50, 64, 80, .07);
+  backdrop-filter: blur(24px) saturate(136%);
+  -webkit-backdrop-filter: blur(24px) saturate(136%);
+}
+
+body.nm-page .nm-faq-list summary {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #17243a;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.3;
+  cursor: pointer;
+  list-style: none;
+}
+
+body.nm-page .nm-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+body.nm-page .nm-faq-list summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: #f05a1d;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+body.nm-page .nm-faq-list details[open] summary::after {
+  content: "−";
+}
+
+body.nm-page .nm-faq-list details p {
+  margin: -2px 0 20px;
+  color: #52637a;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+body.nm-page .nm-faq-more {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, .76);
+  border-radius: 16px;
+  color: #21324a;
+  background: rgba(255, 255, 255, .36);
+  font-weight: 650;
+}
+
+@media (max-width: 980px) {
+  body.nm-page .nm-faq > .nm-faq-shell {
+    width: calc(100% - 16px) !important;
+    padding: 34px 26px !important;
+    border-radius: 26px !important;
+  }
+
+  body.nm-page .nm-faq-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  body.nm-page .nm-hero .nm-early-proof {
+    min-height: 0 !important;
+    padding: 14px 16px !important;
+  }
+
+  body.nm-page .nm-capability-grid {
+    grid-template-columns: none !important;
+    grid-auto-columns: 86% !important;
+  }
+
+  body.nm-page .nm-capability-card {
+    min-height: 166px !important;
+    padding: 22px 20px !important;
+  }
+
+  body.nm-page .nm-section-eyebrow {
+    margin-bottom: 18px;
+  }
+
+  body.nm-page .nm-faq > .nm-faq-shell {
+    padding: 30px 18px !important;
+  }
+
+  body.nm-page .nm-faq .nm-section-heading h2 {
+    font-size: 34px !important;
+    line-height: 1.04 !important;
+  }
+
+  body.nm-page .nm-faq-list details {
+    padding-inline: 18px;
+    border-radius: 18px;
+  }
+
+  body.nm-page .nm-faq-list summary {
+    min-height: 66px;
+    font-size: 15px;
   }
 }
