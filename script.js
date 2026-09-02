@@ -127,7 +127,7 @@ const tones = {
     quote: "Спокойно разберёмся и найдём лучший следующий шаг.",
   },
   fun: {
-    image: "/assets/mani/character-switcher/mascots/veselchak-pointing-master-1254x1254.png",
+    image: "/assets/mani/character-switcher/mascots/veselchak-pointing-clean-v4.png",
     alt: "Чёрный Мани, Весельчак",
     quote: "Деньги опять дали дёру. Сейчас поймаем беглецов и устроим им финансовый допрос.",
   },

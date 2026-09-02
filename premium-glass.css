@@ -1,0 +1,639 @@
+/* Local premium graphite glass experiment. Loaded last so it stays reversible. */
+:root {
+  --pg-canvas: #f7f9fc;
+  --pg-canvas-deep: #edf5fd;
+  --pg-canvas-soft: #fff4ed;
+  --pg-ink: #101722;
+  --pg-muted: #536071;
+  --pg-edge-light: rgba(255, 255, 255, .74);
+  --pg-edge-dark: rgba(20, 24, 30, .28);
+  --pg-block:
+    linear-gradient(142deg, rgba(255, 255, 255, .53) 0%, rgba(237, 242, 247, .34) 42%, rgba(180, 189, 201, .26) 100%);
+  --pg-card:
+    linear-gradient(145deg, rgba(255, 255, 255, .58) 0%, rgba(239, 244, 249, .31) 48%, rgba(163, 174, 188, .20) 100%);
+  --pg-card-strong:
+    linear-gradient(145deg, rgba(255, 255, 255, .70) 0%, rgba(239, 244, 249, .42) 50%, rgba(178, 188, 201, .28) 100%);
+  --pg-block-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .92),
+    inset -1px 0 0 rgba(183, 224, 255, .18),
+    inset 0 -1px 0 rgba(12, 15, 20, .30),
+    inset 0 0 0 1px rgba(255, 255, 255, .08),
+    0 30px 76px rgba(3, 5, 8, .38),
+    0 4px 14px rgba(3, 5, 8, .20);
+  --pg-card-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .94),
+    inset -1px 0 0 rgba(177, 220, 255, .17),
+    inset 0 -1px 0 rgba(20, 25, 32, .25),
+    inset 0 0 0 1px rgba(255, 255, 255, .10),
+    0 16px 38px rgba(5, 8, 12, .23),
+    0 3px 9px rgba(5, 8, 12, .13);
+}
+
+html {
+  background: var(--pg-canvas-deep) !important;
+}
+
+body.nm-page {
+  color: var(--pg-ink);
+  background:
+    radial-gradient(ellipse 74% 54% at 100% 12%, rgba(157, 218, 255, .42) 0%, rgba(211, 238, 255, .20) 46%, transparent 74%),
+    radial-gradient(ellipse 70% 52% at 0% 76%, rgba(255, 183, 143, .34) 0%, rgba(255, 225, 208, .18) 48%, transparent 76%),
+    radial-gradient(ellipse 72% 44% at 50% 42%, rgba(255, 255, 255, .86) 0%, rgba(255, 255, 255, .30) 55%, transparent 82%),
+    linear-gradient(148deg, #eef7ff 0%, #fbfdff 36%, #fff5ef 70%, #edf8ff 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body.nm-page::before,
+body.nm-page::after {
+  display: none !important;
+}
+
+body.nm-page main,
+body.nm-page .nm-hero,
+body.nm-page .nm-section,
+body.nm-page .nm-capabilities,
+body.nm-page .nm-vision,
+body.nm-page .nm-social,
+body.nm-page .nm-final-cta,
+body.nm-page .nm-contact {
+  background: transparent !important;
+}
+
+/* First glass layer: the large product blocks. */
+body.nm-page .nm-hero,
+body.nm-page .nm-capabilities > .nm-container,
+body.nm-page .msp-host,
+body.nm-page .nm-vision > .nm-container,
+body.nm-page .mani-social > .mani-social-shell,
+body.nm-page .nm-final-cta > .nm-final-card,
+body.nm-page .nm-contact > .nm-contact-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 38px !important;
+  border: 1px solid var(--pg-edge-light) !important;
+  background:
+    radial-gradient(ellipse 58% 76% at 86% 10%, rgba(255, 255, 255, .24) 0%, transparent 66%),
+    radial-gradient(ellipse 42% 64% at 8% 94%, rgba(83, 90, 101, .16) 0%, transparent 72%),
+    var(--pg-block) !important;
+  box-shadow: var(--pg-block-shadow) !important;
+  backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+}
+
+/* A liquid-glass lens: a broad specular sweep and a soft caustic that stay
+   inside the original section geometry. */
+body.nm-page :is(
+  .nm-hero,
+  .nm-capabilities > .nm-container,
+  .msp-host,
+  .nm-vision > .nm-container,
+  .mani-social > .mani-social-shell,
+  .nm-final-cta > .nm-final-card,
+  .nm-contact > .nm-contact-shell
+)::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(116deg, rgba(255, 255, 255, .46) 0%, rgba(255, 255, 255, .16) 14%, transparent 34%),
+    radial-gradient(ellipse 48% 28% at 78% 4%, rgba(255, 255, 255, .30) 0%, rgba(210, 235, 255, .10) 46%, transparent 74%),
+    radial-gradient(ellipse 38% 24% at 18% 103%, rgba(255, 176, 134, .08) 0%, transparent 76%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .58),
+    inset -1px -1px 0 rgba(14, 18, 24, .14);
+  opacity: .76;
+}
+
+/* The character component already owns its inner framed stage. Do not wrap
+   that stage in a second, larger section card. */
+body.nm-page .mcs-section {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Hero glass belongs to the full first-screen frame, not to its inner grid. */
+body.nm-page .nm-hero {
+  width: calc(100% - 16px) !important;
+  margin: 8px auto 0 !important;
+  border-radius: 32px !important;
+  border: 1px solid rgba(255, 255, 255, .56) !important;
+  background:
+    radial-gradient(ellipse 62% 76% at 88% 9%, rgba(255, 255, 255, .24) 0%, transparent 67%),
+    radial-gradient(ellipse 44% 64% at 7% 94%, rgba(83, 90, 101, .15) 0%, transparent 72%),
+    var(--pg-block) !important;
+  box-shadow: var(--pg-block-shadow) !important;
+  backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+}
+
+body.nm-page .nm-hero::after {
+  display: none !important;
+}
+
+body.nm-page .nm-hero > .nm-container {
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.nm-page :is(
+  .nm-capability-card,
+  .nm-capabilities-feedback,
+  .msp-features li,
+  .msp-process-list article,
+  .nm-vision-card,
+  .nm-vision-outcome,
+  .mani-social-featured,
+  .mani-social-link,
+  .nm-final-benefits li,
+  .nm-contact-intro,
+  .nm-contact-form,
+  .nm-telegram-contact,
+  .nm-waitlist-form
+) {
+  border-radius: 22px !important;
+}
+
+body.nm-page .nm-capabilities > .nm-container,
+body.nm-page .msp-host,
+body.nm-page .nm-vision > .nm-container,
+body.nm-page .mani-social > .mani-social-shell,
+body.nm-page .nm-final-cta > .nm-final-card,
+body.nm-page .nm-contact > .nm-contact-shell {
+  border-color: rgba(255, 255, 255, .56) rgba(231, 235, 241, .42) rgba(39, 44, 52, .26) rgba(255, 255, 255, .48) !important;
+}
+
+/* Second glass layer: cards resting on the large glass blocks. */
+body.nm-page :is(
+  .nm-early-proof,
+  .nm-capability-card,
+  .nm-capabilities-feedback,
+  .mcs-selector,
+  .msp-features li,
+  .msp-process-list article,
+  .nm-vision-card,
+  .nm-vision-outcome,
+  .mani-social-featured,
+  .mani-social-link,
+  .nm-final-benefits li,
+  .nm-contact-intro,
+  .nm-contact-form,
+  .nm-telegram-contact,
+  .nm-dialog,
+  .nm-waitlist-form
+) {
+  border: 1px solid rgba(255, 255, 255, .70) !important;
+  border-color: rgba(255, 255, 255, .82) rgba(205, 228, 245, .47) rgba(25, 30, 38, .31) rgba(255, 255, 255, .65) !important;
+  background:
+    radial-gradient(ellipse 72% 48% at 18% -6%, rgba(255, 255, 255, .38) 0%, transparent 68%),
+    radial-gradient(ellipse 48% 32% at 102% 96%, rgba(143, 184, 216, .10) 0%, transparent 72%),
+    var(--pg-card) !important;
+  box-shadow: var(--pg-card-shadow) !important;
+  backdrop-filter: blur(22px) saturate(155%) contrast(110%) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(155%) contrast(110%) brightness(1.04) !important;
+}
+
+body.nm-page :is(
+  .nm-capability-card,
+  .msp-features li,
+  .msp-process-list article,
+  .nm-vision-card,
+  .mani-social-link,
+  .nm-final-benefits li
+):hover {
+  border-color: rgba(255, 255, 255, .94) rgba(210, 235, 255, .62) rgba(31, 37, 45, .30) rgba(255, 255, 255, .78) !important;
+  background:
+    radial-gradient(ellipse 76% 50% at 16% -8%, rgba(255, 255, 255, .48) 0%, transparent 68%),
+    var(--pg-card-strong) !important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .98),
+    inset -1px 0 0 rgba(184, 226, 255, .22),
+    inset 0 -1px 0 rgba(26, 31, 38, .22),
+    0 20px 46px rgba(5, 8, 12, .25) !important;
+  transform: translateY(-2px) scale(1.004);
+}
+
+body.nm-page :is(
+  .nm-capability-card,
+  .msp-features li,
+  .msp-process-list article,
+  .nm-vision-card,
+  .mani-social-link,
+  .nm-final-benefits li
+) {
+  transition: transform .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease !important;
+}
+
+/* Neutral graphite glass controls and inputs. */
+body.nm-page :is(
+  .nm-button-secondary,
+  .mcs-option,
+  .nm-contact-topics label span,
+  .nm-contact-form input,
+  .nm-contact-form textarea,
+  .nm-waitlist-form input,
+  .nm-waitlist-form select,
+  .waitlist-optional
+) {
+  border-color: rgba(255, 255, 255, .82) rgba(205, 228, 245, .50) rgba(34, 40, 48, .25) rgba(255, 255, 255, .72) !important;
+  background:
+    radial-gradient(ellipse 75% 55% at 20% -8%, rgba(255, 255, 255, .42), transparent 68%),
+    linear-gradient(145deg, rgba(255, 255, 255, .58), rgba(201, 211, 222, .25)) !important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .94),
+    inset -1px 0 0 rgba(182, 223, 255, .16),
+    inset 0 -1px 0 rgba(29, 35, 43, .22),
+    0 9px 23px rgba(7, 10, 14, .15) !important;
+  backdrop-filter: blur(18px) saturate(150%) contrast(108%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) contrast(108%) !important;
+}
+
+body.nm-page :is(.nm-contact-form input, .nm-contact-form textarea, .nm-waitlist-form input, .nm-waitlist-form select) {
+  color: #151c27 !important;
+}
+
+body.nm-page :is(.nm-contact-form input, .nm-contact-form textarea, .nm-waitlist-form input)::placeholder {
+  color: rgba(54, 63, 76, .58) !important;
+}
+
+/* The contact form stays still on hover. The shared glass sweep is useful on
+   small cards, but reads as an accidental overlay on this large form. */
+body.nm-page .nm-contact-form::after {
+  content: none !important;
+  display: none !important;
+}
+
+body.nm-page .mcs-stage-background {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, .22), transparent 34%),
+    radial-gradient(circle at 16% 82%, rgba(71, 77, 87, .13), transparent 38%),
+    var(--pg-block) !important;
+  backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(145%) contrast(108%) brightness(1.03) !important;
+}
+
+body.nm-page .mcs-caustics {
+  opacity: .34;
+  filter: grayscale(1) contrast(.82);
+}
+
+body.nm-page .mcs-fun .mcs-main-mascot {
+  filter: none !important;
+}
+
+body.nm-page .mcs-quote-glass {
+  opacity: .76;
+  filter: grayscale(.72) contrast(.96);
+}
+
+body.nm-page .mcs-quote {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.nm-page .nm-vision-outcome {
+  min-height: 88px !important;
+  margin-top: auto !important;
+  padding: 16px 18px !important;
+  overflow: visible !important;
+  border-top: 1px solid rgba(255, 255, 255, .62) !important;
+  border-radius: 18px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.nm-page .nm-vision-outcome strong {
+  margin-bottom: 5px !important;
+  line-height: 1.28 !important;
+}
+
+/* Section labels share one quiet graphite pill and one top-left rhythm. */
+body.nm-page :is(
+  .nm-capabilities-eyebrow,
+  .mcs-eyebrow,
+  .msp-eyebrow,
+  .mani-social-eyebrow,
+  .nm-final-eyebrow
+) {
+  min-height: 38px !important;
+  padding: 0 15px !important;
+  border: 1px solid rgba(255, 255, 255, .68) !important;
+  border-radius: 999px !important;
+  color: #303946 !important;
+  background:
+    radial-gradient(ellipse 76% 70% at 18% -12%, rgba(255, 255, 255, .48), transparent 68%),
+    linear-gradient(145deg, rgba(255, 255, 255, .58), rgba(204, 213, 223, .28)) !important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .96),
+    inset 0 -1px 0 rgba(30, 36, 44, .22),
+    0 9px 23px rgba(7, 10, 14, .14) !important;
+  backdrop-filter: blur(18px) saturate(150%) contrast(108%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) contrast(108%) !important;
+}
+
+body.nm-page .nm-capabilities-eyebrow {
+  top: 34px !important;
+  left: 46px !important;
+}
+
+/* Keep the capabilities badge anchored to the section frame. Some shared
+   chrome layers promote the heading to a positioned element. */
+body.nm-page .nm-capabilities-heading {
+  position: static !important;
+}
+
+body.nm-page .mcs-eyebrow {
+  position: absolute !important;
+  top: -28px !important;
+  left: calc(106px - 7.421875cqw) !important;
+  width: auto !important;
+  height: 38px !important;
+}
+
+body.nm-page .msp-eyebrow {
+  transform: translate(-9px, -23px);
+}
+
+body.nm-page .mani-social-eyebrow {
+  top: 0 !important;
+  left: 0 !important;
+}
+
+body.nm-page .nm-final-eyebrow {
+  position: relative !important;
+  inset: auto !important;
+  width: fit-content;
+  margin: 0 0 32px 7px !important;
+}
+
+body.nm-page .mcs-option.active {
+  border: 1px solid rgba(255, 255, 255, .86) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .86), rgba(220, 226, 234, .56)) !important;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(37, 42, 49, .10),
+    0 8px 18px rgba(17, 20, 25, .13) !important;
+}
+
+body.nm-page .nm-header {
+  border-color: rgba(255, 255, 255, .68) !important;
+  background:
+    radial-gradient(ellipse 54% 110% at 16% -18%, rgba(255, 255, 255, .45), transparent 70%),
+    linear-gradient(138deg, rgba(255, 255, 255, .58), rgba(182, 192, 205, .34)) !important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, .96),
+    inset -1px 0 0 rgba(184, 226, 255, .18),
+    inset 0 -1px 0 rgba(22, 27, 34, .27),
+    0 18px 50px rgba(4, 6, 9, .32) !important;
+  backdrop-filter: blur(28px) saturate(155%) contrast(108%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(155%) contrast(108%) !important;
+}
+
+body.nm-page .nm-header .nm-nav a {
+  color: #293442 !important;
+}
+
+body.nm-page .nm-header .nm-header-cta,
+body.nm-page .nm-header .nm-header-cta:hover,
+body.nm-page .nm-header .nm-header-cta:focus-visible {
+  color: #fff !important;
+}
+
+body.nm-page .nm-mobile-menu {
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, .25), transparent 38%),
+    linear-gradient(150deg, rgba(236, 240, 245, .88), rgba(173, 181, 191, .74)) !important;
+  backdrop-filter: blur(32px) saturate(105%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(105%) !important;
+}
+
+body.nm-page .nm-footer {
+  margin-top: 18px;
+  border-top-color: rgba(255, 255, 255, .48) !important;
+  background: linear-gradient(150deg, rgba(244, 247, 250, .56), rgba(166, 177, 190, .31)) !important;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .88), inset 0 -1px 0 rgba(22, 27, 34, .23), 0 -18px 50px rgba(4, 6, 9, .16) !important;
+  backdrop-filter: blur(26px) saturate(145%) contrast(106%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(145%) contrast(106%) !important;
+}
+
+body.nm-page .nm-footer :is(p, a),
+body.nm-page .nm-footer .nm-copyright,
+body.nm-page .nm-footer .nm-footer-brand p {
+  color: #354150 !important;
+}
+
+body.nm-page :is(
+  .nm-hero-copy .lead,
+  .nm-capabilities-heading > p:last-child,
+  .nm-capability-group-heading > p,
+  .nm-capability-card p,
+  .mcs-subtitle,
+  .msp-description,
+  .msp-features small,
+  .msp-process-list p,
+  .nm-section-heading > p,
+  .nm-vision-copy,
+  .nm-vision-outcome,
+  .mani-social-lead,
+  .mani-social-featured p,
+  .mani-social-link small,
+  .nm-final-copy > p,
+  .nm-contact-intro > p,
+  .nm-contact-note,
+  .nm-contact-result
+) {
+  color: #465364 !important;
+}
+
+body.nm-page .nm-button-primary,
+body.nm-page .nm-contact-submit {
+  border: 1px solid rgba(255, 210, 187, .72) !important;
+  background: linear-gradient(135deg, #ff8b55 0%, #ff6627 48%, #ef5318 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .66),
+    inset 0 -1px 0 rgba(132, 45, 9, .20),
+    0 14px 30px rgba(74, 25, 8, .25) !important;
+}
+
+body.nm-page .nm-button-primary:hover,
+body.nm-page .nm-button-primary:focus-visible,
+body.nm-page .nm-contact-submit:hover,
+body.nm-page .nm-contact-submit:focus-visible {
+  filter: saturate(.96) brightness(1.04) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    inset 0 -1px 0 rgba(132, 45, 9, .18),
+    0 18px 36px rgba(65, 22, 8, .28) !important;
+}
+
+body.nm-page .nm-dialog::backdrop {
+  background: rgba(8, 10, 13, .70) !important;
+  backdrop-filter: blur(12px) saturate(.82);
+  -webkit-backdrop-filter: blur(12px) saturate(.82);
+}
+
+@media (min-width: 981px) {
+  /* One desktop frame width keeps all left-edge labels on the same guide. */
+  body.nm-page .nm-capabilities > .nm-container,
+  body.nm-page .msp-host,
+  body.nm-page .nm-vision > .nm-container,
+  body.nm-page .mani-social > .mani-social-shell,
+  body.nm-page .nm-final-cta > .nm-final-card,
+  body.nm-page .nm-contact > .nm-contact-shell {
+    width: min(1415px, calc(100% - 80px)) !important;
+    max-width: 1415px !important;
+  }
+
+  body.nm-page .mani-social-copy {
+    align-self: start !important;
+    margin-top: -32px !important;
+    padding-top: 70px !important;
+  }
+
+  body.nm-page :is(.msp-title, .msp-description, .msp-features) {
+    transform: translateY(-19px);
+  }
+
+  body.nm-page :is(.mcs-title, .mcs-subtitle) {
+    transform: translateY(20px);
+  }
+
+  body.nm-page .nm-final-copy {
+    transform: translateY(7px);
+  }
+}
+
+@media (max-width: 980px) {
+  /* At tablet/mobile widths the source component removes its inset desktop
+     stage, so the responsive section itself becomes the single glass frame. */
+  body.nm-page .mcs-section {
+    border: 1px solid rgba(255, 255, 255, .56) !important;
+    border-radius: 30px !important;
+    background:
+      radial-gradient(ellipse 58% 76% at 86% 10%, rgba(255, 255, 255, .24) 0%, transparent 66%),
+      radial-gradient(ellipse 42% 64% at 8% 94%, rgba(83, 90, 101, .16) 0%, transparent 72%),
+      var(--pg-block) !important;
+    box-shadow: var(--pg-block-shadow) !important;
+    backdrop-filter: blur(26px) saturate(145%) contrast(108%) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(145%) contrast(108%) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body.nm-page {
+    background:
+      radial-gradient(ellipse 116% 38% at 100% 4%, rgba(159, 218, 255, .38), transparent 72%),
+      radial-gradient(ellipse 104% 42% at -8% 78%, rgba(255, 183, 143, .30), transparent 74%),
+      linear-gradient(160deg, #eef7ff 0%, #fbfdff 42%, #fff5ef 74%, #edf8ff 100%) !important;
+  }
+
+  body.nm-page .nm-hero,
+  body.nm-page .nm-capabilities > .nm-container,
+  body.nm-page .msp-host,
+  body.nm-page .nm-vision > .nm-container,
+  body.nm-page .mani-social > .mani-social-shell,
+  body.nm-page .nm-final-cta > .nm-final-card,
+  body.nm-page .nm-contact > .nm-contact-shell {
+    border-radius: 26px !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .84),
+      inset 0 -1px 0 rgba(25, 29, 35, .15),
+      0 16px 34px rgba(4, 6, 9, .30) !important;
+    backdrop-filter: blur(22px) saturate(140%) contrast(106%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(140%) contrast(106%) !important;
+  }
+
+  body.nm-page .nm-hero {
+    width: calc(100% - 8px) !important;
+    margin-top: 4px !important;
+  }
+
+  body.nm-page .mcs-eyebrow {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+  }
+
+  body.nm-page .msp-eyebrow,
+  body.nm-page .mani-social-eyebrow,
+  body.nm-page .nm-final-eyebrow {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    margin: 0 0 18px !important;
+  }
+
+  body.nm-page :is(.msp-title, .msp-description, .msp-features, .mcs-title, .mcs-subtitle, .nm-final-copy) {
+    transform: none !important;
+  }
+
+  body.nm-page .nm-vision-outcome {
+    min-height: 0 !important;
+    padding: 14px 15px !important;
+  }
+
+  body.nm-page :is(
+    .nm-capability-card,
+    .nm-capabilities-feedback,
+    .mcs-selector,
+    .msp-features li,
+    .msp-process-list article,
+    .nm-vision-card,
+    .mani-social-featured,
+    .mani-social-link,
+    .nm-final-benefits li,
+    .nm-contact-intro,
+    .nm-contact-form
+  ) {
+    box-shadow:
+      inset 1px 1px 0 rgba(255, 255, 255, .90),
+      inset -1px 0 0 rgba(179, 220, 255, .13),
+      inset 0 -1px 0 rgba(30, 36, 44, .22),
+      0 11px 25px rgba(6, 9, 13, .19) !important;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  body.nm-page :is(
+    .nm-hero,
+    .nm-capabilities > .nm-container,
+    .mcs-section,
+    .msp-host,
+    .nm-vision > .nm-container,
+    .mani-social > .mani-social-shell,
+    .nm-final-cta > .nm-final-card,
+    .nm-contact > .nm-contact-shell
+  ) {
+    background-color: rgba(222, 228, 235, .92) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.nm-page :is(
+    .nm-capability-card,
+    .msp-features li,
+    .msp-process-list article,
+    .nm-vision-card,
+    .mani-social-link,
+    .nm-final-benefits li
+  ) {
+    transition: none !important;
+  }
+}
