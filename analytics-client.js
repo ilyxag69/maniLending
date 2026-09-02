@@ -1,4 +1,22 @@
 (function initManiAnalytics() {
+  const topMailCounterId = "3681438";
+
+  if (!window.__maniTopMailInitialized) {
+    window.__maniTopMailInitialized = true;
+    window._tmr = window._tmr || [];
+    window._tmr.push({ id: topMailCounterId, type: "pageView", start: Date.now() });
+
+    if (!document.getElementById("tmr-code")) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.id = "tmr-code";
+      script.src = "https://top-fwz1.mail.ru/js/code.js";
+      const firstScript = document.getElementsByTagName("script")[0];
+      firstScript?.parentNode?.insertBefore(script, firstScript);
+    }
+  }
+
   if (window.ManiAnalytics) return;
 
   const endpoint = "/api/analytics";

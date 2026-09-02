@@ -26,7 +26,7 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.min.js?v=20260902-conversion-2"), "Expected script cache-bust is missing");
+  assert(body.includes("script.min.js?v=20260902-topmail-1"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
@@ -121,8 +121,13 @@ check("waitlist API works locally", async () => {
 
 check("analytics tags exist", async () => {
   const { body } = await fetchText("/");
+  const analyticsClient = await fetchText("/analytics-client.js?v=20260902-topmail-1");
   assert(body.includes("G-P6TDY2N5FK"), "GA4 id missing");
   assert(body.includes("103776176"), "Yandex Metrica id missing");
+  assert(body.includes("https://top-fwz1.mail.ru/counter?id=3681438;js=na"), "Top.Mail.Ru noscript pixel missing");
+  assert(analyticsClient.response.ok, `Analytics client returned ${analyticsClient.response.status}`);
+  assert(analyticsClient.body.includes('topMailCounterId = "3681438"'), "Top.Mail.Ru counter id missing");
+  assert(analyticsClient.body.includes('script.src = "https://top-fwz1.mail.ru/js/code.js"'), "Top.Mail.Ru loader missing");
   assert(body.includes("data-cookie-banner"), "Cookie consent banner missing");
   assert(body.includes('class="nm-page"') && !body.includes("cookie-consent-pending"), "Cookie notice must not lock the initial page");
   assert(body.includes('role="status"') && !body.includes('aria-modal="true"'), "Cookie notice must be informational, not modal");

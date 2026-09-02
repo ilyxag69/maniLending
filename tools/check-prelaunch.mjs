@@ -104,6 +104,27 @@ try {
   check(script.includes("analyticsAllowedFields"), "analytics fields are allowlisted");
   check(script.includes("loadYandexMetrica();\nloadAnalytics();\ninitCookieConsent();"), "external analytics starts independently of the cookie notice");
   check(
+    analyticsClient.includes('topMailCounterId = "3681438"')
+      && analyticsClient.includes('type: "pageView"')
+      && analyticsClient.includes('script.src = "https://top-fwz1.mail.ru/js/code.js"')
+      && publicPages.every((page) => page.includes("analytics-client.js?v=20260902-topmail-1"))
+      && publicPages.every((page) => page.includes("https://top-fwz1.mail.ru/counter?id=3681438;js=na")),
+    "Top.Mail.Ru counter loads once on every public page with a noscript fallback"
+  );
+  check(
+    script.includes('window._tmr.push({ id: "3681438", type: "reachGoal", goal });')
+      && script.includes('return "form1"')
+      && script.includes('return "form2"')
+      && script.includes('return "form3"'),
+    "Top.Mail.Ru receives all three confirmed waitlist goals"
+  );
+  check(
+    htaccess.includes("https://top-fwz1.mail.ru")
+      && htaccess.includes("https://top.mail.ru")
+      && publicCopy.includes("Top.Mail.Ru"),
+    "Top.Mail.Ru is covered by CSP and public analytics disclosure"
+  );
+  check(
     !html.includes("cookie-consent-pending")
       && !script.includes("cookieBlockedElements")
       && !script.includes("element.inert = true")
@@ -134,7 +155,7 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-08-20<\/lastmod>/g) || []).length === 7, "sitemap modification dates match the current release");
+  check((sitemap.match(/<lastmod>2026-09-02<\/lastmod>/g) || []).length === 8, "sitemap modification dates match the current release");
 
   await writeFile(
     join(temporaryData, "waitlist-submissions.jsonl"),

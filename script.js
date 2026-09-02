@@ -440,6 +440,8 @@ function trackWaitlistConversion(ctaLocation) {
   if (!goal) return;
   loadYandexMetrica();
   window.ym?.(yandexMetricaId, "reachGoal", goal, { cta_location: ctaLocation });
+  window._tmr = window._tmr || [];
+  window._tmr.push({ id: "3681438", type: "reachGoal", goal });
 }
 
 function initProductStatus() {

@@ -150,7 +150,7 @@
 
       <main>
         <h1>Политика cookie</h1>
-        <p class="updated">Последнее обновление: 8 июня 2026</p>
+        <p class="updated">Последнее обновление: 2 сентября 2026</p>
         <p class="lead">Эта страница описывает, как сайт mani может использовать cookie и похожие технологии для корректной работы, аналитики и улучшения пользовательского опыта.</p>
 
         <h2>1. Что такое cookie</h2>
@@ -161,6 +161,7 @@
           <li>необходимые cookie для базовой работы сайта;</li>
           <li>аналитические cookie Google Analytics;</li>
           <li>аналитические cookie Яндекс Метрики;</li>
+          <li>аналитические cookie и идентификаторы Top.Mail.Ru;</li>
           <li>технические идентификаторы, нужные для оценки стабильности и качества лендинга.</li>
         </ul>
 
@@ -171,7 +172,7 @@
         <p>Пользователь может ограничить или удалить cookie в настройках браузера. После отключения cookie часть аналитики может работать неполно, но основное содержимое сайта останется доступным.</p>
 
         <h2>5. Сторонние сервисы</h2>
-        <p>Google Analytics и Яндекс Метрика обрабатывают данные по своим правилам. Их cookie могут использоваться для аналитики посещений, измерения событий и улучшения рекламных кампаний.</p>
+        <p>Google Analytics, Яндекс Метрика и Top.Mail.Ru обрабатывают данные по своим правилам. Их cookie и технические идентификаторы могут использоваться для аналитики посещений, измерения событий и улучшения рекламных кампаний.</p>
 
         <h2>6. Связанные документы</h2>
         <p>Подробнее об обработке данных написано на странице <a href="/privacy">Политика конфиденциальности</a>.</p>
@@ -179,7 +180,7 @@
         <h2>7. Изменения политики</h2>
         <p>Мы можем обновлять эту страницу. Актуальная версия всегда доступна по адресу <a href="https://moimani.ai/cookie">https://moimani.ai/cookie</a>.</p>
         <h2>8. Как работает выбор на сайте</h2>
-        <p>На сайте используется информационное уведомление об аналитике. Google Analytics, Яндекс Метрика и собственная статистика mani могут загружаться при открытии страницы.</p>
+        <p>На сайте используется информационное уведомление об аналитике. Google Analytics, Яндекс Метрика, Top.Mail.Ru и собственная статистика mani могут загружаться при открытии страницы.</p>
         <p>Уведомление можно закрыть кнопкой «Понятно». Пользователь может ограничить или удалить cookie и localStorage сайта в настройках браузера.</p>
         <h2>9. Собственная статистика без внешних cookie</h2>
         <p>Независимо от выбора в баннере сайт отправляет на сервер mani обезличенные события, необходимые для контроля качества: просмотры, клики, этапы формы, технические ошибки и показатели скорости. Для этого используется временный идентификатор сессии в sessionStorage, который исчезает после закрытия вкладки. Телефон, email, комментарии и значения финансового калькулятора в такие события не передаются.</p>
@@ -187,7 +188,8 @@
       </main>
     </div>
     <footer class="nm-footer"><div class="nm-container nm-footer-grid"><div class="nm-footer-brand"><a href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><p>mani. Финансовый радар с характером</p></div><nav aria-label="Навигация в подвале"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#contacts">Контакты</a><a href="/faq">FAQ</a></nav><nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a><a href="/delete-account">Удаление аккаунта</a></nav><p class="nm-copyright">© 2026 mani</p></div></footer>
-    <script src="analytics-client.js?v=20260728-first-party-1"></script>
+    <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3681438;js=na" style="position:absolute;left:-9999px" alt="Top.Mail.Ru" /></div></noscript>
+    <script src="analytics-client.js?v=20260902-topmail-1"></script>
     <script>const menu=document.querySelector('.nm-menu'),nav=document.querySelector('.nm-mobile-menu');menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('menu-open',open);});</script>
   </body>
 </html>
