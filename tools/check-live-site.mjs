@@ -26,12 +26,14 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.js?v=20260902-artifact-clean-2"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20260902-contact-modal-1"), "Expected script cache-bust is missing");
   assert(body.includes("product-config.js?v=20260901-copy-1"), "Expected product config is missing");
   assert(body.includes("newmani.css?v=20260901-cookie-notice-1"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-contact-form"), "Contact form is missing from home page");
+  assert(body.includes("data-open-contact"), "Mobile contact trigger is missing from home page");
+  assert(body.includes('id="contact-dialog"'), "Mobile contact dialog is missing from home page");
   assert(body.includes('href="https://t.me/eto_mani"'), "Direct Telegram contact is missing");
   assert(body.includes('href="#contacts"'), "Footer contact navigation is missing");
   assert((body.match(/href="#contacts"/g) || []).length >= 3, "Header contact navigation is missing");

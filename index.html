@@ -39,7 +39,7 @@
     <link rel="icon" href="assets/favicon.png" />
     <link rel="stylesheet" href="newmani.css?v=20260901-cookie-notice-1" />
     <link rel="stylesheet" href="liquid-glass-test.css?v=20260901-local-23" />
-    <link rel="stylesheet" href="capabilities.css?v=20260901-unified-3" />
+    <link rel="stylesheet" href="capabilities.css?v=20260902-mobile-carousel-1" />
     <link rel="stylesheet" href="character-switcher.css?v=20260901-compact-7" />
     <link rel="stylesheet" href="security-protector.css?v=20260901-clean-layout-3" />
     <link rel="stylesheet" href="heading-system.css?v=20260901-unified-3" />
@@ -51,7 +51,7 @@
     <link rel="stylesheet" href="security-simple.css?v=20260901-simple-2" />
     <link rel="stylesheet" href="site-chrome.css?v=20260902-mobile-polish-1" />
     <link rel="stylesheet" href="premium-glass.css?v=20260902-local-15" />
-    <link rel="stylesheet" href="scroll-cascade.css?v=20260902-static-glass-5" />
+    <link rel="stylesheet" href="scroll-cascade.css?v=20260902-mobile-polish-2" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -181,7 +181,7 @@
               <div><p>Доступно сейчас</p><h3 id="capabilities-now-title">Порядок в ежедневных финансах</h3></div>
               <p>mani собирает разрозненные данные и превращает их в понятную картину.</p>
             </div>
-            <div class="nm-capability-grid">
+            <div class="nm-capability-grid" tabindex="0" aria-label="Доступные сейчас возможности, горизонтальная карусель">
               <article class="nm-capability-card" data-reveal><h4>Все банки в одном месте</h4><p>Собирает счета и карты в одной понятной ленте.</p></article>
               <article class="nm-capability-card" data-reveal><h4>Полная картина денег</h4><p>Показывает баланс, траты и ближайшие платежи.</p></article>
               <article class="nm-capability-card" data-reveal><h4>Подписки под контролем</h4><p>Находит регулярные списания и лишние расходы.</p></article>
@@ -196,7 +196,7 @@
               <div><p>Следующий этап</p><h3 id="capabilities-future-title">Больше контроля и полезных решений</h3></div>
               <p>Новые функции помогут не только видеть ситуацию, но и заранее выбирать лучший следующий шаг.</p>
             </div>
-            <div class="nm-capability-grid">
+            <div class="nm-capability-grid" tabindex="0" aria-label="Возможности следующего этапа, горизонтальная карусель">
               <article class="nm-capability-card" data-reveal><h4>Кредитки без просрочек</h4><p>Следит за грейс-периодом, датами и обязательными платежами.</p></article>
               <article class="nm-capability-card" data-reveal><h4>Чеки по QR</h4><p>Разбирает покупки по товарам и категориям.</p></article>
               <article class="nm-capability-card" data-reveal><h4>Все банковские продукты</h4><p>Учитывает карты, вклады и кредиты как единую систему.</p></article>
@@ -394,6 +394,9 @@
             <button class="nm-contact-submit" type="submit"><span>Отправить сообщение</span><b aria-hidden="true">→</b></button>
             <p class="nm-contact-result" data-contact-result role="status" aria-live="polite">Ответим по указанному email или в Telegram.</p>
           </form>
+          <button class="nm-contact-mobile-trigger" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">
+            <span>Напишите нам</span><b aria-hidden="true">→</b>
+          </button>
         </div>
       </section>
     </main>
@@ -446,6 +449,16 @@
       <section class="waitlist-success" data-waitlist-success hidden tabindex="-1" aria-labelledby="waitlist-success-title"></section>
     </dialog>
 
+    <dialog class="nm-dialog nm-contact-dialog" id="contact-dialog" aria-labelledby="contact-dialog-title">
+      <button class="nm-dialog-close" type="button" data-close-contact aria-label="Закрыть">×</button>
+      <div class="nm-contact-dialog-copy">
+        <p>Связь с командой</p>
+        <h2 id="contact-dialog-title">Напишите нам</h2>
+        <span>Ответим по email или в Telegram.</span>
+      </div>
+      <div class="nm-contact-dialog-slot" data-contact-dialog-slot></div>
+    </dialog>
+
     <div class="toast" data-toast role="status" aria-live="polite"></div>
     <a class="mobile-sticky-cta" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="mobile-sticky">Получить ранний доступ</a>
     <div class="cookie-banner" data-cookie-banner role="status" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-description" hidden>
@@ -457,6 +470,6 @@
     <script src="analytics-client.js?v=20260901-always-on-1"></script>
     <script src="product-config.js?v=20260901-copy-1"></script>
     <script src="product-status.js?v=20260901-copy-1"></script>
-    <script src="script.js?v=20260902-artifact-clean-2"></script>
+    <script src="script.js?v=20260902-contact-modal-1"></script>
   </body>
 </html>

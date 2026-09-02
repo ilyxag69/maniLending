@@ -1544,6 +1544,58 @@ if (waitlistDialog) {
   });
 }
 
+const contactDialog = document.querySelector("#contact-dialog");
+const contactDialogSlot = document.querySelector("[data-contact-dialog-slot]");
+
+if (contactDialog && contactDialogSlot && contactForm) {
+  const contactFormHome = contactForm.parentElement;
+  const contactFormNextSibling = contactForm.nextElementSibling;
+  const contactMobileQuery = window.matchMedia("(max-width: 700px)");
+
+  const closeContactDialog = () => {
+    if (contactDialog.open) contactDialog.close();
+  };
+
+  const syncContactFormPlacement = () => {
+    if (contactMobileQuery.matches) {
+      if (contactForm.parentElement !== contactDialogSlot) contactDialogSlot.append(contactForm);
+      return;
+    }
+
+    closeContactDialog();
+    if (contactForm.parentElement === contactFormHome) return;
+    contactFormHome.insertBefore(contactForm, contactFormNextSibling);
+  };
+
+  document.querySelectorAll("[data-open-contact]").forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      syncContactFormPlacement();
+      if (!contactDialog.open) contactDialog.showModal();
+      requestAnimationFrame(() => contactForm.elements.name?.focus());
+      trackEvent("contact_form_open", { cta_location: "mobile_contact" });
+    });
+  });
+
+  contactDialog.querySelectorAll("[data-close-contact]").forEach((button) => {
+    button.addEventListener("click", closeContactDialog);
+  });
+
+  contactDialog.addEventListener("click", (event) => {
+    if (event.target !== contactDialog) return;
+    const rect = contactDialog.getBoundingClientRect();
+    const inside = event.clientX >= rect.left && event.clientX <= rect.right
+      && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    if (!inside) closeContactDialog();
+  });
+
+  syncContactFormPlacement();
+  if (contactMobileQuery.addEventListener) {
+    contactMobileQuery.addEventListener("change", syncContactFormPlacement);
+  } else {
+    contactMobileQuery.addListener(syncContactFormPlacement);
+  }
+}
+
 const revealItems = document.querySelectorAll("[data-reveal]");
 
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

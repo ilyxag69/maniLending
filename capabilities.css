@@ -289,14 +289,33 @@
   }
 
   .nm-capability-grid {
-    grid-template-columns: 1fr;
-    gap: 9px;
+    width: calc(100% + 12px);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    grid-template-columns: none;
+    gap: 10px;
+    margin-right: -12px;
+    padding: 2px 12px 10px 1px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1px 12px;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nm-capability-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .nm-capability-card {
-    min-height: 0;
-    padding: 17px 18px;
+    min-height: 152px;
+    padding: 20px 18px;
     border-radius: 18px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .nm-capability-card p {
