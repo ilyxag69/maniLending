@@ -38,6 +38,10 @@ function resolvePath(urlPath) {
   if (urlPath === "/support/bank-connection" || urlPath === "/support/bank-connection/") return "bank-connection.html";
   if (urlPath === "/soglasie") return "soglasie.html";
   if (urlPath === "/delete-account" || urlPath === "/delete-account/") return "delete-account.html";
+  if (urlPath === "/guides" || urlPath === "/guides/") return "guides.html";
+  if (urlPath === "/kontrol-rashodov" || urlPath === "/kontrol-rashodov/") return "kontrol-rashodov.html";
+  if (urlPath === "/poisk-podpisok" || urlPath === "/poisk-podpisok/") return "poisk-podpisok.html";
+  if (urlPath === "/finansovyi-pomoshchnik" || urlPath === "/finansovyi-pomoshchnik/") return "finansovyi-pomoshchnik.html";
   return urlPath.replace(/^\/+/, "");
 }
 
@@ -545,6 +549,18 @@ createServer(async (request, response) => {
 
   if (url.pathname === "/delete-account.html") {
     response.writeHead(301, { Location: redirectLocation("/delete-account", url) });
+    response.end();
+    return;
+  }
+
+  const guideRedirects = new Map([
+    ["/guides.html", "/guides"],
+    ["/kontrol-rashodov.html", "/kontrol-rashodov"],
+    ["/poisk-podpisok.html", "/poisk-podpisok"],
+    ["/finansovyi-pomoshchnik.html", "/finansovyi-pomoshchnik"],
+  ]);
+  if (guideRedirects.has(url.pathname)) {
+    response.writeHead(301, { Location: redirectLocation(guideRedirects.get(url.pathname), url) });
     response.end();
     return;
   }

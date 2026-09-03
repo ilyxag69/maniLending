@@ -27,7 +27,7 @@ assert(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots.txt �
 const { response: sitemapResponse, body: sitemap } = await fetchText("/sitemap.xml");
 assert(sitemapResponse.ok, "sitemap.xml доступен");
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert(urls.length === 8, "sitemap содержит 8 публичных страниц");
+assert(urls.length === 12, "sitemap содержит 12 публичных страниц");
 
 const titles = new Map();
 const descriptions = new Map();

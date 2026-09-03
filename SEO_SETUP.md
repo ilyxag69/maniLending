@@ -28,6 +28,10 @@ https://moimani.ai/privacy
 https://moimani.ai/cookie
 https://moimani.ai/soglasie
 https://moimani.ai/delete-account
+https://moimani.ai/guides
+https://moimani.ai/kontrol-rashodov
+https://moimani.ai/poisk-podpisok
+https://moimani.ai/finansovyi-pomoshchnik
 ```
 
 ## Google Search Console
@@ -39,7 +43,7 @@ https://moimani.ai/delete-account
 5. Для проверки выбрать HTML файл. На сайте уже лежит `https://moimani.ai/googleb66ff853fb7a394f.html`
 6. Открыть раздел «Файлы Sitemap»
 7. Вставить `https://moimani.ai/sitemap.xml` и нажать «Отправить»
-8. Открыть «Проверка URL», по очереди проверить главную, `/bezopasnost`, `/faq` и `/support/bank-connection`
+8. Открыть «Проверка URL», по очереди проверить главную, `/bezopasnost`, `/faq`, `/support/bank-connection` и новые страницы из раздела гайдов
 9. Для каждой изменённой страницы нажать «Запросить индексирование»
 10. Через 3–7 дней проверить «Индексирование страниц» и «Эффективность»
 
@@ -53,7 +57,7 @@ https://moimani.ai/delete-account
 6. Открыть «Индексирование» → «Файлы Sitemap»
 7. Добавить `https://moimani.ai/sitemap.xml`
 8. Открыть «Индексирование» → «Переобход страниц»
-9. Вставить адреса из списка выше, в первую очередь главную, безопасность, FAQ и помощь с банком
+9. Вставить адреса из списка выше, в первую очередь главную, безопасность, FAQ, помощь с банком и новые страницы из раздела гайдов
 10. Связать счётчик Метрики `103776176` с сайтом в Вебмастере и включить обход по данным Метрики
 
 ## Bing Webmaster и IndexNow
@@ -65,6 +69,16 @@ https://moimani.ai/delete-account
 5. Проверить раздел IndexNow
 6. Ключ уже доступен по адресу `https://moimani.ai/a880a00f0b3c289c15baa51d8c1a23a2.txt`
 7. После каждого содержательного релиза запускать `node tools/submit-indexnow.mjs`
+
+Последняя проверка Bing: 8 страниц, 0 ошибок и 4 предупреждения о декоративных изображениях с пустым `alt`. Пустой `alt` сохранён осознанно, чтобы скринридер не зачитывал декоративные элементы как содержательные
+
+## Аналитика заявок
+
+- В GA4 создано событие `generate_lead` только для `waitlist_success` с `duplicate=false`
+- `generate_lead` отмечено ключевым событием
+- `waitlist_submit` оставлено обычным событием, чтобы попытки отправки не считались лидами
+- Создана аудитория «Открыли форму, но не оставили заявку» с включением `waitlist_form_open` и постоянным исключением `generate_lead`
+- Для фильтра внутреннего трафика нужен стабильный IP команды либо отдельный тестовый параметр сайта
 
 ## Проверка разметки и скорости
 

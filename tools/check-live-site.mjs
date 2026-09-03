@@ -28,7 +28,7 @@ check("home page loads", async () => {
   assert(body.includes("mani"), "Home does not contain mani");
   assert(body.includes("mani. ИИ-помощник для контроля личных финансов"), "Expected SEO title is missing");
   assert(body.includes("script.js?v=20260903-quote-fit-1"), "Expected script cache-bust is missing");
-  assert(body.includes("conversion-experience.css?v=20260903-quote-fit-1"), "Expected conversion CSS is missing");
+  assert(body.includes("conversion-experience.css?v=20260904-mobile-rhythm-2"), "Expected conversion CSS is missing");
   assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
@@ -79,6 +79,10 @@ check("preview conversion pages are reachable", async () => {
     ["/bezopasnost", '<link rel="canonical" href="https://moimani.ai/bezopasnost"'],
     ["/faq", '<link rel="canonical" href="https://moimani.ai/faq"'],
     ["/soglasie", '<link rel="canonical" href="https://moimani.ai/soglasie"'],
+    ["/guides", '<link rel="canonical" href="https://moimani.ai/guides"'],
+    ["/kontrol-rashodov", '<link rel="canonical" href="https://moimani.ai/kontrol-rashodov"'],
+    ["/poisk-podpisok", '<link rel="canonical" href="https://moimani.ai/poisk-podpisok"'],
+    ["/finansovyi-pomoshchnik", '<link rel="canonical" href="https://moimani.ai/finansovyi-pomoshchnik"'],
   ];
 
   for (const [page, canonical] of pages) {

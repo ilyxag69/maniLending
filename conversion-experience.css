@@ -954,3 +954,398 @@ body.nm-page :is(.nm-hero-copy, .nm-capabilities-heading, .nm-capability-group-h
     transition: none;
   }
 }
+
+/* 2026-09-04: final desktop alignment and mobile rhythm pass */
+@media (min-width: 701px) {
+  body.nm-page .nm-capability-group-heading > p {
+    width: min(100%, 390px);
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
+/* Match the shared footer used on Guides and the rest of the public site */
+body.nm-page .nm-footer {
+  width: min(1344px, calc(100% - 48px)) !important;
+  margin: 24px auto 18px !important;
+  padding: 42px 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.82) !important;
+  border-radius: 30px !important;
+  background: rgba(255, 255, 255, 0.42) !important;
+  box-shadow: inset 0 1px 0 #fff, 0 16px 44px rgba(43, 73, 111, 0.07) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+}
+
+body.nm-page .nm-footer .nm-footer-grid {
+  width: 100% !important;
+  padding-inline: 30px !important;
+  grid-template-columns: 1.5fr 1fr 1fr auto !important;
+  align-items: start !important;
+  gap: 34px !important;
+}
+
+body.nm-page .nm-footer .nm-footer-brand > a {
+  display: inline-flex;
+  align-items: center;
+}
+
+body.nm-page .nm-footer .nm-footer-brand > a img {
+  width: 132px !important;
+  height: auto !important;
+}
+
+body.nm-page .nm-footer .nm-footer-brand p,
+body.nm-page .nm-footer .nm-copyright {
+  margin: 14px 0 0 !important;
+  color: #6f7d92 !important;
+  font-size: 13px !important;
+}
+
+body.nm-page .nm-footer .nm-copyright {
+  margin-top: 0 !important;
+}
+
+body.nm-page .nm-footer nav {
+  display: grid !important;
+  gap: 11px !important;
+}
+
+body.nm-page .nm-footer nav a {
+  color: #52617a !important;
+  font-size: 13px !important;
+}
+
+body.nm-page .nm-footer nav a:hover,
+body.nm-page .nm-footer nav a:focus-visible {
+  color: #ff641f !important;
+}
+
+@media (max-width: 900px) {
+  body.nm-page .nm-footer .nm-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px 18px !important;
+  }
+
+  body.nm-page .nm-footer .nm-footer-brand,
+  body.nm-page .nm-footer .nm-copyright {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 980px) {
+  body.nm-page .nm-footer {
+    width: calc(100% - 32px) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body.nm-page main {
+    gap: 18px !important;
+  }
+
+  /* One top rhythm for every glass surface */
+  body.nm-page .nm-capabilities > .nm-container,
+  body.nm-page .nm-vision > .nm-container,
+  body.nm-page .msp-host .msp-shell,
+  body.nm-page .mcs-section,
+  body.nm-page .nm-final-cta > .nm-final-card,
+  body.nm-page .nm-faq > .nm-faq-shell,
+  body.nm-page .mani-social > .mani-social-shell {
+    padding-top: 24px !important;
+  }
+
+  body.nm-page .nm-capabilities > .nm-container,
+  body.nm-page .nm-vision > .nm-container,
+  body.nm-page .mani-social > .mani-social-shell {
+    padding-inline: 16px !important;
+  }
+
+  body.nm-page :is(
+    .nm-capabilities-eyebrow,
+    .nm-signal-intro .nm-section-eyebrow,
+    .nm-how .nm-section-eyebrow,
+    .msp-eyebrow,
+    .mcs-eyebrow,
+    .nm-final-eyebrow,
+    .nm-faq .nm-section-eyebrow,
+    .mani-social-eyebrow,
+    .nm-contact-kicker
+  ) {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    margin: 0 0 18px !important;
+  }
+
+  body.nm-page .nm-capabilities-heading,
+  body.nm-page .mani-social-copy {
+    padding: 0 !important;
+  }
+
+  body.nm-page .nm-capabilities-heading h2,
+  body.nm-page .mcs-title {
+    margin-top: 0 !important;
+  }
+
+  body.nm-page .nm-capability-group-heading > p {
+    text-align: left;
+  }
+
+  /* The three-step explanation remains linear, but loses empty card height */
+  body.nm-page .nm-vision .nm-section-heading {
+    margin-bottom: 20px !important;
+  }
+
+  body.nm-page .nm-vision .nm-vision-grid {
+    gap: 8px !important;
+  }
+
+  body.nm-page .nm-vision .nm-vision-card {
+    min-height: 0 !important;
+    padding: 19px !important;
+  }
+
+  body.nm-page .nm-vision .nm-vision-copy {
+    margin-top: 12px !important;
+  }
+
+  body.nm-page .nm-vision .nm-vision-outcome {
+    margin-top: 16px !important;
+    padding-top: 14px !important;
+  }
+
+  /* Security: preserve every guarantee and step while tightening decoration */
+  body.nm-page .msp-host .msp-top-grid {
+    gap: 12px !important;
+    min-height: 0 !important;
+  }
+
+  body.nm-page .msp-host .msp-title {
+    margin-top: 0 !important;
+  }
+
+  body.nm-page .msp-host .msp-description {
+    margin-top: 14px !important;
+  }
+
+  body.nm-page .msp-host .msp-features {
+    margin-top: 18px !important;
+    gap: 8px !important;
+  }
+
+  body.nm-page .msp-host .msp-features li,
+  body.nm-page .msp-host .msp-features li:nth-child(even),
+  body.nm-page .msp-host .msp-features li:nth-child(n + 3) {
+    padding: 15px 16px !important;
+  }
+
+  body.nm-page .msp-host .msp-features small {
+    margin-top: 6px !important;
+  }
+
+  body.nm-page .msp-host .msp-visual {
+    min-height: 205px !important;
+    margin-top: 0 !important;
+  }
+
+  body.nm-page .msp-host .msp-mascot {
+    width: min(62%, 220px) !important;
+  }
+
+  body.nm-page .msp-host .msp-steps-row {
+    gap: 14px !important;
+    margin-top: 14px !important;
+    padding-top: 18px !important;
+  }
+
+  body.nm-page .msp-host .msp-process-list {
+    gap: 8px !important;
+  }
+
+  body.nm-page .msp-host .msp-process-list article {
+    padding: 15px 16px !important;
+  }
+
+  body.nm-page .msp-host .msp-process-list strong {
+    margin-bottom: 6px !important;
+  }
+
+  /* Character card keeps its composition, with the badge on the common grid */
+  body.nm-page .mcs-section {
+    gap: 9px !important;
+    padding-inline: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  body.nm-page .mcs-main-mascot,
+  body.nm-page .mcs-fun .mcs-main-mascot {
+    width: min(270px, 72vw) !important;
+  }
+
+  body.nm-page .mcs-quote {
+    min-height: 138px !important;
+    padding: 26px 26px 22px 30px !important;
+  }
+
+  /* Social links become compact tap-friendly tiles instead of a long list */
+  body.nm-page .mani-social > .mani-social-shell {
+    gap: 20px !important;
+    padding-bottom: 16px !important;
+  }
+
+  body.nm-page .mani-social-links {
+    gap: 10px !important;
+  }
+
+  body.nm-page .mani-social-reasons {
+    margin-top: 16px !important;
+  }
+
+  body.nm-page .mani-social-featured {
+    min-height: 0 !important;
+    padding: 16px !important;
+  }
+
+  body.nm-page .mani-social-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body.nm-page .mani-social-link {
+    position: relative;
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    min-height: 92px !important;
+    padding: 12px !important;
+  }
+
+  body.nm-page .mani-social-link .mani-social-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  body.nm-page .mani-social-link .mani-social-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  body.nm-page .mani-social-link strong {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  body.nm-page .mani-social-link small {
+    font-size: 11px;
+    line-height: 1.28;
+  }
+
+  body.nm-page .mani-social-link > b {
+    display: none;
+  }
+
+  body.nm-page .nm-footer {
+    width: calc(100% - 16px) !important;
+    margin: 16px auto 18px !important;
+    padding: 30px 0 34px !important;
+    border-radius: 24px !important;
+  }
+
+  body.nm-page .nm-footer .nm-footer-grid {
+    width: 100% !important;
+    padding-inline: 18px !important;
+  }
+
+  body.nm-page .nm-footer .nm-copyright {
+    padding-top: 12px;
+    border-top: 1px solid rgba(82, 97, 122, 0.12);
+  }
+}
+
+@media (max-width: 350px) {
+  body.nm-page .mani-social-link {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    gap: 7px !important;
+    padding: 10px !important;
+  }
+
+  body.nm-page .mani-social-link .mani-social-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  body.nm-page .mani-social-link .mani-social-icon svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* 2026-09-04: restore the full character card and compact the landing FAQ */
+@media (min-width: 1101px) {
+  body.nm-page .mcs-section::after {
+    inset: 0 32px !important;
+    border-radius: 36px !important;
+  }
+
+  body.nm-page .mcs-stage-background,
+  body.nm-page .mcs-caustics {
+    clip-path: inset(0 32px round 36px) !important;
+  }
+}
+
+body.nm-page .nm-faq > .nm-faq-shell {
+  min-height: 0 !important;
+  padding: 42px 54px 34px !important;
+}
+
+body.nm-page .nm-faq .nm-section-heading {
+  margin-bottom: 20px !important;
+}
+
+body.nm-page .nm-faq-more {
+  min-height: 44px !important;
+  margin-top: 14px !important;
+}
+
+@media (max-width: 980px) {
+  body.nm-page .nm-faq > .nm-faq-shell {
+    padding: 30px 24px 24px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body.nm-page .nm-faq > .nm-faq-shell {
+    padding: 24px 18px 18px !important;
+  }
+
+  body.nm-page .nm-faq .nm-section-heading {
+    padding-inline: 0 !important;
+    margin-bottom: 18px !important;
+  }
+
+  body.nm-page .nm-faq-list {
+    gap: 8px !important;
+  }
+
+  body.nm-page .nm-faq-list details {
+    padding-inline: 16px !important;
+  }
+
+  body.nm-page .nm-faq-list summary {
+    min-height: 60px !important;
+  }
+
+  body.nm-page .nm-faq-more {
+    min-height: 42px !important;
+    margin-top: 12px !important;
+    padding-inline: 18px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  body.nm-page .nm-faq .nm-section-heading h2 {
+    font-size: 30px !important;
+    line-height: 1.04 !important;
+  }
+}

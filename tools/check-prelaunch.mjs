@@ -56,7 +56,7 @@ async function submit(overrides = {}) {
 }
 
 try {
-  const [html, script, config, productStatus, pageAnalytics, analyticsClient, siteChrome, htaccess, robots, sitemap] = await Promise.all([
+  const [html, script, config, productStatus, pageAnalytics, analyticsClient, siteChrome, conversionExperience, htaccess, robots, sitemap] = await Promise.all([
     readFile(join(root, "index.html"), "utf8"),
     readFile(join(root, "script.js"), "utf8"),
     readFile(join(root, "product-config.js"), "utf8"),
@@ -64,12 +64,13 @@ try {
     readFile(join(root, "page-analytics.js"), "utf8"),
     readFile(join(root, "analytics-client.js"), "utf8"),
     readFile(join(root, "site-chrome.css"), "utf8"),
+    readFile(join(root, "conversion-experience.css"), "utf8"),
     readFile(join(root, ".htaccess"), "utf8"),
     readFile(join(root, "robots.txt"), "utf8"),
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
   const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "404.php"]
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "404.php"]
       .map((file) => readFile(join(root, file), "utf8"))
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
@@ -96,7 +97,15 @@ try {
     "all public pages load the mobile layout fixes"
   );
   check(publicPages.every((page) => page.includes("Получить приглашение") && !page.includes("Получить ранний доступ")), "all public headers use the same invitation message");
+  check(publicPages.every((page) => page.includes('href="/guides"')), "all public pages expose the guides section in shared navigation");
   check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
+  check(
+    html.includes("conversion-experience.css?v=20260904-mobile-rhythm-2")
+      && conversionExperience.includes("final desktop alignment and mobile rhythm pass")
+      && conversionExperience.includes("grid-template-columns: repeat(2, minmax(0, 1fr)) !important")
+      && conversionExperience.includes("restore the full character card and compact the landing FAQ"),
+    "home page loads the unified mobile rhythm and compact social layout"
+  );
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
   check(html.includes("https://moimani.ai/og-image-v4.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
@@ -158,8 +167,8 @@ try {
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
-  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-09-03<\/lastmod>/g) || []).length === 8, "sitemap modification dates match the current release");
+  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik"), "sitemap contains public content routes");
+  check((sitemap.match(/<lastmod>2026-09-03<\/lastmod>/g) || []).length === 12, "sitemap modification dates match the current release");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 
