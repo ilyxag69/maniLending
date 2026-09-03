@@ -76,7 +76,7 @@ try {
 
   check(config.includes('status: "closed_beta"'), "closed beta product status has one explicit source");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
-  check(html.includes("mani. Деньги под контролем"), "SEO positioning is explicit");
+  check(html.includes("mani. ИИ-помощник для контроля личных финансов"), "SEO positioning is explicit");
   check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
   check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
@@ -159,7 +159,9 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-09-02<\/lastmod>/g) || []).length === 8, "sitemap modification dates match the current release");
+  check((sitemap.match(/<lastmod>2026-09-03<\/lastmod>/g) || []).length === 8, "sitemap modification dates match the current release");
+  check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
+  check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 
   await writeFile(
     join(temporaryData, "waitlist-submissions.jsonl"),

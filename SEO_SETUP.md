@@ -1,35 +1,99 @@
-# Mani.ai Search Setup
+# SEO запуск moimani.ai
 
-This file tracks the remaining manual steps for search indexing and analytics.
+Актуально на 3 сентября 2026 года
+
+## Уже сделано на сайте
+
+- Основной адрес: `https://moimani.ai/`
+- Карта сайта: `https://moimani.ai/sitemap.xml`
+- Правила для роботов: `https://moimani.ai/robots.txt`
+- Все индексируемые страницы имеют уникальные title, description, canonical и один H1
+- Дубли с `.html`, `www` и `http` перенаправляются на основные HTTPS адреса
+- Главная содержит разметку Organization, WebSite и SoftwareApplication
+- FAQ содержит разметку FAQPage
+- Страница помощи содержит корректные хлебные крошки без несуществующих адресов
+- Open Graph и Twitter Card настроены для основных страниц
+- AVIF и WebP получают правильный MIME тип и кэшируются 30 дней
+- Файлы подтверждения Google и Яндекса уже размещены
+- Ключ IndexNow уже размещён в корне сайта
+
+## Адреса для отправки на индексацию
+
+```text
+https://moimani.ai/
+https://moimani.ai/bezopasnost
+https://moimani.ai/faq
+https://moimani.ai/support/bank-connection
+https://moimani.ai/privacy
+https://moimani.ai/cookie
+https://moimani.ai/soglasie
+https://moimani.ai/delete-account
+```
 
 ## Google Search Console
 
-1. Open https://search.google.com/search-console/.
-2. Add property: `https://moimani.ai/`.
-3. Choose one verification method:
-   - HTML tag: send the full tag or only the `content` value from:
-     `<meta name="google-site-verification" content="..." />`
-   - HTML file: send the exact file name and file content Google provides.
-   - DNS TXT: add it in the domain DNS panel if domain-level verification is preferred.
-4. After verification, submit sitemap:
-   `https://moimani.ai/sitemap.xml`
+1. Открыть `https://search.google.com/search-console/`
+2. Войти в Google аккаунт владельца сайта
+3. Проверить наличие ресурса `https://moimani.ai/`
+4. Если ресурса нет, выбрать тип «Ресурс с префиксом в URL» и вставить `https://moimani.ai/`
+5. Для проверки выбрать HTML файл. На сайте уже лежит `https://moimani.ai/googleb66ff853fb7a394f.html`
+6. Открыть раздел «Файлы Sitemap»
+7. Вставить `https://moimani.ai/sitemap.xml` и нажать «Отправить»
+8. Открыть «Проверка URL», по очереди проверить главную, `/bezopasnost`, `/faq` и `/support/bank-connection`
+9. Для каждой изменённой страницы нажать «Запросить индексирование»
+10. Через 3–7 дней проверить «Индексирование страниц» и «Эффективность»
 
-## Yandex Webmaster
+## Яндекс Вебмастер
 
-1. Open https://webmaster.yandex.ru/.
-2. Add site: `https://moimani.ai/`.
-3. Choose one verification method:
-   - Meta tag: send the full tag or only the `content` value.
-   - HTML file: send the exact file name and file content Yandex provides.
-   - DNS TXT: add it in the domain DNS panel if domain-level verification is preferred.
-4. After verification, submit sitemap:
-   `https://moimani.ai/sitemap.xml`
+1. Открыть `https://webmaster.yandex.ru/`
+2. Войти в Яндекс аккаунт владельца сайта
+3. Проверить наличие сайта `https://moimani.ai/`
+4. Если сайта нет, добавить его и выбрать проверку HTML файлом
+5. На сайте уже лежит `https://moimani.ai/yandex_bbe81356e7930cf6.html`
+6. Открыть «Индексирование» → «Файлы Sitemap»
+7. Добавить `https://moimani.ai/sitemap.xml`
+8. Открыть «Индексирование» → «Переобход страниц»
+9. Вставить адреса из списка выше, в первую очередь главную, безопасность, FAQ и помощь с банком
+10. Связать счётчик Метрики `103776176` с сайтом в Вебмастере и включить обход по данным Метрики
 
-## Analytics
+## Bing Webmaster и IndexNow
 
-Optional IDs to add:
+1. Открыть `https://www.bing.com/webmasters/`
+2. Войти через аккаунт владельца
+3. Импортировать сайт из Google Search Console или добавить `https://moimani.ai/`
+4. Отправить `https://moimani.ai/sitemap.xml`
+5. Проверить раздел IndexNow
+6. Ключ уже доступен по адресу `https://moimani.ai/a880a00f0b3c289c15baa51d8c1a23a2.txt`
+7. После каждого содержательного релиза запускать `node tools/submit-indexnow.mjs`
 
-- Google Analytics 4 Measurement ID: `G-XXXXXXXXXX`
-- Yandex Metrica counter ID: numeric counter id
+## Проверка разметки и скорости
 
-Do not add placeholder verification or analytics IDs to production. Empty tags do not verify ownership and can make future maintenance confusing.
+- Rich Results Test: `https://search.google.com/test/rich-results`
+- Schema Validator: `https://validator.schema.org/`
+- PageSpeed Insights: `https://pagespeed.web.dev/`
+- Яндекс проверка ответа сервера: внутри Вебмастера, «Инструменты» → «Проверка ответа сервера»
+
+## Семантика без выдуманных частот
+
+Начальные группы запросов для проверки в Яндекс Wordstat и Search Console:
+
+- приложение для учёта личных финансов
+- контроль расходов приложение
+- анализ расходов по картам
+- финансовый помощник с ИИ
+- найти забытые подписки
+- планирование личного бюджета
+- все банковские счета в одном приложении
+
+Не создавать массовые страницы под эти запросы без проверки спроса и полезного уникального содержания. Сначала собрать реальные формулировки из Wordstat, Search Console, Метрики и вопросов пользователей закрытой беты
+
+## Ежемесячный контроль
+
+- Ошибки индексирования и исключённые страницы
+- Запросы, показы, CTR и средняя позиция
+- Запросы с показами, но CTR ниже среднего
+- Страницы с падением кликов и показов
+- Core Web Vitals на мобильных
+- Ошибки структурированных данных
+- Неработающие внутренние и внешние ссылки
+- Актуальность статуса закрытой беты и списка возможностей

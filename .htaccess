@@ -53,7 +53,7 @@ RewriteRule ^delete-account/?$ /delete-account.html [L]
   Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   Header set X-Frame-Options "DENY"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
-  Header set Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://mc.yandex.ru https://top-fwz1.mail.ru; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://mc.yandex.ru https://*.mc.yandex.ru https://top-fwz1.mail.ru https://top.mail.ru"
+  Header set Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://mc.yandex.ru https://privacy-cs.mail.ru https://top-fwz1.mail.ru; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://mc.yandex.ru https://*.mc.yandex.ru https://mc.yandex.com https://*.mc.yandex.com wss://mc.yandex.com https://privacy-cs.mail.ru https://top-fwz1.mail.ru https://top.mail.ru"
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache, must-revalidate"
     Header set Content-Type "text/html; charset=UTF-8"
@@ -64,9 +64,14 @@ RewriteRule ^delete-account/?$ /delete-account.html [L]
   <FilesMatch "\.(?:woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+  <FilesMatch "\.(?:avif|webp|png|jpe?g|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
 </IfModule>
 
 AddType font/woff2 .woff2
+AddType image/avif .avif
+AddType image/webp .webp
 
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -74,6 +79,7 @@ AddType font/woff2 .woff2
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/avif "access plus 30 days"
   ExpiresByType text/css "access plus 7 days"
   ExpiresByType application/javascript "access plus 7 days"
   ExpiresByType font/woff2 "access plus 1 year"

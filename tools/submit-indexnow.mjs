@@ -1,42 +1,26 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
 const host = "moimani.ai";
 const key = "a880a00f0b3c289c15baa51d8c1a23a2";
-const keyLocation = `https://${host}/${key}.txt`;
-const urls = [
-  "https://moimani.ai/",
-  "https://moimani.ai/privacy",
-  "https://moimani.ai/cookie",
-  "https://moimani.ai/bezopasnost",
-  "https://moimani.ai/faq",
-];
+const sitemap = await readFile(join(process.cwd(), "sitemap.xml"), "utf8");
+const urlList = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
-const endpoints = [
-  "https://api.indexnow.org/indexnow",
-  "https://yandex.com/indexnow",
-];
+if (!urlList.length) throw new Error("Sitemap contains no URLs");
 
-async function submit(endpoint) {
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      host,
-      key,
-      keyLocation,
-      urlList: urls,
-    }),
-  });
+const response = await fetch("https://api.indexnow.org/indexnow", {
+  method: "POST",
+  headers: { "Content-Type": "application/json; charset=utf-8" },
+  body: JSON.stringify({
+    host,
+    key,
+    keyLocation: `https://${host}/${key}.txt`,
+    urlList,
+  }),
+});
 
-  const text = await response.text();
-  console.log(`${endpoint}: ${response.status} ${response.statusText}`);
-  if (text.trim()) {
-    console.log(text.trim());
-  }
-
-  if (!response.ok && response.status !== 202) {
-    throw new Error(`${endpoint} rejected IndexNow submission`);
-  }
+if (![200, 202].includes(response.status)) {
+  throw new Error(`IndexNow returned HTTP ${response.status}: ${await response.text()}`);
 }
 
-for (const endpoint of endpoints) {
-  await submit(endpoint);
-}
+console.log(`IndexNow accepted ${urlList.length} URLs with HTTP ${response.status}`);

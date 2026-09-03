@@ -11,7 +11,8 @@ mani is an AI assistant for personal finance control. It helps users understand 
 - Product name: mani
 - Website: [moimani.ai](https://moimani.ai/)
 - Category: personal finance application, AI finance assistant, budget and expense tracking
-- Platforms: iOS and Android are planned/supported by the landing page calls to action
+- Product status: mani already works in a closed beta
+- Planned platforms: iOS and Android
 - Language: Russian
 - Target users: freelancers, families, IT specialists, entrepreneurs, and people who want to reduce financial chaos
 - Security positioning: mani analyzes financial data but does not transfer, withdraw, or spend user money
@@ -24,7 +25,7 @@ mani is an AI-powered personal finance assistant that helps users organize money
 
 ## Early Access
 
-mani is currently collecting early access applications. The first 1000 users get full access for free forever because they help improve the product before public launch.
+mani already works in a closed beta and invites new participants in small waves. People can leave one contact to receive an invitation. The first 1000 users keep full access to current and future premium features for free forever because their real scenarios help improve the product.
 
 ## Important Pages
 

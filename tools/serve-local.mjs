@@ -22,6 +22,7 @@ const types = {
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
   ".ttf": "font/ttf",
+  ".avif": "image/avif",
   ".webp": "image/webp",
   ".xml": "application/xml; charset=utf-8",
   ".jpg": "image/jpeg",
@@ -557,16 +558,21 @@ createServer(async (request, response) => {
 
   const filePath = join(root, relativePath);
   if (!existsSync(filePath)) {
-    response.writeHead(404);
-    response.end("Not found");
+    response.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+    response.end('<!doctype html><html lang="ru"><head><meta name="robots" content="noindex,follow"><title>Страница не найдена. mani</title></head><body><h1>Страница не найдена</h1></body></html>');
     return;
   }
 
   const stats = statSync(filePath);
-  response.writeHead(200, {
-    "Content-Type": types[extname(filePath)] || "application/octet-stream",
+  const extension = extname(filePath);
+  const headers = {
+    "Content-Type": types[extension] || "application/octet-stream",
     "Content-Length": stats.size,
-  });
+  };
+  if ([".avif", ".webp", ".png", ".jpg", ".jpeg", ".svg"].includes(extension)) {
+    headers["Cache-Control"] = "public, max-age=2592000";
+  }
+  response.writeHead(200, headers);
 
   if (request.method === "HEAD") {
     response.end();

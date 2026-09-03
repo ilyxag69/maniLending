@@ -26,7 +26,8 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.js?v=20260903-layout-9"), "Expected script cache-bust is missing");
+  assert(body.includes("mani. ИИ-помощник для контроля личных финансов"), "Expected SEO title is missing");
+  assert(body.includes("script.js?v=20260903-quote-fit-1"), "Expected script cache-bust is missing");
   assert(body.includes("conversion-experience.css?v=20260903-quote-fit-1"), "Expected conversion CSS is missing");
   assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
@@ -104,6 +105,14 @@ check("seo metadata exists", async () => {
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
   assert(body.includes("https://moimani.ai/og-image-v4.jpg"), "Current OG image is missing");
+  assert(body.includes("https://www.instagram.com/moimani.ai"), "Instagram is missing from Organization schema");
+});
+
+check("modern image formats use correct response headers", async () => {
+  const response = await fetchHead("/assets/newmani/hero-iphone-air-640.avif");
+  assert(response.ok, `Hero AVIF returned ${response.status}`);
+  assert((response.headers.get("content-type") || "").startsWith("image/avif"), "Hero AVIF content type is incorrect");
+  assert((response.headers.get("cache-control") || "").includes("max-age=2592000"), "Hero AVIF cache policy is missing");
 });
 
 check("FAQ page schema exists", async () => {
