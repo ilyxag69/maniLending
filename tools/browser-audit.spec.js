@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require(process.env.MANI_PLAYWRIGHT_TEST || "@playwright/test");
 
 test.use({
   channel: "chrome",
@@ -102,6 +102,41 @@ test("mobile pages have no horizontal overflow or page errors", async ({ page })
     expect(overflow, `${path} overflows horizontally`).toBeLessThanOrEqual(1);
   }
   expect(errors).toEqual([]);
+});
+
+test("tone quotes stay inside the speech bubble on desktop and mobile", async ({ page }) => {
+  for (const viewport of [
+    { width: 1280, height: 720 },
+    { width: 768, height: 900 },
+    { width: 390, height: 844 },
+    { width: 320, height: 720 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/?v=quote-fit-test#tone", { waitUntil: "domcontentloaded" });
+
+    for (const tone of ["motivator", "fun"]) {
+      await page.locator(`[data-tone="${tone}"]`).click();
+      const fit = await page.evaluate(() => {
+        const quote = document.querySelector(".mcs-quote");
+        const text = quote?.querySelector("p");
+        if (!quote || !text) return null;
+        const quoteBox = quote.getBoundingClientRect();
+        const textBox = text.getBoundingClientRect();
+        return {
+          top: textBox.top - quoteBox.top,
+          right: quoteBox.right - textBox.right,
+          bottom: quoteBox.bottom - textBox.bottom,
+          left: textBox.left - quoteBox.left,
+        };
+      });
+
+      expect(fit, `${tone} quote is present at ${viewport.width}px`).not.toBeNull();
+      expect(fit.top, `${tone} text top fits at ${viewport.width}px`).toBeGreaterThanOrEqual(-1);
+      expect(fit.right, `${tone} text right fits at ${viewport.width}px`).toBeGreaterThanOrEqual(-1);
+      expect(fit.bottom, `${tone} text bottom fits at ${viewport.width}px`).toBeGreaterThanOrEqual(-1);
+      expect(fit.left, `${tone} text left fits at ${viewport.width}px`).toBeGreaterThanOrEqual(-1);
+    }
+  }
 });
 
 test("referral survives blocked storage and success replaces the form", async ({ browser }) => {

@@ -85,6 +85,10 @@ try {
     "all public pages use the shared header and footer styles"
   );
   check(
+    publicPages.slice(1).every((page) => page.includes("secondary-pages-modern.css?v=20260903-unified-1")),
+    "all secondary public pages use the unified liquid glass system"
+  );
+  check(
     publicPages.every((page, index) => index === 0 ? page.includes("mani-home.min.css?v=20260902-closed-beta-2") : page.includes("site-chrome.css?v=20260902-mobile-polish-1"))
       && siteChrome.includes('grid-template-areas:')
       && siteChrome.includes('.nm-final-benefits')
@@ -222,7 +226,7 @@ try {
   const privacyRedirect = await fetch(`${baseUrl}/privacy.html`, { redirect: "manual" });
   check(privacyRedirect.status === 301 && privacyRedirect.headers.get("location") === "/privacy", "local SEO redirect works");
   const deleteAccountPage = await fetch(`${baseUrl}/delete-account`);
-  check(deleteAccountPage.ok && (await deleteAccountPage.text()).includes("Удаление аккаунта и данных в MoiMani"), "account deletion page is available at its public route");
+  check(deleteAccountPage.ok && (await deleteAccountPage.text()).includes("Удаление аккаунта и данных в mani"), "account deletion page is available at its public route");
   const deleteAccountRedirect = await fetch(`${baseUrl}/delete-account.html`, { redirect: "manual" });
   check(deleteAccountRedirect.status === 301 && deleteAccountRedirect.headers.get("location") === "/delete-account", "account deletion duplicate route redirects to canonical URL");
 } finally {

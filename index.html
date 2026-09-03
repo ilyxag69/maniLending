@@ -7,7 +7,7 @@
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     </script>
     <title>mani. Деньги под контролем</title>
-    <meta name="description" content="mani уже работает в закрытой бете. Финансовый помощник собирает счета, замечает лишние траты и объясняет, что делать дальше. Получить приглашение." />
+    <meta name="description" content="mani уже работает в закрытой бете. Собирает счета в одну картину, замечает важные изменения и объясняет следующий шаг. Получить приглашение." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#f7f9fc" />
     <meta name="format-detection" content="telephone=no" />
@@ -39,6 +39,7 @@
     <link rel="preload" as="image" href="assets/newmani/hero-iphone-air-960.avif" imagesrcset="assets/newmani/hero-iphone-air-640.avif 640w, assets/newmani/hero-iphone-air-960.avif 960w, assets/newmani/hero-iphone-air-1440.avif 1440w" imagesizes="(max-width: 700px) calc(100vw - 24px), (max-width: 1100px) calc(100vw - 40px), 54vw" type="image/avif" fetchpriority="high" />
     <link rel="icon" href="assets/favicon.png" />
     <link rel="stylesheet" href="mani-home.min.css?v=20260902-closed-beta-2" />
+    <link rel="stylesheet" href="conversion-experience.css?v=20260903-quote-fit-1" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -72,7 +73,7 @@
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "iOS, Android",
             "inLanguage": "ru-RU",
-            "description": "ИИ-помощник для контроля личных финансов, расходов, подписок, платежей и бюджета.",
+            "description": "Персональный финансовый радар, который собирает счета в одну картину, замечает важные изменения и объясняет следующий шаг.",
             "publisher": { "@id": "https://moimani.ai/#organization" }
           }
         ]
@@ -115,17 +116,16 @@
         <div class="nm-container nm-hero-grid">
           <div class="hero-copy nm-hero-copy" data-reveal>
             <h1 data-hero-headline>Хаос в деньгах заканчивается <span>здесь</span></h1>
-            <p class="lead" data-hero-copy>mani собирает счета, подписки и платежи в одном месте. Замечает лишние траты и объясняет, что делать дальше.</p>
+            <p class="lead" data-hero-copy>mani сам замечает важное в счетах и тратах. Объясняет, что изменилось и что стоит проверить сегодня</p>
             <div class="nm-actions">
               <a class="nm-button nm-button-primary nm-hero-primary" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="hero">Получить приглашение</a>
-              <a class="nm-button nm-button-secondary nm-hero-secondary" href="#how">Посмотреть, как работает</a>
             </div>
             <div class="nm-early-proof" data-waitlist>
-              <p class="nm-proof-copy"><strong>Уже работает в закрытой бете</strong><span>Приглашения отправляем небольшими волнами</span><small>Только чтение данных. Без переводов и списаний</small></p>
+              <p class="nm-proof-copy"><strong>Первые 1000 пользователей</strong><span>Полный доступ за 0 ₽ навсегда</span><small>Количество мест ограничено</small></p>
             </div>
           </div>
 
-          <div class="nm-hero-visual nm-hero-media-slot" aria-hidden="true" data-reveal>
+          <div class="nm-hero-visual nm-hero-media-slot" data-reveal>
             <picture>
               <source type="image/avif" srcset="assets/newmani/hero-iphone-air-640.avif 640w, assets/newmani/hero-iphone-air-960.avif 960w, assets/newmani/hero-iphone-air-1440.avif 1440w" sizes="(max-width: 700px) calc(100vw - 24px), (max-width: 1100px) calc(100vw - 40px), 54vw" />
               <source type="image/webp" srcset="assets/newmani/hero-iphone-air-640.webp 640w, assets/newmani/hero-iphone-air-960.webp 960w, assets/newmani/hero-iphone-air-1440.webp 1440w" sizes="(max-width: 700px) calc(100vw - 24px), (max-width: 1100px) calc(100vw - 40px), 54vw" />
@@ -147,7 +147,7 @@
               <div class="nm-phone-screen nm-chat-ui">
                 <header><span class="nm-chat-avatar">m</span><div><b>mani</b><small>Онлайн</small></div><strong>•••</strong></header>
                 <div class="nm-chat-user">Где я могу сэкономить<br />на этой неделе?</div>
-                <p class="nm-chat-answer">Я проанализировал расходы и нашёл несколько возможностей для экономии.</p>
+                <p class="nm-chat-answer">Я проанализировал расходы и нашёл несколько возможностей для экономии</p>
                 <div class="nm-ui-card nm-opportunities"><b>Возможности для экономии</b><div><i>☕</i><span><strong>Кафе и рестораны</strong><small>На 15% больше обычного</small></span></div><div><i>↻</i><span><strong>Подписки</strong><small>До 1 890 ₽/мес</small></span></div><div><i>⚡</i><span><strong>Импульсивные покупки</strong><small>Сократите на 4 120 ₽/мес</small></span></div></div>
                 <button type="button">Покажи детали</button>
                 <div class="nm-chat-input">Напиши сообщение… <span>↑</span></div>
@@ -159,42 +159,80 @@
         </div>
       </section>
 
+      <section class="nm-product-proof" aria-label="Статус продукта">
+        <div class="nm-container nm-product-proof-shell">
+          <div class="nm-product-proof-intro">
+            <span class="nm-product-proof-dot" aria-hidden="true"></span>
+            <p><strong>mani уже работает в закрытой бете</strong><small>Мы подключаем участников небольшими волнами и улучшаем продукт на реальных сценариях</small></p>
+          </div>
+          <div class="nm-product-proof-points">
+            <p><strong>Живые данные</strong><span>Счета и операции в одной картине</span></p>
+            <p><strong>Важные сигналы</strong><span>Без ручного поиска и таблиц</span></p>
+            <p><strong>Решение за тобой</strong><span>mani ничего не списывает</span></p>
+          </div>
+        </div>
+      </section>
+
       <section class="nm-section nm-capabilities" id="features" aria-labelledby="capabilities-title">
         <div class="nm-container">
           <header class="nm-capabilities-heading">
             <p class="nm-capabilities-eyebrow">Возможности mani</p>
-            <h2 id="capabilities-title">Меньше финансового шума.<span>Больше ясности.</span></h2>
-            <p>Понятная картина денег, важные сигналы и следующий шаг без ручных таблиц.</p>
+            <h2 id="capabilities-title">mani замечает важное.<span>Ты видишь, что делать</span></h2>
+            <p>Не ещё один отчёт о расходах. Каждый экран отвечает на конкретный вопрос о твоих деньгах</p>
           </header>
 
           <section class="nm-capability-group nm-capability-now" aria-labelledby="capabilities-now-title">
             <div class="nm-capability-group-heading" data-reveal>
-              <div><p>Доступно в закрытой бете</p><h3 id="capabilities-now-title">Главное видно сразу</h3></div>
-              <p>Три базовых результата без таблиц и ручного контроля.</p>
+              <div><p>Доступно в закрытой бете</p><h3 id="capabilities-now-title">Три результата каждый день</h3></div>
+              <p>От общей картины к одному понятному действию</p>
             </div>
             <div class="nm-capability-grid" tabindex="0" aria-label="Доступные сейчас возможности, горизонтальная карусель">
-              <article class="nm-capability-card" data-reveal><h4>Все деньги перед глазами</h4><p>Счета, карты, траты и ближайшие платежи собраны в одной понятной картине.</p></article>
-              <article class="nm-capability-card" data-reveal><h4>Лишнее видно сразу</h4><p>mani замечает подписки, необычные списания и категории, где расходы растут.</p></article>
-              <article class="nm-capability-card" data-reveal><h4>Следующий шаг понятен</h4><p>Можно спросить Мани о деньгах и получить короткий ответ без сложных терминов.</p></article>
+              <article class="nm-capability-card nm-capability-card-overview" data-reveal><h4>Понимаешь общую картину</h4><p>Счета, карты, траты и ближайшие платежи собраны в одном месте</p><strong>Ответ: сколько у меня сейчас</strong></article>
+              <article class="nm-capability-card nm-capability-card-signal" data-reveal><h4>Не пропускаешь важное</h4><p>mani замечает повторные списания, рост расходов и будущие платежи</p><strong>Ответ: что изменилось</strong></article>
+              <article class="nm-capability-card nm-capability-card-action" data-reveal><h4>Знаешь следующий шаг</h4><p>Получаешь короткое объяснение и сам решаешь, что проверить</p><strong>Ответ: что делать дальше</strong></article>
             </div>
           </section>
 
-          <section class="nm-capability-group nm-capability-future" id="future" aria-labelledby="capabilities-future-title">
-            <div class="nm-capability-group-heading" data-reveal>
-              <div><p>Следующий этап</p><h3 id="capabilities-future-title">От наблюдений к решениям</h3></div>
-              <p>mani будет заранее показывать, где можно избежать потерь и найти более выгодный вариант.</p>
+          <details class="nm-future-compact" id="future">
+            <summary><span><small>Что появится дальше</small><strong>mani будет предупреждать заранее</strong></span><b>Показать планы</b></summary>
+            <div class="nm-future-compact-grid">
+              <article><strong>Платежи без сюрпризов</strong><p>Важные даты, грейс периоды и обязательные платежи</p></article>
+              <article><strong>Выгодные условия рядом</strong><p>Сравнение финансовых продуктов с простым объяснением</p></article>
+              <article><strong>Одна картина для всего</strong><p>Личные, семейные и бизнес финансы в одной системе</p></article>
             </div>
-            <div class="nm-capability-grid" tabindex="0" aria-label="Возможности следующего этапа, горизонтальная карусель">
-              <article class="nm-capability-card" data-reveal><h4>Платежи без сюрпризов</h4><p>Напоминания о грейс периодах, обязательных платежах и важных датах.</p></article>
-              <article class="nm-capability-card" data-reveal><h4>Выгодные условия рядом</h4><p>Сравнение вкладов, счетов и вариантов рефинансирования с понятным объяснением.</p></article>
-              <article class="nm-capability-card" data-reveal><h4>Одна система для всего</h4><p>Личные, семейные и бизнес финансы складываются в единую картину.</p></article>
-            </div>
-          </section>
+          </details>
 
           <div class="nm-capabilities-feedback" data-reveal>
-            <p><strong>Какой функции не хватает тебе?</strong><span>Идеи пользователей помогают выбрать, что делать следующим.</span></p>
+            <p><strong>Хочешь повлиять на mani?</strong><span>Участники беты помогают выбрать, что появится следующим</span></p>
             <a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-social="telegram">Предложить идею <span aria-hidden="true">→</span></a>
           </div>
+        </div>
+      </section>
+
+      <section class="nm-signal-stage" id="live-signal" aria-labelledby="live-signal-title" data-signal-demo>
+        <div class="nm-container nm-signal-shell">
+          <header class="nm-signal-intro">
+            <p class="nm-section-eyebrow">Живой пример</p>
+            <h2>Что именно замечает mani</h2>
+            <p>Переключай примеры и смотри, как mani превращает банковские операции в понятный следующий шаг</p>
+          </header>
+          <article class="nm-live-signal">
+            <div class="nm-live-signal-head">
+              <span>Сигнал mani</span>
+              <small>Тестовые данные</small>
+            </div>
+            <div class="nm-live-signal-body" aria-live="polite">
+              <p class="nm-live-signal-kicker" data-signal-kicker>Подписки</p>
+              <h2 id="live-signal-title" data-signal-title>Spotify снова списал 299 ₽</h2>
+              <p data-signal-copy>Платёж повторяется каждый месяц. Проверь, пользуешься ли подпиской</p>
+              <span class="nm-live-signal-action" data-signal-action>Посмотреть подписку</span>
+            </div>
+            <div class="nm-live-signal-tabs" role="group" aria-label="Примеры сигналов mani">
+              <button type="button" class="is-active" data-signal="subscription" aria-pressed="true">Подписка</button>
+              <button type="button" data-signal="spending" aria-pressed="false">Расходы</button>
+              <button type="button" data-signal="question" aria-pressed="false">Вопрос Мани</button>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -203,26 +241,26 @@
           <div class="nm-section-heading nm-section-heading-left" data-reveal>
             <p class="nm-section-eyebrow">Как это работает</p>
             <h2 id="how-title">От банковских данных<span>к понятному решению</span></h2>
-            <p>mani берёт на себя сбор и разбор информации. Решения и деньги всегда остаются под твоим контролем.</p>
+            <p>mani берёт на себя сбор и разбор информации. Решения и деньги всегда остаются под твоим контролем</p>
           </div>
           <div class="nm-vision-grid nm-how-grid">
             <article class="nm-card nm-vision-card nm-vision-card-now" data-reveal>
               <p class="nm-vision-stage">Подключаешь</p>
               <h3>Выбираешь нужные банки</h3>
-              <p class="nm-vision-copy">Подключение проходит через защищённую авторизацию. Пароли от банков mani не получает.</p>
-              <p class="nm-vision-outcome"><strong>Пара минут.</strong> Доступ можно отключить в любой момент.</p>
+              <p class="nm-vision-copy">Подключение проходит через защищённую авторизацию. Пароли от банков mani не получает</p>
+              <p class="nm-vision-outcome"><strong>Пара минут.</strong> Доступ можно отключить в любой момент</p>
             </article>
             <article class="nm-card nm-vision-card nm-vision-card-next" data-reveal>
               <p class="nm-vision-stage">mani анализирует</p>
               <h3>Собирает финансовую картину</h3>
-              <p class="nm-vision-copy">Сопоставляет счета, операции, подписки и будущие платежи, чтобы заметить действительно важное.</p>
-              <p class="nm-vision-outcome"><strong>Без ручных таблиц.</strong> Всё обновляется в одном месте.</p>
+              <p class="nm-vision-copy">Сопоставляет счета, операции, подписки и будущие платежи, чтобы заметить действительно важное</p>
+              <p class="nm-vision-outcome"><strong>Без ручных таблиц.</strong> Всё обновляется в одном месте</p>
             </article>
             <article class="nm-card nm-vision-card nm-vision-card-goal" data-reveal>
               <p class="nm-vision-stage">Ты решаешь</p>
               <h3>Получаешь ясный следующий шаг</h3>
-              <p class="nm-vision-copy">mani объясняет изменения простыми словами и показывает, что стоит проверить прямо сейчас.</p>
-              <p class="nm-vision-outcome"><strong>Никаких действий без тебя.</strong> Только понятные рекомендации.</p>
+              <p class="nm-vision-copy">mani объясняет изменения простыми словами и показывает, что стоит проверить прямо сейчас</p>
+              <p class="nm-vision-outcome"><strong>Никаких действий без тебя.</strong> Только понятные рекомендации</p>
             </article>
           </div>
         </div>
@@ -235,11 +273,11 @@
               <div class="msp-copy">
                 <p class="msp-eyebrow">Безопасность без сложных терминов</p>
                 <h2 id="mani-security-title" class="msp-title">Твои деньги<span>под твоим контролем</span></h2>
-                <p class="msp-description">mani только читает финансовые данные, чтобы показать общую картину. Переводить деньги, оплачивать покупки и менять настройки банка он не может.</p>
+                <p class="msp-description">mani только читает финансовые данные, чтобы показать общую картину. Переводить деньги, оплачивать покупки и менять настройки банка он не может</p>
                 <ul class="msp-features" aria-label="Гарантии безопасности">
-                  <li><span><strong>Видит только данные</strong><small>Балансы, операции и платежи используются только для анализа.</small></span></li>
-                  <li><span><strong>Не совершает операций</strong><small>Никаких переводов, покупок или изменений в банке.</small></span></li>
-                  <li><span><strong>Доступ контролируешь ты</strong><small>Банк можно отключить, а данные удалить в любой момент.</small></span></li>
+                  <li><span><strong>Видит только данные</strong><small>Балансы, операции и платежи используются только для анализа</small></span></li>
+                  <li><span><strong>Не совершает операций</strong><small>Никаких переводов, покупок или изменений в банке</small></span></li>
+                  <li><span><strong>Доступ контролируешь ты</strong><small>Банк можно отключить, а данные удалить в любой момент</small></span></li>
                 </ul>
               </div>
               <div class="msp-visual" aria-label="Мани объясняет, как устроена безопасность данных">
@@ -253,15 +291,15 @@
               <div class="msp-process-list" aria-label="Как mani работает с данными банка">
                 <article>
                   <strong>Подключение</strong>
-                  <p>Банк передаёт данные по защищённому соединению.</p>
+                  <p>Банк передаёт данные по защищённому соединению</p>
                 </article>
                 <article>
                   <strong>Понятный анализ</strong>
-                  <p>mani находит важные изменения и объясняет их простыми словами.</p>
+                  <p>mani находит важные изменения и объясняет их простыми словами</p>
                 </article>
                 <article>
                   <strong>Решение за тобой</strong>
-                  <p>Ты видишь картину и сам выбираешь, что делать дальше.</p>
+                  <p>Ты видишь картину и сам выбираешь, что делать дальше</p>
                 </article>
               </div>
               <a href="/bezopasnost" class="msp-details-link">Подробнее о безопасности <span aria-hidden="true">→</span></a>
@@ -276,7 +314,7 @@
         <div class="mcs-copy-column" data-mani-part="copy-column">
           <p class="mcs-eyebrow" data-mani-part="eyebrow">Характер Мани</p>
           <h2 id="mani-character-title" class="mcs-title" data-mani-part="title">Выбери свой <span>стиль общения</span></h2>
-          <p class="mcs-subtitle" data-mani-part="subtitle">Можно поменять в любой момент</p>
+          <p class="mcs-subtitle" data-mani-part="subtitle">Один финансовый сигнал. Два характера</p>
         </div>
         <picture class="mcs-mascot-picture">
           <source data-tone-source type="image/webp" srcset="/assets/mani/character-switcher/mascots/motivator-pointing-960.webp" />
@@ -284,7 +322,7 @@
         </picture>
         <div class="mcs-quote" data-mani-part="speech-bubble">
           <img class="mcs-quote-glass" src="/assets/mani/character-switcher/effects/speech-bubble-glass.svg?v=20260901-no-shadow-1" alt="" />
-          <p data-tone-quote data-mani-part="speech-text" aria-live="polite">Спокойно разберёмся и найдём лучший следующий шаг.</p>
+          <p data-tone-quote data-mani-part="speech-text" aria-live="polite"><span class="mcs-quote-main">Расходы на доставку выросли<strong>+2&nbsp;140&nbsp;₽</strong></span><span class="mcs-quote-detail">Проверим, какие заказы дали рост</span></p>
         </div>
         <div class="mcs-selector" data-mani-part="selector" role="group" aria-label="Выбор характера Мани">
           <button class="mcs-option active" type="button" data-tone="motivator" data-mani-part="motivator-option" aria-pressed="true">
@@ -301,17 +339,17 @@
           <div class="nm-final-copy">
             <p class="nm-final-eyebrow">Закрытая бета</p>
             <h2>Получи приглашение<span>в закрытую бету mani</span></h2>
-            <p>mani уже работает. Мы открываем доступ небольшими волнами и собираем обратную связь от первых пользователей.</p>
+            <p>mani уже работает. Оставь контакт, получи место в очереди и помоги сделать финансового помощника полезнее именно в твоих сценариях</p>
             <ul class="nm-final-benefits" aria-label="Что получают участники закрытой беты">
-              <li><strong>0 ₽ навсегда</strong><span>для первых 1000 пользователей</span></li>
-              <li><strong>Полный доступ</strong><span>к текущим и будущим премиальным функциям</span></li>
-              <li><strong>Прямое влияние</strong><span>на развитие продукта</span></li>
+              <li><strong>Сейчас</strong><span>оставляешь один контакт</span></li>
+              <li><strong>После заявки</strong><span>видишь позицию и персональную ссылку</span></li>
+              <li><strong>Когда подойдёт очередь</strong><span>получаешь приглашение в бету</span></li>
             </ul>
             <div class="nm-final-actions">
               <a class="nm-button nm-button-primary nm-button-large" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="final">Получить приглашение</a>
               <div class="nm-store-actions" data-product-store-actions hidden></div>
             </div>
-            <p class="nm-final-next">После заявки покажем твою позицию. Когда подойдёт очередь, отправим приглашение на указанный контакт.</p>
+            <p class="nm-final-next"><strong>Первые 1000 пользователей</strong> сохраняют полный доступ к текущим и будущим премиальным функциям за 0 ₽ навсегда</p>
           </div>
         </div>
       </section>
@@ -323,10 +361,10 @@
             <h2 id="faq-title">Перед заявкой<span>можно уточнить детали</span></h2>
           </div>
           <div class="nm-faq-list">
-            <details data-reveal><summary>mani уже работает?</summary><p>Да. Продукт работает в закрытой бете. Приглашения отправляем небольшими волнами, чтобы спокойно помогать новым участникам.</p></details>
-            <details data-reveal><summary>mani может перевести или списать деньги?</summary><p>Нет. mani работает только на чтение. Он показывает и анализирует данные, но не совершает переводы, покупки или другие операции.</p></details>
-            <details data-reveal><summary>Почему первые 1000 получают доступ бесплатно?</summary><p>Первые пользователи помогают улучшать продукт реальной обратной связью. Для них полный доступ к текущим и будущим премиальным функциям остаётся бесплатным навсегда.</p></details>
-            <details data-reveal><summary>Что будет после заявки?</summary><p>Сразу покажем позицию на приглашение и персональную ссылку. По ней можно пригласить друзей и подняться выше.</p></details>
+            <details data-reveal><summary>mani уже работает?</summary><p>Да. Продукт работает в закрытой бете. Приглашения отправляем небольшими волнами, чтобы спокойно помогать новым участникам</p></details>
+            <details data-reveal><summary>mani может перевести или списать деньги?</summary><p>Нет. mani работает только на чтение. Он показывает и анализирует данные, но не совершает переводы, покупки или другие операции</p></details>
+            <details data-reveal><summary>Почему первые 1000 получают доступ бесплатно?</summary><p>Первые пользователи помогают улучшать продукт реальной обратной связью. Для них полный доступ к текущим и будущим премиальным функциям остаётся бесплатным навсегда</p></details>
+            <details data-reveal><summary>Что будет после заявки?</summary><p>Сразу покажем позицию на приглашение и персональную ссылку. По ней можно пригласить друзей и подняться выше</p></details>
           </div>
           <a class="nm-faq-more" href="/faq">Все ответы</a>
         </div>
@@ -336,33 +374,38 @@
         <div class="nm-container mani-social-shell">
           <div class="mani-social-copy" data-reveal>
             <p class="mani-social-eyebrow">Мани на связи</p>
-            <h2 id="mani-social-title">Следи за Мани.<span>Там, где удобно.</span></h2>
-            <p class="mani-social-lead">Обновления закрытой беты, полезные разборы и честный юмор о деньгах.</p>
+            <h2 id="mani-social-title">Следи за Мани.<span>Там, где удобно</span></h2>
+            <p class="mani-social-lead">Не новости ради новостей. Показываем реальные денежные ситуации и коротко объясняем, что с ними делать</p>
+            <div class="mani-social-reasons" aria-label="Что публикует Мани">
+              <p><strong>Разбор списания</strong><span>Почему деньги ушли и что проверить</span></p>
+              <p><strong>Один термин</strong><span>Банковский язык простыми словами</span></p>
+              <p><strong>Новая функция</strong><span>Что изменилось в закрытой бете</span></p>
+            </div>
           </div>
 
           <div class="mani-social-links">
             <article class="mani-social-featured" data-reveal>
               <span class="mani-social-icon mani-social-telegram" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#28a8e9"/><path d="m13 23 23-9-5 22-8-7-5 4 1-7 12-8-15 6-3-1Z" fill="#fff"/></svg></span>
-              <div><small>Главный канал</small><h3>Telegram</h3><p>Самый быстрый способ следить за продуктом и новыми волнами приглашений.</p></div>
-              <a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-social="telegram">Подписаться <span aria-hidden="true">→</span></a>
+              <div><small>Главный канал</small><h3>Telegram</h3><p>Разборы, обновления беты и новые волны приглашений без лишнего шума</p></div>
+              <a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-social="telegram">Следить за mani <span aria-hidden="true">→</span></a>
             </article>
 
             <div class="mani-social-grid">
               <a class="mani-social-link" href="https://www.instagram.com/moimani.ai?igsh=MW9tM2plM2UwZnZoNw%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" data-social="instagram" data-reveal>
                 <span class="mani-social-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><linearGradient id="ig-hub" x1="5" y1="43" x2="43" y2="5"><stop stop-color="#ff9d17"/><stop offset=".45" stop-color="#f40070"/><stop offset="1" stop-color="#6b28ff"/></linearGradient></defs><rect x="8" y="8" width="32" height="32" rx="10" fill="none" stroke="url(#ig-hub)" stroke-width="4"/><circle cx="24" cy="24" r="8" fill="none" stroke="url(#ig-hub)" stroke-width="4"/><circle cx="34" cy="14" r="2.4" fill="url(#ig-hub)"/></svg></span>
-                <span><strong>Instagram</strong><small>Сторис и визуалы</small></span><b aria-hidden="true">↗</b>
+                <span><strong>Instagram</strong><small>Короткие наблюдения</small></span><b aria-hidden="true">↗</b>
               </a>
               <a class="mani-social-link" href="https://www.youtube.com/@Mani.ai_app" target="_blank" rel="noopener noreferrer" data-social="youtube" data-reveal>
                 <span class="mani-social-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="11" width="36" height="26" rx="8" fill="#f00"/><path d="m21 18 11 6-11 6V18Z" fill="#fff"/></svg></span>
-                <span><strong>YouTube</strong><small>Понятные разборы</small></span><b aria-hidden="true">↗</b>
+                <span><strong>YouTube</strong><small>Разборы без терминов</small></span><b aria-hidden="true">↗</b>
               </a>
               <a class="mani-social-link" href="https://vkvideo.ru/@club240056458" target="_blank" rel="noopener noreferrer" data-social="vkvideo" data-reveal>
                 <span class="mani-social-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="7" y="8" width="27" height="32" rx="9" fill="#1677f2"/><rect x="15" y="8" width="27" height="32" rx="9" fill="#ff3154" fill-opacity=".92"/><path d="m23 17 12 7-12 7V17Z" fill="#fff"/></svg></span>
-                <span><strong>VK Видео</strong><small>Короткие ролики</small></span><b aria-hidden="true">↗</b>
+                <span><strong>VK Видео</strong><small>Полезное за минуту</small></span><b aria-hidden="true">↗</b>
               </a>
               <a class="mani-social-link" href="https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve?share_to=link" target="_blank" rel="noopener noreferrer" data-social="dzen" data-reveal>
                 <span class="mani-social-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="11" fill="#151925"/><path d="M24 9c0 10-5 15-15 15 10 0 15 5 15 15 0-10 5-15 15-15-10 0-15-5-15-15Z" fill="#fff"/></svg></span>
-                <span><strong>Дзен</strong><small>Статьи и подборки</small></span><b aria-hidden="true">↗</b>
+                <span><strong>Дзен</strong><small>Спокойные объяснения</small></span><b aria-hidden="true">↗</b>
               </a>
             </div>
           </div>
@@ -373,14 +416,14 @@
         <div class="nm-container nm-contact-shell" data-reveal>
           <aside class="nm-contact-intro">
             <p class="nm-contact-kicker">Связь с командой</p>
-            <h2>Есть вопрос?<br /><span>Напишите нам.</span></h2>
-            <p>Поможем разобраться с сайтом, примем предложение или обсудим сотрудничество.</p>
+            <h2>Есть вопрос?<br /><span>Напишите нам</span></h2>
+            <p>Поможем разобраться с сайтом, примем предложение или обсудим сотрудничество</p>
             <a class="nm-telegram-contact" href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-contact-telegram>
               <span class="nm-telegram-contact-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#28a8e9"/><path d="m12 23 25-10-5.3 23.5-8.3-7.1-5.2 4.3 1.3-7.6L32 17.5l-15.2 6.7-4.8-1.2Z" fill="#fff"/></svg></span>
               <span><small>Быстрый ответ в Telegram</small><strong>@eto_mani</strong></span>
               <b aria-hidden="true">↗</b>
             </a>
-            <p class="nm-contact-note">Обычно отвечаем в течение рабочего дня.</p>
+            <p class="nm-contact-note">Обычно отвечаем в течение рабочего дня</p>
           </aside>
 
           <form class="nm-contact-form" data-contact-form novalidate>
@@ -401,7 +444,7 @@
             <input class="nm-contact-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <label class="nm-contact-consent"><input name="pdnConsent" type="checkbox" value="yes" required /><span>Согласен на обработку данных для ответа на обращение. <a href="/privacy" target="_blank" rel="noopener">Подробнее</a></span></label>
             <button class="nm-contact-submit" type="submit"><span>Отправить сообщение</span><b aria-hidden="true">→</b></button>
-            <p class="nm-contact-result" data-contact-result role="status" aria-live="polite">Ответим по указанному email или в Telegram.</p>
+            <p class="nm-contact-result" data-contact-result role="status" aria-live="polite">Ответим по указанному email или в Telegram</p>
           </form>
           <button class="nm-contact-mobile-trigger" type="button" data-open-contact aria-haspopup="dialog" aria-controls="contact-dialog">
             <span>Напишите нам</span><b aria-hidden="true">→</b>
@@ -424,7 +467,7 @@
       <div class="nm-dialog-copy" data-waitlist>
         <p class="nm-eyebrow">Закрытая бета</p>
         <h2 id="waitlist-title">Получить приглашение</h2>
-        <p>Оставь телефон. Приглашения отправляем небольшими волнами.</p>
+        <p>Один номер, чтобы закрепить место и получить приглашение</p>
       </div>
       <form class="waitlist-form nm-waitlist-form" data-waitlist-form>
         <label>
@@ -444,16 +487,15 @@
             <input name="phoneDisplay" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="waitlist-phone-hint waitlist-phone-error" placeholder="999 123 45 67" required />
             <input name="phone" type="hidden" />
           </div>
-          <small class="phone-hint" id="waitlist-phone-hint" data-phone-hint>Например, 999 123 45 67.</small>
+          <small class="phone-hint" id="waitlist-phone-hint" data-phone-hint>Например, 999 123 45 67</small>
           <small class="field-error" id="waitlist-phone-error" data-field-error="phone"></small>
         </label>
-        <label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="waitlist-email-error" placeholder="you@example.com" /><small class="field-error" id="waitlist-email-error" data-field-error="email"></small></label>
-        <details class="waitlist-optional"><summary>Telegram или комментарий</summary><label><span>Комментарий <em>необязательно</em></span><textarea name="contactDetails" rows="2" maxlength="500" placeholder="Например: написать в Telegram"></textarea></label></details>
+        <details class="waitlist-optional"><summary>Добавить другой способ связи</summary><label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="waitlist-email-error" placeholder="you@example.com" /><small class="field-error" id="waitlist-email-error" data-field-error="email"></small></label><label><span>Telegram или комментарий <em>необязательно</em></span><textarea name="contactDetails" rows="2" maxlength="500" placeholder="Например, @username"></textarea></label></details>
         <input class="waitlist-hp" name="website" type="text" tabindex="-1" autocomplete="new-password" aria-hidden="true" />
-        <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" aria-describedby="waitlist-consent-error" required /><span>Согласен на обработку данных. <a href="/soglasie" target="_blank" rel="noopener">Условия</a>.</span></label>
+        <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" aria-describedby="waitlist-consent-error" required /><span>Согласен на обработку данных. <a href="/soglasie" target="_blank" rel="noopener">Условия</a></span></label>
         <small class="field-error" id="waitlist-consent-error" data-field-error="consent"></small>
-        <button type="submit" data-product-form-submit>Отправить заявку</button>
-        <p class="waitlist-result" data-waitlist-result>После отправки покажем позицию на приглашение.</p>
+        <button type="submit" data-product-form-submit>Получить приглашение</button>
+        <p class="waitlist-result" data-waitlist-result>Сразу покажем позицию и расскажем, что будет дальше</p>
       </form>
       <section class="waitlist-success" data-waitlist-success hidden tabindex="-1" aria-labelledby="waitlist-success-title"></section>
     </dialog>
@@ -463,7 +505,7 @@
       <div class="nm-contact-dialog-copy">
         <p>Связь с командой</p>
         <h2 id="contact-dialog-title">Напишите нам</h2>
-        <span>Ответим по email или в Telegram.</span>
+        <span>Ответим по email или в Telegram</span>
       </div>
       <div class="nm-contact-dialog-slot" data-contact-dialog-slot></div>
     </dialog>
@@ -473,13 +515,14 @@
     <div class="cookie-banner" data-cookie-banner role="status" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-description" hidden>
       <span class="cookie-icon" aria-hidden="true">🍪</span>
       <div class="cookie-banner-copy"><strong id="cookie-consent-title">Cookie и аналитика</strong>
-      <p id="cookie-consent-description">Используем cookie и аналитику Google, Яндекса и Top.Mail.Ru, чтобы измерять работу сайта и улучшать рекламу. Без телефона, email и комментариев. Подробнее можно узнать <a href="/cookie" target="_blank" rel="noopener">в политике cookie</a>.</p></div>
+      <p id="cookie-consent-description">Используем cookie и аналитику Google, Яндекса и Top.Mail.Ru, чтобы измерять работу сайта и улучшать рекламу. Без телефона, email и комментариев. Подробнее можно узнать <a href="/cookie" target="_blank" rel="noopener">в политике cookie</a></p></div>
       <div class="cookie-actions"><button type="button" data-cookie-accept>Понятно</button></div>
     </div>
     <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3681438;js=na" style="position:absolute;left:-9999px" alt="Top.Mail.Ru" /></div></noscript>
     <script src="analytics-client.js?v=20260902-topmail-1"></script>
     <script src="product-config.js?v=20260902-closed-beta-1"></script>
     <script src="product-status.js?v=20260902-closed-beta-1"></script>
-    <script src="script.min.js?v=20260902-topmail-1"></script>
+    <script src="script.js?v=20260903-quote-fit-1"></script>
+    <script src="conversion-experience.js?v=20260903-layout-9"></script>
   </body>
 </html>

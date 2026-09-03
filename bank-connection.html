@@ -27,11 +27,12 @@
   <link rel="stylesheet" href="/newmani.css?v=20260820-perf-1" />
   <link rel="stylesheet" href="/bank-support.css?v=20260820-a11y-1" />
   <link rel="stylesheet" href="/site-chrome.css?v=20260902-mobile-polish-1" />
+  <link rel="stylesheet" href="/secondary-pages-modern.css?v=20260903-unified-1" />
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://moimani.ai/"},{"@type":"ListItem","position":2,"name":"Поддержка","item":"https://moimani.ai/support"},{"@type":"ListItem","position":3,"name":"Подключение банков","item":"https://moimani.ai/support/bank-connection"}]}
   </script>
 </head>
-<body class="nm-page bs-page">
+<body class="nm-page nm-secondary-page bs-page">
   <header class="header nm-header">
     <a class="logo nm-logo" href="/" aria-label="mani">
       <img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo />
@@ -69,12 +70,12 @@
 
       <section class="bs-hero" aria-labelledby="bs-title">
         <div class="bs-hero-copy">
-          <p class="bs-kicker"><span aria-hidden="true">?</span> Центр диагностики</p>
+          <p class="bs-kicker"><span aria-hidden="true">?</span> Помощь с подключением</p>
           <h1 id="bs-title">Не получается<br />подключить <em>банк?</em></h1>
-          <p class="bs-lead">Чаще всего проблема решается за пару минут. Выберите, что произошло. Мани подскажет, что проверить.</p>
+          <p class="bs-lead">Чаще всего проблема решается за несколько минут. Выбери симптом, а mani подскажет следующий шаг</p>
         </div>
         <div class="bs-hero-art" aria-hidden="true"><span></span><img src="/assets/newmani/hero-v1/mascots/motivator_cutout_transparent.webp" alt="" /></div>
-        <div class="bs-neutral"><span aria-hidden="true">i</span><p>mani не управляет вашим банковским счётом и не может выполнять переводы. Подключение используется для получения финансовых данных с вашего согласия.</p></div>
+        <div class="bs-neutral"><span aria-hidden="true">i</span><p>mani не управляет твоим банковским счётом и не может выполнять переводы. Подключение нужно только для получения данных с твоего согласия</p></div>
       </section>
 
       <section class="bs-personal-result" data-personal-result hidden aria-live="polite">
@@ -82,13 +83,13 @@
       </section>
 
       <section class="bs-first-check" aria-labelledby="first-check-title">
-        <div class="bs-section-heading"><p>Быстрый старт</p><h2 id="first-check-title">Проверьте сначала</h2><span>Эти пять шагов решают большинство временных проблем.</span></div>
+        <div class="bs-section-heading"><p>Быстрый старт</p><h2 id="first-check-title">Сначала проверь это</h2><span>Пять коротких действий решают большинство временных проблем</span></div>
         <ol class="bs-check-grid">
-          <li><b>1</b><div><h3>Официальный банк</h3><p>Откройте приложение или сайт банка и проверьте, работает ли вход.</p></div></li>
-          <li><b>2</b><div><h3>Сетевые фильтры</h3><p>На время отключите VPN, прокси, Private DNS и блокировщики.</p></div></li>
-          <li><b>3</b><div><h3>SMS и push</h3><p>Проверьте сообщения, push и уведомления внутри приложения банка.</p></div></li>
-          <li><b>4</b><div><h3>Другая сеть</h3><p>Сравните мобильный интернет и доверенный Wi-Fi.</p></div></li>
-          <li><b>5</b><div><h3>Обновления</h3><p>Установите актуальные версии mani и официального приложения банка.</p></div></li>
+          <li><b>1</b><div><h3>Вход в банк</h3><p>Открой приложение или сайт банка и проверь, работает ли вход</p></div></li>
+          <li><b>2</b><div><h3>VPN и фильтры</h3><p>На время отключи VPN, прокси, Private DNS и блокировщики</p></div></li>
+          <li><b>3</b><div><h3>SMS и push</h3><p>Проверь сообщения и уведомления внутри приложения банка</p></div></li>
+          <li><b>4</b><div><h3>Другая сеть</h3><p>Попробуй мобильный интернет или доверенный Wi-Fi</p></div></li>
+          <li><b>5</b><div><h3>Обновления</h3><p>Обнови mani и официальное приложение банка</p></div></li>
         </ol>
       </section>
 
@@ -101,7 +102,7 @@
       </section>
 
       <section class="bs-issues" aria-labelledby="issues-title">
-        <div class="bs-section-heading"><p>Все сценарии</p><h2 id="issues-title">Что именно произошло?</h2><span>Найдите симптом или выберите категорию.</span></div>
+        <div class="bs-section-heading"><p>Все сценарии</p><h2 id="issues-title">Что именно произошло?</h2><span>Найди симптом или выбери категорию</span></div>
         <label class="bs-search"><span class="sr-only">Поиск по симптомам</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input type="search" data-issue-search placeholder="Например: не приходит код, VPN, нет операций…" autocomplete="off" /><button type="button" data-search-clear hidden aria-label="Очистить поиск">×</button></label>
         <div class="bs-filters" data-category-filters aria-label="Категории инструкций"></div>
         <p class="bs-results-count" data-results-count aria-live="polite"></p>
@@ -111,7 +112,7 @@
       </section>
 
       <section class="bs-security" aria-labelledby="security-title">
-        <div><p>Важно</p><h2 id="security-title">Что поддержка mani никогда не попросит</h2><span>Если кто-то просит эти данные от имени mani, прекратите общение и напишите нам через официальный канал поддержки.</span></div>
+        <div><p>Важно</p><h2 id="security-title">Что поддержка mani никогда не попросит</h2><span>Если кто-то просит пароль, код или полные реквизиты от имени mani, прекрати общение и напиши нам через официальный канал</span></div>
         <ul><li>Пароль интернет-банка</li><li>SMS-код</li><li>PIN карты</li><li>CVC/CVV</li><li>Полный номер карты</li><li>Кодовое слово банка</li><li>Установить удалённый доступ</li><li>Перевести деньги на «безопасный счёт»</li></ul>
       </section>
 
@@ -125,7 +126,7 @@
       </section>
 
       <section class="bs-contact" id="contact-support" aria-labelledby="contact-title">
-        <div class="bs-contact-copy"><p>Поддержка mani</p><h2 id="contact-title">Передать диагностику</h2><span>Мы отправим только показанные рядом безопасные технические данные. Пароли, коды и реквизиты вводить не нужно.</span><a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-support-telegram>Написать @eto_mani <b aria-hidden="true">↗</b></a></div>
+        <div class="bs-contact-copy"><p>Поддержка mani</p><h2 id="contact-title">Передать диагностику</h2><span>Отправим только показанные рядом технические данные. Пароли, коды и реквизиты вводить не нужно</span><a href="https://t.me/eto_mani" target="_blank" rel="noopener noreferrer" data-support-telegram>Написать @eto_mani <b aria-hidden="true">↗</b></a></div>
         <form class="bs-support-form" data-support-form novalidate>
           <div data-support-fields>
             <div class="bs-form-grid"><label><span>Банк <em>необязательно</em></span><select name="bank"><option value="">Выберите банк</option><option value="other">Другой банк</option></select></label><label><span>Этап проблемы <em>необязательно</em></span><select name="stage"><option value="">Выберите этап</option><option>Выбор банка</option><option>Ввод данных</option><option>SMS или подтверждение</option><option>Загрузка данных</option><option>Банк уже подключён</option></select></label></div>

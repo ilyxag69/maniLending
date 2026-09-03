@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Безопасность mani. Твои данные под защитой</title>
-    <meta name="description" content="Как mani защищает финансовые данные: доступ только для чтения, шифрование TLS 1.3 и AES-256, безопасные API, обезличивание для ИИ и полный контроль пользователя." />
+    <title>Безопасность mani. Контроль остаётся у тебя</title>
+    <meta name="description" content="Как mani работает с финансовыми данными, чего приложение не может делать и как пользователь управляет подключением банков." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#f7f9fc" />
     <link rel="canonical" href="https://moimani.ai/bezopasnost" />
@@ -12,26 +12,27 @@
     <meta property="og:site_name" content="mani" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:url" content="https://moimani.ai/bezopasnost" />
-    <meta property="og:title" content="Безопасность mani. Твои данные под защитой" />
-    <meta property="og:description" content="Как финансовый ИИ mani работает с доступом только для чтения и оставляет управление данными у тебя." />
+    <meta property="og:title" content="Безопасность mani. Контроль остаётся у тебя" />
+    <meta property="og:description" content="Что mani видит, чего не может делать и как пользователь управляет подключением банков." />
     <meta property="og:image" content="https://moimani.ai/og-image-v4.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Безопасность финансового ИИ mani" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Безопасность mani. Твои данные под защитой" />
-    <meta name="twitter:description" content="Как финансовый ИИ mani работает с доступом только для чтения и оставляет управление данными у тебя." />
+    <meta name="twitter:title" content="Безопасность mani. Контроль остаётся у тебя" />
+    <meta name="twitter:description" content="Что mani видит, чего не может делать и как пользователь управляет подключением банков." />
     <meta name="twitter:image" content="https://moimani.ai/og-image-v4.jpg" />
     <link rel="icon" href="assets/favicon.png" />
     <link rel="preload" href="assets/fonts/Manrope-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="newmani.css?v=20260820-perf-1" />
     <link rel="stylesheet" href="security-page.css?v=20260705-mobile-5" />
     <link rel="stylesheet" href="site-chrome.css?v=20260902-mobile-polish-1" />
+    <link rel="stylesheet" href="secondary-pages-modern.css?v=20260903-unified-1" />
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"WebPage","@id":"https://moimani.ai/bezopasnost","url":"https://moimani.ai/bezopasnost","name":"Безопасность mani","description":"Как mani защищает финансовые данные и оставляет управление доступом пользователю.","inLanguage":"ru-RU","isPartOf":{"@type":"WebSite","name":"mani","url":"https://moimani.ai/"}}
+      {"@context":"https://schema.org","@type":"WebPage","@id":"https://moimani.ai/bezopasnost","url":"https://moimani.ai/bezopasnost","name":"Безопасность mani","description":"Как mani работает с финансовыми данными и оставляет управление подключением пользователю.","inLanguage":"ru-RU","isPartOf":{"@type":"WebSite","name":"mani","url":"https://moimani.ai/"}}
     </script>
   </head>
-  <body>
+  <body class="nm-page nm-secondary-page sp-site-page">
     <header class="header nm-header">
       <a class="logo nm-logo" href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a>
       <nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost" aria-current="page">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav>
@@ -43,9 +44,9 @@
     <main class="sp-page">
       <section class="sp-hero">
         <div class="sp-hero-copy">
-          <p class="sp-kicker"><span class="sp-mini-shield">✓</span> Безопасность mani</p>
-          <h1>Твои данные<br />под <span>защитой</span></h1>
-          <p>mani анализирует финансы, но не управляет ими.<br />Только чтение, банковское шифрование,<br />безопасные API и полный контроль в твоих руках.</p>
+          <p class="sp-kicker">Безопасность без сложных терминов</p>
+          <h1>Контроль остаётся <span>у тебя</span></h1>
+          <p>mani помогает увидеть финансовую картину, но не может переводить деньги, оплачивать покупки или менять настройки банка</p>
         </div>
         <div class="sp-hero-visual" aria-hidden="true">
           <img class="sp-orbit" src="assets/newmani/security-v1/security-orbit-alpha.webp" alt="" />
@@ -56,45 +57,44 @@
       <section class="sp-cards" aria-label="Принципы безопасности mani">
         <article class="sp-card">
           <div class="sp-icon"><img src="assets/newmani/security-page/icons/read-only.webp" alt="" /></div>
-          <h2><b>1.</b> Read-Only доступ</h2>
-          <ul><li>Никаких переводов, платежей<br />и покупок.</li><li>В приложении отсутствуют<br />модули для управления деньгами.</li><li>mani работает как умное зеркало<br />твоих финансов, а не инструмент<br />движения средств.</li></ul>
+          <h2><b>1.</b> Только чтение</h2>
+          <p>mani получает данные, нужные для анализа. Управлять счётом и деньгами он не может</p>
         </article>
         <article class="sp-card">
           <div class="sp-icon"><img src="assets/newmani/security-page/icons/encryption.webp" alt="" /></div>
-          <h2><b>2.</b> Шифрование уровня банка</h2>
-          <ul><li>Передача данных защищена TLS 1.3.</li><li>Сигналы и история хранятся<br />в зашифрованном виде AES-256.</li><li>Даже при гипотетическом доступе<br />к серверам данные нельзя<br />прочитать без ключей.</li></ul>
+          <h2><b>2.</b> Без паролей от банка</h2>
+          <p>Авторизация проходит на стороне банка или защищённого провайдера. Пароль не сохраняется в mani</p>
         </article>
         <article class="sp-card">
           <div class="sp-icon"><img src="assets/newmani/security-page/icons/api.webp" alt="" /></div>
-          <h2><b>3.</b> Безопасные API и токены</h2>
-          <ul><li>mani не запрашивает и не хранит<br />пароли, ПИН-коды и данные карт.</li><li>Подключение идет через<br />защищённых агрегаторов и<br />Open Banking.</li><li>Банк выдаёт только ограниченный<br />токен на просмотр баланса и истории.</li></ul>
+          <h2><b>3.</b> Данные только для анализа</h2>
+          <p>Суммы, даты и категории помогают замечать изменения. Лишние персональные данные для финансового сигнала не нужны</p>
         </article>
         <article class="sp-card sp-card-wide">
           <div class="sp-icon"><img src="assets/newmani/security-page/icons/anonymization.webp" alt="" /></div>
-          <h2><b>4.</b> Обезличивание для ИИ</h2>
-          <ul><li>Перед обработкой персональные идентификаторы удаляются.</li><li>ИИ видит суммы, даты, категории и регулярность.</li><li>ИИ не знает твоё имя, номер карты, телефон или адрес.</li></ul>
-          <p class="sp-example"><strong>Пример:</strong> Регулярное списание 649 ₽ · 13-е число · категория: сервис</p>
+          <h2><b>4.</b> Ты управляешь доступом</h2>
+          <p>Подключение банка можно отключить, а удаление данных запросить в любой момент</p>
         </article>
         <article class="sp-card sp-card-wide">
           <div class="sp-icon"><img src="assets/newmani/security-page/icons/deletion.webp" alt="" /></div>
-          <h2><b>5.</b> Полный контроль и право на забвение</h2>
-          <ul><li>Любой банк можно отключить в один клик.</li><li>При удалении аккаунта данные, история чата и<br />аналитические следы стираются в течение минут.</li><li>Без остаточных архивов.</li></ul>
+          <h2><b>5.</b> Никаких действий без тебя</h2>
+          <p>mani показывает, что изменилось и что стоит проверить. Решение всегда принимаешь ты</p>
         </article>
       </section>
 
       <section class="sp-process">
-        <h2>Как это работает</h2>
+        <h2>Что происходит после подключения</h2>
         <div class="sp-steps">
-          <article><span>1</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/bank.webp" alt="" /></div><p>Ты подключаешь банк<br />через защищённое<br />соединение</p></article>
-          <article><span>2</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/token.png" alt="" /></div><p>Банк выдаёт токен<br />только на чтение</p></article>
-          <article><span>3</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/ai.webp" alt="" /></div><p>mani анализирует<br />обезличенные<br />сигналы</p></article>
-          <article><span>4</span><div class="sp-step-icon orange"><svg viewBox="0 0 48 48"><path d="M8 42V30h7v12H8Zm13 0V21h7v21h-7Zm13 0V10h7v32h-7Z"/></svg></div><p>Ты получаешь инсайты<br />и сохраняешь полный<br />контроль</p></article>
+          <article><span>1</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/bank.webp" alt="" /></div><p><strong>Подключение</strong><br />Ты подтверждаешь доступ на стороне банка</p></article>
+          <article><span>2</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/token.png" alt="" /></div><p><strong>Получение данных</strong><br />mani видит баланс и историю для анализа</p></article>
+          <article><span>3</span><div class="sp-step-icon"><img src="assets/newmani/security-page/icons/ai.webp" alt="" /></div><p><strong>Понятный сигнал</strong><br />Приложение замечает изменение и объясняет его</p></article>
+          <article><span>4</span><div class="sp-step-icon orange"><svg viewBox="0 0 48 48"><path d="M8 42V30h7v12H8Zm13 0V21h7v21h-7Zm13 0V10h7v32h-7Z"/></svg></div><p><strong>Твоё решение</strong><br />Ты проверяешь ситуацию и выбираешь действие</p></article>
         </div>
       </section>
 
       <section class="sp-closing">
         <div class="sp-closing-visual" aria-hidden="true"><img src="assets/newmani/security-page/shield-mani-alpha.webp" alt="" /></div>
-        <div><h2>Безопасность заложена<br />в <span>архитектуру</span> продукта.</h2><p>Каждый слой mani построен так, чтобы твои данные<br />оставались под твоим контролем на всех этапах.</p></div>
+        <div><h2>Деньги остаются <span>в банке</span></h2><p>mani помогает понять данные, но не получает возможности распоряжаться средствами</p></div>
       </section>
     </main>
     <footer class="nm-footer">

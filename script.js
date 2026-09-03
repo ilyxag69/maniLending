@@ -139,13 +139,17 @@ const tones = {
     image: "/assets/mani/character-switcher/mascots/motivator-pointing-fixed-v3.png",
     source: "/assets/mani/character-switcher/mascots/motivator-pointing-960.webp",
     alt: "Белый Мани, Мотиватор",
-    quote: "Спокойно разберёмся и найдём лучший следующий шаг.",
+    quoteLead: "Доставка подорожала",
+    quoteAmount: "+2\u00a0140\u00a0₽",
+    quoteDetail: "Покажу, какие заказы дали рост",
   },
   fun: {
     image: "/assets/mani/character-switcher/mascots/veselchak-pointing-clean-v4.png",
     source: "/assets/mani/character-switcher/mascots/veselchak-pointing-960.webp",
     alt: "Чёрный Мани, Весельчак",
-    quote: "Деньги опять дали дёру. Сейчас поймаем беглецов и устроим им финансовый допрос.",
+    quoteLead: "Доставка снова в ударе",
+    quoteAmount: "+2\u00a0140\u00a0₽",
+    quoteDetail: "Шикарно. Найдём, кто тут охренел",
   },
 };
 
@@ -153,22 +157,22 @@ const roadmapItems = [
   {
     kicker: "Скоро в mani",
     title: "Беспроцентный период по кредиткам",
-    text: "Мани покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на тебе.",
+    text: "Мани покажет даты и суммы беспроцентного периода. Не даст банкам нажиться на тебе",
   },
   {
     kicker: "Скоро в mani",
     title: "Цели и челленджи",
-    text: "Достигайте цели с игровой механикой. Мани поможет копить и поощрит за успехи.",
+    text: "Достигайте цели с игровой механикой. Мани поможет копить и поощрит за успехи",
   },
   {
     kicker: "Скоро в mani",
     title: "Сколько стоит моя жизнь",
-    text: "Квартиры, машины, инвестиции, крипта. Мани покажет реальную картину твоих активов и пассивов.",
+    text: "Квартиры, машины, инвестиции, крипта. Мани покажет реальную картину твоих активов и пассивов",
   },
   {
     kicker: "Скоро в mani",
     title: "Детальные расходы по чекам",
-    text: "Навели камеру на чек - Мани сам добавит сумму, категорию и магазин. Без ручного ввода.",
+    text: "Навели камеру на чек - Мани сам добавит сумму, категорию и магазин. Без ручного ввода",
   },
 ];
 
@@ -177,9 +181,9 @@ const demoScenarios = {
     status: "видит повтор 649 ₽",
     signals: ["649 ₽ каждый месяц", "13-е число", "Категория: сервис"],
     title: "Мани показывает повторяющиеся списания",
-    copy: "Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить.",
-    main: "Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж.",
-    action: "Проверить, нужен ли этот платеж. Отключение ненужной подписки сэкономит до 7 788 ₽ в год.",
+    copy: "Он не знает, пользуешься ты сервисом или нет. Зато видит регулярный платеж, сумму, дату и помогает быстро решить: оставить или отключить",
+    main: "Вижу регулярное списание 649 ₽. Это похоже на подписку или сервисный платеж",
+    action: "Проверить, нужен ли этот платеж. Отключение ненужной подписки сэкономит до 7 788 ₽ в год",
     label: "Потенциально лишний расход",
     value: "7 788 ₽/год",
   },
@@ -187,9 +191,9 @@ const demoScenarios = {
     status: "увидел лишний темп",
     signals: ["+42% к обычному темпу", "7 мелких покупок", "2 дня до лимита"],
     title: "Мани замечает темп, а не следит за человеком",
-    copy: "Он сравнивает финансовый ритм: сколько списаний, в каких категориях и как быстро тает бюджет.",
-    main: "За неделю мелкие траты выросли на 42% относительно обычного темпа.",
-    action: "Поставить лимит на неделю и получить предупреждение до следующего перебора.",
+    copy: "Он сравнивает финансовый ритм: сколько списаний, в каких категориях и как быстро тает бюджет",
+    main: "За неделю мелкие траты выросли на 42% относительно обычного темпа",
+    action: "Поставить лимит на неделю и получить предупреждение до следующего перебора",
     label: "Риск перерасхода",
     value: "до 11 400 ₽/мес",
   },
@@ -197,9 +201,9 @@ const demoScenarios = {
     status: "собрал план",
     signals: ["9 дней до зарплаты", "1 850 ₽ в день", "3 категории в риске"],
     title: "Бюджет становится понятным без таблиц",
-    copy: "Мани переводит хаос по картам в простые действия: сколько можно тратить и где стоит притормозить.",
-    main: "До зарплаты 9 дней. В безопасном темпе можно тратить 1 850 ₽ в день.",
-    action: "Разложить лимиты по категориям и предупредить, если день пошёл не по плану.",
+    copy: "Мани переводит хаос по картам в простые действия: сколько можно тратить и где стоит притормозить",
+    main: "До зарплаты 9 дней. В безопасном темпе можно тратить 1 850 ₽ в день",
+    action: "Разложить лимиты по категориям и предупредить, если день пошёл не по плану",
     label: "Безопасный лимит",
     value: "1 850 ₽/день",
   },
@@ -222,7 +226,7 @@ if (contactForm) {
     result.classList.remove("is-error", "is-success");
     if (!contactForm.checkValidity()) {
       contactForm.reportValidity();
-      result.textContent = "Заполните обязательные поля.";
+      result.textContent = "Заполните обязательные поля";
       result.classList.add("is-error");
       return;
     }
@@ -250,10 +254,10 @@ if (contactForm) {
       if (!response.ok) throw new Error(responseData.message || "Не удалось отправить сообщение");
       contactForm.reset();
       updateContactCounter();
-      result.textContent = "Сообщение отправлено. Ответим по указанному контакту.";
+      result.textContent = "Сообщение отправлено. Ответим по указанному контакту";
       result.classList.add("is-success");
     } catch (error) {
-      result.textContent = `${error.message}. Можно написать напрямую в Telegram @eto_mani.`;
+      result.textContent = `${error.message}. Можно написать напрямую в Telegram @eto_mani`;
       result.classList.add("is-error");
     } finally {
       submitButton.disabled = false;
@@ -562,10 +566,10 @@ function getPhonePayload(form) {
   if (hint) {
     hint.classList.toggle("is-error", hasInput && !valid);
     hint.textContent = !hasInput
-      ? "Например, 999 123 45 67."
+      ? "Например, 999 123 45 67"
       : valid
-      ? "Номер заполнен."
-      : `Нужно ${Array.isArray(selectedCountry.length) ? "от 8 до 15 цифр" : `${selectedCountry.length} цифр`} без кода страны.`;
+      ? "Номер заполнен"
+      : `Нужно ${Array.isArray(selectedCountry.length) ? "от 8 до 15 цифр" : `${selectedCountry.length} цифр`} без кода страны`;
   }
 
   return { valid: hasInput && valid, normalized, nationalDigits, country: selectedCountry };
@@ -638,9 +642,9 @@ function updateWaitlistStats(stats = waitlistStats) {
     block.querySelectorAll("[data-waitlist-cta-copy]").forEach((node) => {
       node.textContent = showNumbers
         ? (isZeroState
-          ? "Очередь только открылась. Успей занять место до публичного запуска."
-          : `${waitlistStats.registered.toLocaleString("ru-RU")} человек уже ждут запуск mani.`)
-        : "Сколько осталось и на каком ты месте, покажем после заявки.";
+          ? "Очередь только открылась. Успей занять место до публичного запуска"
+          : `${waitlistStats.registered.toLocaleString("ru-RU")} человек уже ждут запуск mani`)
+        : "Сколько осталось и на каком ты месте, покажем после заявки";
     });
     block.querySelectorAll("[data-waitlist-cta-title]").forEach((node) => {
       node.textContent = showNumbers
@@ -693,39 +697,39 @@ function getQueueStatusPresentation(status, priorityPosition) {
   const statuses = {
     "mani inner circle": {
       label: "Ядро mani",
-      description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
+      description: "Самая ранняя сотня. Ты уже максимально близко к продукту",
     },
     "Closed beta wave": {
       label: "Закрытая волна",
-      description: "Ты поднялся выше стартовой очереди и вошёл в закрытую волну.",
+      description: "Ты поднялся выше стартовой очереди и вошёл в закрытую волну",
     },
     "Early crew": {
       label: "Ранний экипаж",
-      description: "Ты среди первых 500 и можешь быстро подняться приглашениями.",
+      description: "Ты среди первых 500 и можешь быстро подняться приглашениями",
     },
     "Ahead of hype": {
       label: "В деле до хайпа",
-      description: "Ты пришёл раньше большинства и сохранил бесплатный доступ.",
+      description: "Ты пришёл раньше большинства и сохранил бесплатный доступ",
     },
     "On time": {
       label: "Успел вовремя",
-      description: "Место твоё. Несколько приглашений заметно укрепят позицию.",
+      description: "Место твоё. Несколько приглашений заметно укрепят позицию",
     },
     "Final boarding": {
       label: "Финальная посадка",
-      description: "Ты внутри первой 1000, но до закрытия набора уже близко.",
+      description: "Ты внутри первой 1000, но до закрытия набора уже близко",
     },
     "Waiting list": {
       label: "Лист ожидания",
-      description: "Основная тысяча заполнена, но приглашения всё ещё улучшают приоритет.",
+      description: "Основная тысяча заполнена, но приглашения всё ещё улучшают приоритет",
     },
     "Founding users": {
       label: "Ядро mani",
-      description: "Самая ранняя сотня. Ты уже максимально близко к продукту.",
+      description: "Самая ранняя сотня. Ты уже максимально близко к продукту",
     },
     "Last free access": {
       label: "Финальная посадка",
-      description: "Ты внутри первой 1000, но до закрытия набора уже близко.",
+      description: "Ты внутри первой 1000, но до закрытия набора уже близко",
     },
   };
   const milestones = [
@@ -737,19 +741,19 @@ function getQueueStatusPresentation(status, priorityPosition) {
   ];
   const presentation = statuses[status] || {
     label: "Заявка принята",
-    description: "Место закреплено. Приглашения помогают подняться выше.",
+    description: "Место закреплено. Приглашения помогают подняться выше",
   };
   const next = milestones.find((milestone) => priorityPosition > milestone.above);
   if (!next) {
     return {
       ...presentation,
-      motivation: "Ты уже в ядре mani. Выше только знакомство с командой.",
+      motivation: "Ты уже в ядре mani. Выше только знакомство с командой",
     };
   }
   const needed = priorityPosition - next.target;
   return {
     ...presentation,
-    motivation: `Осталось ${invitePhrase(needed)}, чтобы получить статус «${next.label}».`,
+    motivation: `Осталось ${invitePhrase(needed)}, чтобы получить статус «${next.label}»`,
   };
 }
 
@@ -773,6 +777,12 @@ function renderWaitlistSuccess(success, data) {
   success.innerHTML = `
     <div class="waitlist-success-head"><span>${data.duplicate ? "Заявка уже есть" : "Заявка принята"}</span><strong id="waitlist-success-title">Твоя позиция на приглашение №${position}</strong></div>
     <p class="waitlist-success-lead">${escapeHtml(queueStatus.motivation)}</p>
+    <div class="waitlist-next-steps">
+      <strong>Что будет дальше</strong>
+      <p><span>1</span> Мы закрепили контакт и место в очереди.</p>
+      <p><span>2</span> Когда подойдёт очередь, отправим приглашение.</p>
+      <p><span>3</span> В бете можно напрямую влиять на развитие mani.</p>
+    </div>
     <div class="waitlist-success-grid">
       <div><small>Позиция на приглашение</small><b>№${position}</b></div>
       <div><small>Приглашено</small><b>${invitedCount}</b></div>
@@ -780,14 +790,14 @@ function renderWaitlistSuccess(success, data) {
       <div><small>Осталось мест</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>
       <div class="waitlist-status-card"><small>Твой статус</small><b>${escapeHtml(queueStatus.label)}</b><em>${escapeHtml(queueStatus.description)}</em></div>
     </div>
-    <div class="waitlist-referral"><span>Твоя ссылка</span><code>${escapeHtml(referralUrl)}</code></div>
+    <div class="waitlist-referral"><span>Хочешь подняться выше? Поделись персональной ссылкой</span><code>${escapeHtml(referralUrl)}</code></div>
     <div class="waitlist-share-actions">
       <button type="button" data-referral-copy data-referral-url="${escapeHtml(referralUrl)}">Скопировать ссылку</button>
       <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Я подал заявку в закрытую бету mani. Присоединяйся")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
       <button type="button" data-referral-share data-referral-url="${escapeHtml(referralUrl)}">Поделиться</button>
       <button type="button" data-referral-card data-referral-url="${escapeHtml(referralUrl)}" data-referral-position="${position}">Скачать карточку</button>
     </div>
-    <p class="waitlist-success-note">Каждая уникальная заявка по твоей ссылке поднимает тебя на одно место. Повторные и собственные заявки не засчитываются.</p>
+    <p class="waitlist-success-note">Каждая уникальная заявка по ссылке поднимает тебя на одно место. Повторные и собственные заявки не засчитываются.</p>
   `;
   if (dialog) {
     dialog.classList.add("is-success");
@@ -831,29 +841,29 @@ async function submitWaitlist(form) {
   setFieldError(form, "consent");
   let valid = true;
   if (!payload.phone) {
-    setFieldError(form, "phone", "Укажи корректный номер, чтобы закрепить место.");
+    setFieldError(form, "phone", "Укажи корректный номер, чтобы закрепить место");
     valid = false;
     trackEvent("form_error", { field: "phone", error_type: "invalid_phone" });
   }
   if (email && !form.elements.email.checkValidity()) {
-    setFieldError(form, "email", "Проверь формат email.");
+    setFieldError(form, "email", "Проверь формат email");
     valid = false;
     trackEvent("form_error", { field: "email", error_type: "invalid_email" });
   }
   if (!payload.pdnConsent) {
-    setFieldError(form, "consent", "Нужно согласие на обработку данных.");
+    setFieldError(form, "consent", "Нужно согласие на обработку данных");
     valid = false;
     trackEvent("form_error", { field: "consent", error_type: "missing_pdn_consent" });
   }
   if (!valid) {
-    result.textContent = "Проверь отмеченные поля.";
+    result.textContent = "Проверь отмеченные поля";
     return;
   }
 
   form.dataset.submitting = "true";
   button.disabled = true;
   button.setAttribute("aria-busy", "true");
-  result.textContent = "Закрепляем место...";
+  result.textContent = "Закрепляем место";
   if (success) {
     success.hidden = true;
     success.innerHTML = "";
@@ -878,8 +888,8 @@ async function submitWaitlist(form) {
     waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
     result.textContent = data.duplicate
-      ? `Твоя заявка уже есть. Позиция на приглашение №${data.position}.`
-      : `Готово. Позиция на приглашение №${data.position}.`;
+      ? `Твоя заявка уже есть. Позиция на приглашение №${data.position}`
+      : `Готово. Позиция на приглашение №${data.position}`;
     renderWaitlistSuccess(success, data);
     form.reset();
     getPhonePayload(form);
@@ -894,15 +904,15 @@ async function submitWaitlist(form) {
       status_code: responseStatus,
     });
     const errorMessages = {
-      invalid_phone_or_email: "Проверь номер телефона и email. Одно из полей заполнено некорректно.",
-      missing_pdn_consent: "Подтверди согласие на обработку персональных данных.",
-      rate_limited: "Слишком много попыток подряд. Подожди минуту и попробуй снова.",
-      bot_field_filled: "Браузер заполнил служебное поле. Обнови страницу и повтори отправку.",
-      invalid_client_state: "Страница устарела. Обнови её и повтори отправку.",
-      waitlist_unavailable: "Форма временно недоступна. Попробуй ещё раз через несколько минут.",
+      invalid_phone_or_email: "Проверь номер телефона и email. Одно из полей заполнено некорректно",
+      missing_pdn_consent: "Подтверди согласие на обработку персональных данных",
+      rate_limited: "Слишком много попыток подряд. Подожди минуту и попробуй снова",
+      bot_field_filled: "Браузер заполнил служебное поле. Обнови страницу и повтори отправку",
+      invalid_client_state: "Страница устарела. Обнови её и повтори отправку",
+      waitlist_unavailable: "Форма временно недоступна. Попробуй ещё раз через несколько минут",
     };
     result.textContent = errorMessages[safeCode]
-      || (responseStatus >= 400 ? "Не удалось проверить данные формы. Обнови страницу и попробуй ещё раз." : "Не удалось отправить заявку. Проверь соединение и попробуй ещё раз.");
+      || (responseStatus >= 400 ? "Не удалось проверить данные формы. Обнови страницу и попробуй ещё раз" : "Не удалось отправить заявку. Проверь соединение и попробуй ещё раз");
     result.focus?.();
   } finally {
     form.dataset.submitting = "false";
@@ -1009,7 +1019,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
     context.fillText("Подавай заявку", 110, 790);
     context.fillStyle = "#5d6b86";
     context.font = "500 31px Manrope, Arial, sans-serif";
-    drawWrappedText(context, "Первые пользователи помогают сделать финансового ИИ-помощника лучше.", 110, 855, 820, 47, 3);
+    drawWrappedText(context, "Первые пользователи помогают сделать финансового ИИ-помощника лучше", 110, 855, 820, 47, 3);
   }
 
   context.fillStyle = "#ff5a00";
@@ -1102,7 +1112,7 @@ async function restoreWaitlistIdentity() {
     const data = await response.json();
     document.querySelectorAll("[data-waitlist-success]").forEach((success) => renderWaitlistSuccess(success, { ...data, duplicate: true }));
     document.querySelectorAll("[data-waitlist-result]").forEach((result) => {
-      result.textContent = `Твоё место уже закреплено: №${data.position}.`;
+      result.textContent = `Твоё место уже закреплено: №${data.position}`;
     });
   } catch {
     // The form remains available if the status endpoint is temporarily unreachable.
@@ -1118,7 +1128,7 @@ document.addEventListener("click", async (event) => {
       showToast("Персональная ссылка скопирована");
       trackEvent("referral_share", { share_target: "clipboard" });
     } else {
-      showToast("Не удалось скопировать. Выдели ссылку вручную.");
+      showToast("Не удалось скопировать. Выдели ссылку вручную");
     }
     return;
   }
@@ -1136,7 +1146,7 @@ document.addEventListener("click", async (event) => {
         trackEvent("referral_share", { share_target: "web_share" });
       } catch (error) {
         if (error?.name !== "AbortError" && await copyText(url)) {
-          showToast("Системное меню недоступно. Ссылка скопирована.");
+          showToast("Системное меню недоступно. Ссылка скопирована");
           trackEvent("referral_share", { share_target: "clipboard" });
         }
       }
@@ -1145,7 +1155,7 @@ document.addEventListener("click", async (event) => {
         showToast("Ссылка скопирована");
         trackEvent("referral_share", { share_target: "clipboard" });
       } else {
-        showToast("Не удалось скопировать. Выдели ссылку вручную.");
+        showToast("Не удалось скопировать. Выдели ссылку вручную");
       }
     }
     return;
@@ -1209,7 +1219,15 @@ function setTone(requestedName, { track = true, persist = true } = {}) {
     toneImage.classList.add("mcs-animate");
     if (track) trackEvent("tone_switch", { tone: name });
   }
-  toneQuote.textContent = tone.quote;
+  const quoteMain = document.createElement("span");
+  const quoteAmount = document.createElement("strong");
+  const quoteDetail = document.createElement("span");
+  quoteMain.className = "mcs-quote-main";
+  quoteAmount.textContent = tone.quoteAmount;
+  quoteDetail.className = "mcs-quote-detail";
+  quoteDetail.textContent = tone.quoteDetail;
+  quoteMain.append(document.createTextNode(tone.quoteLead), quoteAmount);
+  toneQuote.replaceChildren(quoteMain, quoteDetail);
   if (persist) storageSet("localStorage", characterPreferenceKey, name);
 }
 
@@ -1262,13 +1280,13 @@ function updateLeakCalculator() {
   const note = document.querySelector("[data-calc-note]");
   if (note) {
     if (subscriptions === 0 && leaks === 0) {
-      note.textContent = "Если нет ни подписок, ни лишних мелких трат, расчет честно показывает 0. mani всё равно полезен для контроля темпа и предупреждений.";
+      note.textContent = "Если нет ни подписок, ни лишних мелких трат, расчет честно показывает 0. mani всё равно полезен для контроля темпа и предупреждений";
     } else if (subscriptions === 0) {
-      note.textContent = `Подписок нет, считаем только мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽ в год.`;
+      note.textContent = `Подписок нет, считаем только мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽ в год`;
     } else if (leaks === 0) {
-      note.textContent = `Мелких утечек нет, считаем только регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽ в год.`;
+      note.textContent = `Мелких утечек нет, считаем только регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽ в год`;
     } else {
-      note.textContent = `Регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽/год. Мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽/год.`;
+      note.textContent = `Регулярные платежи: ${subscriptionYearly.toLocaleString("ru-RU")} ₽/год. Мелкие утечки: ${smallLeaksYearly.toLocaleString("ru-RU")} ₽/год`;
     }
   }
 }
@@ -1323,7 +1341,7 @@ document.querySelectorAll("[data-download]").forEach((link) => {
       store: target,
       cta_location: link.closest(".hero") ? "hero" : link.closest(".cta") ? "cta" : link.closest(".reasons") ? "reasons" : "header_or_menu",
     });
-    openConfiguredLink(target, `Ссылка на ${label} пока не задана. Подставим реальный URL скачивания.`);
+    openConfiguredLink(target, `Ссылка на ${label} пока не задана. Подставим реальный URL скачивания`);
   });
 });
 
@@ -1386,7 +1404,7 @@ document.querySelectorAll("[data-social]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     trackEvent("social_click", { network: link.dataset.social });
-    openConfiguredLink(link.dataset.social, "Ссылка на соцсеть пока не задана.");
+    openConfiguredLink(link.dataset.social, "Ссылка на соцсеть пока не задана");
   });
 });
 

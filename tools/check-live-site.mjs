@@ -26,13 +26,14 @@ check("home page loads", async () => {
   const { response, body } = await fetchText("/");
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("script.min.js?v=20260902-topmail-1"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20260903-layout-9"), "Expected script cache-bust is missing");
+  assert(body.includes("conversion-experience.css?v=20260903-quote-fit-1"), "Expected conversion CSS is missing");
   assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-contact-form"), "Contact form is missing from home page");
-  assert(body.includes("Уже работает в закрытой бете"), "Closed beta status is missing");
+  assert(body.toLowerCase().includes("уже работает в закрытой бете"), "Closed beta status is missing");
   assert(body.includes("Получить приглашение"), "Invitation CTA is missing");
   assert(body.includes("data-open-contact"), "Mobile contact trigger is missing from home page");
   assert(body.includes('id="contact-dialog"'), "Mobile contact dialog is missing from home page");

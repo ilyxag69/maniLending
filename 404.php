@@ -22,6 +22,7 @@ header('X-Content-Type-Options: nosniff');
   <title>Страница не найдена. mani</title>
   <link rel="stylesheet" href="/newmani.css?v=20260820-perf-1" />
   <link rel="stylesheet" href="/site-chrome.css?v=20260902-mobile-polish-1" />
+  <link rel="stylesheet" href="/secondary-pages-modern.css?v=20260903-unified-1" />
   <style>
     .nm-error-page{min-height:100vh;display:flex;flex-direction:column;background:#f6f9ff;color:#071632}
     .nm-error-page main{width:min(560px,calc(100% - 32px));min-height:calc(100vh - 190px);display:grid;place-content:center;margin:auto;padding:120px 0 48px;text-align:center}
@@ -31,7 +32,7 @@ header('X-Content-Type-Options: nosniff');
     @media(max-width:700px){.nm-error-page main{min-height:62vh;padding:48px 0}}
   </style>
 </head>
-<body class="nm-page nm-error-page">
+<body class="nm-page nm-secondary-page nm-error-page">
   <header class="header nm-header">
     <a class="logo nm-logo" href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a>
     <nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav>
@@ -39,7 +40,7 @@ header('X-Content-Type-Options: nosniff');
     <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
   <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav><a class="nm-button nm-button-primary" href="/#early-access">Получить приглашение</a></div>
-  <main><h1>404</h1><p>Такой страницы нет. Вернись на главную mani.</p><a href="/">На главную</a></main>
+  <main><p class="nm-error-kicker">Потерялись</p><h1>404</h1><p>Эта страница куда-то ушла. Вернись на главную, там mani уже собрал всё важное</p><a href="/">Вернуться на главную</a></main>
   <footer class="nm-footer"><div class="nm-container nm-footer-grid"><div class="nm-footer-brand"><a href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><p>mani. Финансовый радар с характером</p></div><nav aria-label="Навигация в подвале"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#contacts">Контакты</a><a href="/faq">FAQ</a></nav><nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a><a href="/delete-account">Удаление аккаунта</a></nav><p class="nm-copyright">© 2026 mani</p></div></footer>
   <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3681438;js=na" style="position:absolute;left:-9999px" alt="Top.Mail.Ru" /></div></noscript>
   <script src="/analytics-client.js?v=20260902-topmail-1"></script>

@@ -106,7 +106,7 @@ function maniAnalyticsUuid($value): string {
 function maniAnalyticsAllowedEvents(): array {
     return [
         'page_view', 'landing_view', 'experiment_view', 'section_view', 'cta_click',
-        'navigation_click', 'social_click', 'tone_switch', 'demo_scenario_click', 'faq_open',
+        'navigation_click', 'social_click', 'tone_switch', 'demo_scenario_click', 'hero_signal_change', 'faq_open',
         'security_detail_open', 'waitlist_form_open', 'waitlist_form_start',
         'waitlist_phone_focus', 'waitlist_submit', 'waitlist_success', 'form_error',
         'referral_visit', 'referral_signup', 'referral_link_created', 'referral_share',
