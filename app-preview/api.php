@@ -53,6 +53,7 @@ if (!is_array($fixture)) previewSend(500, ['error' => ['code' => 'preview_data_u
 
 $privateRoot = dirname(__DIR__, 3) . '/private/mani-app-preview';
 if (!is_dir($privateRoot)) @mkdir($privateRoot, 0700, true);
+@chmod($privateRoot, 0700);
 $eventFile = $privateRoot . '/events.jsonl';
 
 function previewClean($value, int $limit = 100): string {
@@ -76,6 +77,7 @@ function previewRecord(string $file, string $event, array $metadata = []): void 
         'metadata' => $metadata,
     ];
     @file_put_contents($file, json_encode($row, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND | LOCK_EX);
+    @chmod($file, 0600);
 }
 
 previewRecord($eventFile, 'api_request', ['route' => previewClean($routePath, 100), 'method' => $method]);
