@@ -108,7 +108,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
-  assert(body.includes("https://moimani.ai/og-image-v5.png"), "Current OG image is missing");
+  assert(body.includes("https://moimani.ai/og-image-v6.jpg"), "Current OG image is missing");
   assert(body.includes("https://www.instagram.com/moimani.ai"), "Instagram is missing from Organization schema");
 });
 
@@ -212,7 +212,7 @@ check("key assets are reachable", async () => {
     "/assets/desktop-reasons-card.webp",
     "/assets/mobile-widgets.webp",
     "/assets/og-image.jpg",
-    "/og-image-v5.png",
+    "/og-image-v6.jpg",
     "/assets/brand/mani-black.png",
     "/assets/newmani/hero-v1/composition/phones-mascots-alpha.png",
     "/assets/newmani/social-v1/motivator-peek-alpha.png",

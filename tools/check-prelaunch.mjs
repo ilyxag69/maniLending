@@ -107,7 +107,7 @@ try {
     "home page loads the unified mobile rhythm and compact social layout"
   );
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
-  check(html.includes("https://moimani.ai/og-image-v5.png"), "current OG image is explicit");
+  check(html.includes("https://moimani.ai/og-image-v6.jpg"), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
   check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
