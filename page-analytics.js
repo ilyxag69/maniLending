@@ -8,7 +8,9 @@
   })();
   const track = (name, params = {}) => window.ManiAnalytics?.track(name, params);
 
-  if (consent === "accepted") {
+  if (window.ManiAnalytics) {
+    window.ManiAnalytics.loadExternal();
+  } else if (consent === "accepted") {
     const googleAnalyticsId = "G-P6TDY2N5FK";
     const yandexMetricaId = 103776176;
     window.dataLayer = window.dataLayer || [];
@@ -44,7 +46,7 @@
 
   document.querySelectorAll("[data-product-cta]").forEach((cta) => {
     cta.addEventListener("click", () => {
-      const location = window.location.pathname === "/faq" ? "faq" : "security";
+      const location = window.location.pathname.replace(/^\/+|\/+$/g, "") || "home";
       track("cta_click", { cta_location: location });
       window.gtag?.("event", "cta_click", { cta_location: location });
       window.ym?.(103776176, "reachGoal", "cta_click", { cta_location: location });
@@ -65,7 +67,7 @@
         track("section_view", { section: name });
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.45 });
+    }, { threshold: 0.1 });
     document.querySelectorAll("[data-analytics-section]").forEach((section) => observer.observe(section));
   }
 })();

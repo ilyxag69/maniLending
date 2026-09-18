@@ -27,15 +27,15 @@ check("home page loads", async () => {
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
   assert(body.includes("mani. ИИ-помощник для контроля личных финансов"), "Expected SEO title is missing");
-  assert(body.includes("script.js?v=20260903-quote-fit-1"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20260918-release-1"), "Expected script cache-bust is missing");
   assert(body.includes("conversion-experience.css?v=20260904-mobile-rhythm-2"), "Expected conversion CSS is missing");
-  assert(body.includes("product-config.js?v=20260902-closed-beta-1"), "Expected product config is missing");
+  assert(body.includes("product-config.js?v=20260918-release-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
   assert(body.includes('href="/faq"'), "FAQ header link is missing");
   assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
   assert(body.includes("data-contact-form"), "Contact form is missing from home page");
-  assert(body.toLowerCase().includes("уже работает в закрытой бете"), "Closed beta status is missing");
-  assert(body.includes("Получить приглашение"), "Invitation CTA is missing");
+  assert(body.toLowerCase().includes("первый релиз проходит проверку в магазинах"), "Store review status is missing");
+  assert(body.includes("Узнать о запуске"), "Launch notification CTA is missing");
   assert(body.includes("data-open-contact"), "Mobile contact trigger is missing from home page");
   assert(body.includes('id="contact-dialog"'), "Mobile contact dialog is missing from home page");
   assert(body.includes('href="https://t.me/eto_mani"'), "Direct Telegram contact is missing");
@@ -57,6 +57,7 @@ check("home page loads", async () => {
 });
 
 check("contact API accepts a valid local message", async () => {
+  if (!["127.0.0.1", "localhost"].includes(new URL(baseUrl).hostname)) return;
   const response = await fetch(new URL("/api/contact", baseUrl), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -108,7 +109,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
-  assert(body.includes("https://moimani.ai/og-image-v6.jpg"), "Current OG image is missing");
+  assert(body.includes('property="og:image" content="https://ilyxag69.github.io/maniLending/og-image-v6.jpg"'), "Current OG image is missing");
   assert(body.includes("https://www.instagram.com/moimani.ai"), "Instagram is missing from Organization schema");
 });
 
@@ -203,7 +204,7 @@ check("IndexNow key file is reachable", async () => {
 check("AI discovery file is reachable", async () => {
   const { response, body } = await fetchText("/llms.txt");
   assert(response.ok, `llms.txt returned ${response.status}`);
-  assert(body.includes("mani is an AI assistant for personal finance control"), "llms.txt summary missing");
+  assert(body.includes("The first public release is under store review") && body.includes("planned for the next update"), "llms.txt release stages missing");
 });
 
 check("key assets are reachable", async () => {

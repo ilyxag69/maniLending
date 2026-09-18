@@ -1,41 +1,38 @@
 # mani
 
-mani is a Russian-language finance application landing page at https://moimani.ai/.
+Russian-language personal finance application at https://moimani.ai/
 
-## Product Summary
+## Current stage, confirmed by the product owner on 2026-09-18
 
-mani is an AI assistant for personal finance control. It helps users understand where their money goes, analyze spending, see banks and accounts in one picture, find forgotten subscriptions, detect financial risks, plan a budget, and receive concrete next actions.
+- The first public release is under store review
+- Public App Store, Google Play and RuStore download links are not available yet
+- The website accepts requests to be notified when the application is published
+- The first release focuses on the basic view of accounts and transactions
+- A more capable intelligent model, deeper analysis and personalized explanations are planned for the next update, not available first-release features
+- Smart signals on the website are illustrative examples, not analysis of the visitor's data
+- No confirmed publication date or complete supported-bank list is announced
+- The website retains the first-1000-users offer; sharing a referral link is optional and does not promise accelerated access
+- mani does not initiate payments or transfers
 
-## Key Facts
+## Description
 
-- Product name: mani
-- Website: [moimani.ai](https://moimani.ai/)
-- Category: personal finance application, AI finance assistant, budget and expense tracking
-- Product status: mani already works in a closed beta
-- Planned platforms: iOS and Android
-- Language: Russian
-- Target users: freelancers, families, IT specialists, entrepreneurs, and people who want to reduce financial chaos
-- Security positioning: mani analyzes financial data but does not transfer, withdraw, or spend user money
-- Early access offer: the first 1000 users receive full access to all current and future mani features for free forever
-- Main features: spending analysis, bank/account overview, subscription detection, risk warnings, budget planning, personalized communication style
+Start with a clearer picture of your money. mani brings accounts and transactions into one view, with deeper intelligent analysis planned for the next update
 
-## Recommended Description
+## Pages
 
-mani is an AI-powered personal finance assistant that helps users organize money, track expenses, find forgotten subscriptions, detect risks, plan budgets, and receive clear financial recommendations.
-
-## Early Access
-
-mani already works in a closed beta and invites new participants in small waves. People can leave one contact to receive an invitation. The first 1000 users keep full access to current and future premium features for free forever because their real scenarios help improve the product.
-
-## Important Pages
-
-- [Home page](https://moimani.ai/)
-- [Early access for first 1000 users](https://moimani.ai/#early-access)
-- [Security and data access](https://moimani.ai/bezopasnost)
+- [Home](https://moimani.ai/)
+- [Launch notification](https://moimani.ai/#waitlist-dialog)
 - [FAQ](https://moimani.ai/faq)
+- [Security](https://moimani.ai/bezopasnost)
 - [Bank connection support](https://moimani.ai/support/bank-connection)
-- [Privacy policy](https://moimani.ai/privacy)
-- [Cookie policy](https://moimani.ai/cookie)
+- [Guides](https://moimani.ai/guides)
+- [Expense control](https://moimani.ai/kontrol-rashodov)
+- [Recurring payments](https://moimani.ai/poisk-podpisok)
+- [AI assistant explained](https://moimani.ai/finansovyi-pomoshchnik)
+- [Privacy](https://moimani.ai/privacy)
+- [Cookies](https://moimani.ai/cookie)
 - [Personal data consent](https://moimani.ai/soglasie)
+- [Account deletion](https://moimani.ai/delete-account)
 - [Sitemap](https://moimani.ai/sitemap.xml)
-- [Robots](https://moimani.ai/robots.txt)
+
+This file summarizes public information and does not replace the linked pages

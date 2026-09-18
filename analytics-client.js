@@ -1,7 +1,38 @@
 (function initManiAnalytics() {
+  // One loading policy on every page; an explicit opt-out remains an opt-out
+  const externalAllowed = () => {
+    if (["localhost", "127.0.0.1", "::1", "[::1]"].includes(location.hostname)) return false;
+    try { return localStorage.getItem("maniCookieConsent") !== "necessary"; }
+    catch { return false; }
+  };
+  function loadExternal() {
+    if (!externalAllowed()) return;
+    if (!window.maniAnalyticsLoaded) {
+      window.maniAnalyticsLoaded = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", "G-P6TDY2N5FK");
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-P6TDY2N5FK";
+      document.head.appendChild(script);
+    }
+    if (!window.maniYandexMetricaLoaded) {
+      window.maniYandexMetricaLoaded = true;
+      window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+      window.ym.l = Date.now();
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://mc.yandex.ru/metrika/tag.js";
+      document.head.appendChild(script);
+      window.ym(103776176, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false });
+    }
+  }
+  loadExternal();
   const topMailCounterId = "3681438";
 
-  if (!window.__maniTopMailInitialized) {
+  if (externalAllowed() && !window.__maniTopMailInitialized) {
     window.__maniTopMailInitialized = true;
     window._tmr = window._tmr || [];
     window._tmr.push({ id: topMailCounterId, type: "pageView", start: Date.now() });
@@ -34,8 +65,8 @@
   ]);
   const queue = [];
   let flushTimer = 0;
-  let vitalsSent = false;
-  const vitals = { LCP: null, CLS: 0, INP: null };
+  let inFlight = false;
+  let failures = 0;
 
   const storageGet = (type, key) => {
     try {
@@ -89,7 +120,9 @@
     const params = new URLSearchParams(location.search);
     let referrer = "";
     try {
-      referrer = document.referrer ? new URL(document.referrer).hostname : "";
+      const host = document.referrer ? new URL(document.referrer).hostname : "";
+      const ownHost = location.hostname.replace(/^www\./, "");
+      referrer = host.replace(/^www\./, "") === ownHost ? "" : host;
     } catch {
       referrer = "";
     }
@@ -111,26 +144,43 @@
     return "desktop";
   };
 
-  function flush(useBeacon = false) {
+  async function flush(useBeacon = false) {
     clearTimeout(flushTimer);
     flushTimer = 0;
-    if (!queue.length) return;
-    const body = JSON.stringify({ events: queue.splice(0, 20) });
+    if (!queue.length || inFlight) return;
+    const batch = queue.slice(0, 20);
+    const body = JSON.stringify({ events: batch });
     if (useBeacon && navigator.sendBeacon) {
-      navigator.sendBeacon(endpoint, new Blob([body], { type: "application/json" }));
-    } else {
-      fetch(endpoint, {
+      if (navigator.sendBeacon(endpoint, new Blob([body], { type: "application/json" }))) {
+        queue.splice(0, batch.length);
+        if (queue.length) flushTimer = window.setTimeout(() => flush(), 250);
+        return;
+      }
+    }
+    inFlight = true;
+    try {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
         credentials: "same-origin",
         keepalive: true,
-      }).catch(() => {});
+      });
+      if (!response.ok) throw new Error("Analytics delivery failed");
+      queue.splice(0, batch.length);
+      failures = 0;
+    } catch {
+      failures += 1;
+      // Keep stable event IDs for server deduplication; never store events on disk
+      if (failures >= 3) { queue.splice(0, batch.length); failures = 0; }
+    } finally {
+      inFlight = false;
     }
-    if (queue.length) flushTimer = window.setTimeout(() => flush(), 250);
+    if (queue.length) flushTimer = window.setTimeout(() => flush(), failures ? 2000 * failures : 250);
   }
 
   function track(name, params = {}) {
+    if (queue.length >= 100) return;
     const touch = attribution();
     const event = {
       name: clean(name, 64),
@@ -162,53 +212,44 @@
     if (!storageGet("localStorage", firstAttributionKey)) {
       storageSet("localStorage", firstAttributionKey, JSON.stringify(snapshot));
     }
-    storageSet("localStorage", lastAttributionKey, JSON.stringify(snapshot));
+    const last = readJson(lastAttributionKey);
+    // Direct and internal navigation must not overwrite a known acquisition touch
+    if (!last || snapshot.source !== "direct" || new URLSearchParams(location.search).has("utm_campaign")) {
+      storageSet("localStorage", lastAttributionKey, JSON.stringify(snapshot));
+    }
     visitorId();
   }
 
-  function sendVitals() {
-    if (vitalsSent) return;
-    vitalsSent = true;
-    if (vitals.LCP != null) track("web_vital", { metric_name: "LCP", metric_value: Math.round(vitals.LCP) });
-    track("web_vital", { metric_name: "CLS", metric_value: Number(vitals.CLS.toFixed(4)) });
-    if (vitals.INP != null) track("web_vital", { metric_name: "INP", metric_value: Math.round(vitals.INP) });
-    flush(true);
-  }
-
-  try {
-    new PerformanceObserver((list) => {
-      const entries = list.getEntries();
-      const last = entries[entries.length - 1];
-      if (last) vitals.LCP = last.startTime;
-    }).observe({ type: "largest-contentful-paint", buffered: true });
-    new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
-        if (!entry.hadRecentInput) vitals.CLS += entry.value;
-      });
-    }).observe({ type: "layout-shift", buffered: true });
-    new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
-        if (entry.interactionId && (vitals.INP == null || entry.duration > vitals.INP)) {
-          vitals.INP = entry.duration;
-        }
-      });
-    }).observe({ type: "event", buffered: true, durationThreshold: 40 });
-  } catch {
-    // Older browsers still report page and interaction events.
-  }
+  // Self-hosted official implementation handles CLS windows, INP and bfcache
+  const vitalsScript = document.createElement("script");
+  vitalsScript.src = "/vendor/web-vitals-5.1.0.js";
+  vitalsScript.async = true;
+  vitalsScript.onload = () => {
+    const report = ({ name, value }) => {
+      track("web_vital", { metric_name: name, metric_value: Number(value.toFixed(4)) });
+      flush(document.visibilityState === "hidden");
+    };
+    window.webVitals?.onLCP(report);
+    window.webVitals?.onCLS(report);
+    window.webVitals?.onINP(report);
+  };
+  document.head.appendChild(vitalsScript);
 
   window.addEventListener("error", () => track("js_error", { error_type: "script_error" }), true);
   window.addEventListener("unhandledrejection", () => track("js_error", { error_type: "promise_rejection" }));
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") sendVitals();
+    if (document.visibilityState === "hidden") flush(true);
   });
-  window.addEventListener("pagehide", sendVitals);
+  window.addEventListener("pagehide", () => flush(true));
 
   window.ManiAnalytics = {
     track,
     flush,
     consentChanged: captureConsentAttribution,
     sessionId,
+    loadExternal,
+    currentAttribution,
+    attribution,
   };
   captureConsentAttribution();
   track("page_view", {

@@ -20,15 +20,15 @@ const calcPrice = document.querySelector("[data-calc-price]");
 const calcLeaks = document.querySelector("[data-calc-leaks]");
 const calcLeakPrice = document.querySelector("[data-calc-leak-price]");
 const cookieConsentKey = "maniCookieConsent";
-const pdnConsentVersion = "waitlist-pdn-2026-06-08";
+const pdnConsentVersion = "launch-notice-2026-09-18";
 const googleAnalyticsId = "G-P6TDY2N5FK";
 const yandexMetricaId = 103776176;
 const productConfig = window.MANI_PRODUCT_CONFIG || {
   status: "closed_beta",
   stores: {},
-  waitlist: { limit: 1000, cta: "Получить приглашение" },
+  waitlist: { limit: 1000, cta: "Узнать о запуске" },
 };
-const productStatus = ["waitlist", "closed_beta", "preorder", "launched"].includes(productConfig.status)
+const productStatus = ["waitlist", "closed_beta", "store_review", "preorder", "launched"].includes(productConfig.status)
   ? productConfig.status
   : "waitlist";
 const attributionFirstKey = "maniAttributionFirstV1";
@@ -267,6 +267,7 @@ if (contactForm) {
 }
 
 function loadYandexMetrica() {
+  if (window.ManiAnalytics) { window.ManiAnalytics.loadExternal(); return; }
   if (window.maniYandexMetricaLoaded) return;
   window.maniYandexMetricaLoaded = true;
   (function initYandex(m, e, t, r, i, k, a) {
@@ -293,6 +294,7 @@ function loadYandexMetrica() {
 }
 
 function loadAnalytics() {
+  if (window.ManiAnalytics) { captureAttribution(); window.ManiAnalytics.loadExternal(); return; }
   if (window.maniAnalyticsLoaded) return;
   window.maniAnalyticsLoaded = true;
   captureAttribution();
@@ -311,7 +313,10 @@ function loadAnalytics() {
 }
 
 function setCookieConsent(value) {
-  storageSet("localStorage", cookieConsentKey, value);
+  const previous = storageGet("localStorage", cookieConsentKey);
+  if (!(value === "acknowledged" && ["necessary", "accepted"].includes(previous))) {
+    storageSet("localStorage", cookieConsentKey, value);
+  }
   window.ManiAnalytics?.consentChanged();
   closeCookieConsent();
   if (stickyCta) stickyCta.hidden = false;
@@ -337,7 +342,7 @@ function initCookieConsent() {
     window.history.replaceState({}, "", `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`);
   }
   const consent = storageGet("localStorage", cookieConsentKey);
-  if (consent === "acknowledged") {
+  if (["acknowledged", "necessary", "accepted"].includes(consent)) {
     closeCookieConsent();
     return;
   }
@@ -368,6 +373,7 @@ function readStoredJson(key) {
 }
 
 function getAttributionSnapshot() {
+  if (window.ManiAnalytics) return window.ManiAnalytics.currentAttribution();
   const params = new URLSearchParams(window.location.search);
   const referrerSource = (() => {
     try {
@@ -386,6 +392,7 @@ function getAttributionSnapshot() {
 }
 
 function captureAttribution() {
+  if (window.ManiAnalytics) { window.ManiAnalytics.consentChanged(); return; }
   const snapshot = getAttributionSnapshot();
   if (!storageGet("localStorage", attributionFirstKey)) {
     storageSet("localStorage", attributionFirstKey, JSON.stringify(snapshot));
@@ -433,6 +440,7 @@ function trackEvent(name, params = {}) {
 }
 
 function getWaitlistConversionGoal(ctaLocation) {
+  if (ctaLocation === "external-page") return "form1";
   if (["hero", "header", "mobile-menu", "mobile-sticky"].includes(ctaLocation)) return "form1";
   if (ctaLocation === "test-drive") return "form2";
   if (ctaLocation === "final") return "form3";
@@ -444,8 +452,10 @@ function trackWaitlistConversion(ctaLocation) {
   if (!goal) return;
   loadYandexMetrica();
   window.ym?.(yandexMetricaId, "reachGoal", goal, { cta_location: ctaLocation });
-  window._tmr = window._tmr || [];
-  window._tmr.push({ id: "3681438", type: "reachGoal", goal });
+  if (window.__maniTopMailInitialized) {
+    window._tmr = window._tmr || [];
+    window._tmr.push({ id: "3681438", type: "reachGoal", goal });
+  }
 }
 
 function initProductStatus() {
@@ -613,7 +623,7 @@ function updateWaitlistStats(stats = waitlistStats) {
     block.querySelectorAll("[data-waitlist-registered-label]").forEach((node) => {
       node.textContent = showNumbers
         ? (isZeroState ? "1000 приглашений для первых пользователей" : "заявок на приглашение")
-        : "приглашения доступны для первой 1000 пользователей";
+        : "приглашения доступны для первых 1000 пользователей";
     });
     block.querySelectorAll("[data-waitlist-left]").forEach((node) => {
       node.textContent = showNumbers ? waitlistStats.left.toLocaleString("ru-RU") : "1000 мест";
@@ -684,78 +694,6 @@ function setFieldError(form, field, message = "") {
   if (input) input.setAttribute("aria-invalid", message ? "true" : "false");
 }
 
-function invitePhrase(value) {
-  const mod100 = value % 100;
-  const mod10 = value % 10;
-  if (mod100 >= 11 && mod100 <= 14) return `${value} приглашённых друзей`;
-  if (mod10 === 1) return `${value} приглашённый друг`;
-  if (mod10 >= 2 && mod10 <= 4) return `${value} приглашённых друга`;
-  return `${value} приглашённых друзей`;
-}
-
-function getQueueStatusPresentation(status, priorityPosition) {
-  const statuses = {
-    "mani inner circle": {
-      label: "Ядро mani",
-      description: "Самая ранняя сотня. Ты уже максимально близко к продукту",
-    },
-    "Closed beta wave": {
-      label: "Закрытая волна",
-      description: "Ты поднялся выше стартовой очереди и вошёл в закрытую волну",
-    },
-    "Early crew": {
-      label: "Ранний экипаж",
-      description: "Ты среди первых 500 и можешь быстро подняться приглашениями",
-    },
-    "Ahead of hype": {
-      label: "В деле до хайпа",
-      description: "Ты пришёл раньше большинства и сохранил бесплатный доступ",
-    },
-    "On time": {
-      label: "Успел вовремя",
-      description: "Место твоё. Несколько приглашений заметно укрепят позицию",
-    },
-    "Final boarding": {
-      label: "Финальная посадка",
-      description: "Ты внутри первой 1000, но до закрытия набора уже близко",
-    },
-    "Waiting list": {
-      label: "Лист ожидания",
-      description: "Основная тысяча заполнена, но приглашения всё ещё улучшают приоритет",
-    },
-    "Founding users": {
-      label: "Ядро mani",
-      description: "Самая ранняя сотня. Ты уже максимально близко к продукту",
-    },
-    "Last free access": {
-      label: "Финальная посадка",
-      description: "Ты внутри первой 1000, но до закрытия набора уже близко",
-    },
-  };
-  const milestones = [
-    { above: 900, target: 900, label: "Успел вовремя" },
-    { above: 750, target: 750, label: "В деле до хайпа" },
-    { above: 500, target: 500, label: "Ранний экипаж" },
-    { above: 305, target: 305, label: "Закрытая волна" },
-    { above: 100, target: 100, label: "Ядро mani" },
-  ];
-  const presentation = statuses[status] || {
-    label: "Заявка принята",
-    description: "Место закреплено. Приглашения помогают подняться выше",
-  };
-  const next = milestones.find((milestone) => priorityPosition > milestone.above);
-  if (!next) {
-    return {
-      ...presentation,
-      motivation: "Ты уже в ядре mani. Выше только знакомство с командой",
-    };
-  }
-  const needed = priorityPosition - next.target;
-  return {
-    ...presentation,
-    motivation: `Осталось ${invitePhrase(needed)}, чтобы получить статус «${next.label}»`,
-  };
-}
 
 function renderWaitlistSuccess(success, data) {
   if (!success) return;
@@ -763,41 +701,34 @@ function renderWaitlistSuccess(success, data) {
   const position = Math.max(1, Number(data.position) || 1);
   const priorityPosition = Math.max(1, Number(data.priorityPosition) || position);
   const invitedCount = Math.max(0, Number(data.invitedCount) || 0);
-  const placesLeft = Math.max(0, Number(data.stats?.left) || 0);
   const referralCode = /^[A-Z0-9-]{6,64}$/.test(String(data.referralCode || ""))
     ? String(data.referralCode)
     : `MANI-${String(position).padStart(4, "0")}`;
   const referralUrl = `${window.location.origin}/start?ref=${encodeURIComponent(referralCode)}`;
-  const queueStatus = getQueueStatusPresentation(data.status, priorityPosition);
   const identity = { position, priorityPosition, invitedCount, referralCode, status: data.status || "" };
   storageSet("localStorage", waitlistIdentityKey, JSON.stringify(identity));
   storageSet("localStorage", "maniReferralCode", referralCode);
 
   success.hidden = false;
   success.innerHTML = `
-    <div class="waitlist-success-head"><span>${data.duplicate ? "Заявка уже есть" : "Заявка принята"}</span><strong id="waitlist-success-title">Твоя позиция на приглашение №${position}</strong></div>
-    <p class="waitlist-success-lead">${escapeHtml(queueStatus.motivation)}</p>
+    <div class="waitlist-success-head"><span>${data.duplicate ? "Заявка уже есть" : "Заявка принята"}</span><strong id="waitlist-success-title">Сообщим о выходе mani</strong></div>
+    <p class="waitlist-success-lead">Контакт сохранён. Сообщим, когда приложение можно будет скачать</p>
     <div class="waitlist-next-steps">
-      <strong>Что будет дальше</strong>
-      <p><span>1</span> Мы закрепили контакт и место в очереди.</p>
-      <p><span>2</span> Когда подойдёт очередь, отправим приглашение.</p>
-      <p><span>3</span> В бете можно напрямую влиять на развитие mani.</p>
+      <strong>Начинаем с главного</strong>
+      <p>Сначала счета и операции. В следующем обновлении умный анализ и персональные подсказки</p>
     </div>
     <div class="waitlist-success-grid">
-      <div><small>Позиция на приглашение</small><b>№${position}</b></div>
-      <div><small>Приглашено</small><b>${invitedCount}</b></div>
-      <div><small>Приоритет</small><b>№${priorityPosition}</b></div>
-      <div><small>Осталось мест</small><b>${placesLeft.toLocaleString("ru-RU")}</b></div>
-      <div class="waitlist-status-card"><small>Твой статус</small><b>${escapeHtml(queueStatus.label)}</b><em>${escapeHtml(queueStatus.description)}</em></div>
+      <div><small>Номер регистрации</small><b>№${position}</b></div>
+      <div><small>Заявки друзей по ссылке</small><b>${invitedCount}</b></div>
     </div>
-    <div class="waitlist-referral"><span>Хочешь подняться выше? Поделись персональной ссылкой</span><code>${escapeHtml(referralUrl)}</code></div>
+    <div class="waitlist-referral"><span>Знаешь, кому тоже пригодится mani? Поделись ссылкой</span><code>${escapeHtml(referralUrl)}</code></div>
     <div class="waitlist-share-actions">
       <button type="button" data-referral-copy data-referral-url="${escapeHtml(referralUrl)}">Скопировать ссылку</button>
-      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Я подал заявку в закрытую бету mani. Присоединяйся")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
+      <a href="https://t.me/share/url?url=${encodeURIComponent(referralUrl)}&text=${encodeURIComponent("Жду запуск mani: счета и траты в одном месте, умный анализ в следующем обновлении. Присоединяйся")}" target="_blank" rel="noopener noreferrer" data-referral-telegram>Telegram</a>
       <button type="button" data-referral-share data-referral-url="${escapeHtml(referralUrl)}">Поделиться</button>
       <button type="button" data-referral-card data-referral-url="${escapeHtml(referralUrl)}" data-referral-position="${position}">Скачать карточку</button>
     </div>
-    <p class="waitlist-success-note">Каждая уникальная заявка по ссылке поднимает тебя на одно место. Повторные и собственные заявки не засчитываются.</p>
+    <p class="waitlist-success-note">Приглашать друзей необязательно. Ссылка помогает нам учитывать рекомендации, но не обещает ускоренного доступа</p>
   `;
   if (dialog) {
     dialog.classList.add("is-success");
@@ -888,14 +819,14 @@ async function submitWaitlist(form) {
     waitlistStatsUnlocked = false;
     updateWaitlistStats(data.stats);
     result.textContent = data.duplicate
-      ? `Твоя заявка уже есть. Позиция на приглашение №${data.position}`
-      : `Готово. Позиция на приглашение №${data.position}`;
+      ? `Твоя заявка уже есть. Номер регистрации №${data.position}`
+      : `Готово. Номер регистрации №${data.position}`;
     renderWaitlistSuccess(success, data);
     form.reset();
     getPhonePayload(form);
     requestAnimationFrame(() => success?.focus({ preventScroll: true }));
-    trackEvent("waitlist_success", { duplicate: Boolean(data.duplicate), ref_present: Boolean(data.referredByAccepted) });
-    trackWaitlistConversion(payload.ctaLocation);
+    trackEvent(data.duplicate ? "waitlist_duplicate" : "waitlist_success", { duplicate: Boolean(data.duplicate), ref_present: Boolean(data.referredByAccepted), cta_location: payload.ctaLocation });
+    if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);
     if (!data.duplicate && data.referredByAccepted) trackEvent("referral_signup", { ref_present: true });
   } catch (error) {
     const safeCode = /^[a-z0-9_]{1,64}$/.test(String(error?.code || "")) ? String(error.code) : "";
@@ -1013,7 +944,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
     context.font = "700 46px Manrope, Arial, sans-serif";
     drawWrappedText(context, "А сколько убегает у тебя?", 110, 950, 760, 58, 2);
   } else {
-    drawWrappedText(context, `Моя позиция на приглашение в mani №${position}`, 110, 350, 520, 74, 4);
+    drawWrappedText(context, `Жду запуск mani. Заявка №${position}`, 110, 350, 520, 74, 4);
     context.fillStyle = "#ff5a00";
     context.font = "750 68px Manrope, Arial, sans-serif";
     context.fillText("Подавай заявку", 110, 790);
@@ -1027,7 +958,7 @@ async function createManiCard({ type, mode = "jester", annualLoss = 0, position 
   context.fillStyle = "#ffffff";
   context.font = "700 38px Manrope, Arial, sans-serif";
   context.textAlign = "center";
-  context.fillText(type === "calculator" ? "Попробуй mani" : "Получи приглашение в mani", 540, 1152);
+  context.fillText(type === "calculator" ? "Попробуй mani" : "Узнай о запуске mani", 540, 1152);
   context.textAlign = "left";
   context.fillStyle = "#64728b";
   context.font = "500 24px Manrope, Arial, sans-serif";
@@ -1142,7 +1073,7 @@ document.addEventListener("click", async (event) => {
     const url = shareButton.dataset.referralUrl;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "mani", text: "Я подал заявку в закрытую бету mani. Присоединяйся", url });
+        await navigator.share({ title: "mani", text: "Жду запуск mani: счета и траты в одном месте, умный анализ в следующем обновлении. Присоединяйся", url });
         trackEvent("referral_share", { share_target: "web_share" });
       } catch (error) {
         if (error?.name !== "AbortError" && await copyText(url)) {
@@ -1574,6 +1505,17 @@ if (waitlistDialog) {
     const inside = event.clientX >= rect.left && event.clientX <= rect.right
       && event.clientY >= rect.top && event.clientY <= rect.bottom;
     if (!inside) waitlistDialog.close();
+  });
+  const openFromLink = () => {
+    if (window.location.hash !== "#waitlist-dialog" || waitlistDialog.open) return;
+    waitlistDialog.dataset.ctaLocation = "external-page";
+    waitlistDialog.showModal();
+    trackEvent("waitlist_form_open", { cta_location: "external-page" });
+  };
+  window.addEventListener("hashchange", openFromLink);
+  openFromLink();
+  waitlistDialog.addEventListener("close", () => {
+    if (location.hash === "#waitlist-dialog") history.replaceState({}, "", `${location.pathname}${location.search}`);
   });
 }
 

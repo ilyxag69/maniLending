@@ -75,7 +75,7 @@ try {
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
 
-  check(config.includes('status: "closed_beta"'), "closed beta product status has one explicit source");
+  check(config.includes('status: "store_review"'), "store review product status has one explicit source");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
   check(html.includes("mani. ИИ-помощник для контроля личных финансов"), "SEO positioning is explicit");
   check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
@@ -96,7 +96,8 @@ try {
       && siteChrome.includes('.nm-contact .nm-contact-form'),
     "all public pages load the mobile layout fixes"
   );
-  check(publicPages.every((page) => page.includes("Получить приглашение") && !page.includes("Получить ранний доступ")), "all public headers use the same invitation message");
+  check(publicPages.every((page) => page.includes("Узнать о запуске") && !page.includes("Получить ранний доступ")), "all public headers use the same launch notification message");
+  check(html.includes("0 ₽ в месяц навсегда") && html.includes("от 549 ₽ в месяц") && html.includes("понятной картин"), "hero and launch offer explain current value and future pricing");
   check(publicPages.every((page) => page.includes('href="/guides"')), "all public pages expose the guides section in shared navigation");
   check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
   check(
@@ -107,7 +108,7 @@ try {
     "home page loads the unified mobile rhythm and compact social layout"
   );
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
-  check(html.includes("https://moimani.ai/og-image-v6.jpg"), "current OG image is explicit");
+  check(html.includes('property="og:image" content="https://ilyxag69.github.io/maniLending/og-image-v6.jpg"'), "current OG image is explicit");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
   check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
@@ -120,7 +121,7 @@ try {
     analyticsClient.includes('topMailCounterId = "3681438"')
       && analyticsClient.includes('type: "pageView"')
       && analyticsClient.includes('script.src = "https://top-fwz1.mail.ru/js/code.js"')
-      && publicPages.every((page) => page.includes("analytics-client.js?v=20260902-topmail-1"))
+      && publicPages.every((page) => page.includes("analytics-client.js?v=20260918-release-1"))
       && publicPages.every((page) => page.includes("https://top-fwz1.mail.ru/counter?id=3681438;js=na")),
     "Top.Mail.Ru counter loads once on every public page with a noscript fallback"
   );
@@ -157,9 +158,9 @@ try {
   );
   check(
     script.includes('trackWaitlistConversion(payload.ctaLocation);')
-      && !script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);')
+      && script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);')
       && script.includes('"reachGoal", goal'),
-    "campaign goals fire after every server-confirmed waitlist submission"
+    "campaign goals fire only for a newly accepted submission"
   );
   check(html.includes('name="website"') && !html.includes('name="company"') && script.includes('formData.get("website")'), "waitlist honeypot avoids browser company autofill");
   check(script.includes("invalid_phone_or_email") && script.includes("rate_limited") && script.includes("errorMessages"), "waitlist failures show safe actionable messages");
@@ -168,7 +169,7 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-09-03<\/lastmod>/g) || []).length === 12, "sitemap modification dates match the current release");
+  check((sitemap.match(/<lastmod>2026-09-18<\/lastmod>/g) || []).length === 12, "sitemap modification dates match the current release");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 
