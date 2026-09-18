@@ -42,7 +42,7 @@
 
 ## Проверено локально
 
-- node tools/check-prelaunch.mjs: 54 проверки
+- node tools/check-prelaunch.mjs: 55 проверки
 - node tools/check-release.mjs: 20 регрессионных проверок
 - SITE_URL=http://127.0.0.1:4193 node tools/check-live-site.mjs: 15 проверок
 - SITE_URL=http://127.0.0.1:4193 node tools/seo-audit.mjs: 115 проверок
@@ -51,6 +51,16 @@
 - Визуально: hero, пример сигнала, шаги, оба характера, форма заявки и подтверждение на 390 px, контактный диалог на 320 px
 - FAQ → прямая форма → тестовая заявка → повторное открытие подтверждения
 - Тестовые заявки и обращения только в отдельной локальной базе .private, не в production
+
+## Публикация 2026-09-18
+
+- Commit `f6fd42a` отправлен в ветку `redesign-seo-conversion`
+- Перед деплоем создан и проверен полный архив production: `/var/www/u3212803/data/private/deploy-backups/20260918-170058-mobile-polish`
+- Архив: `moimani.ai-before-release.tar.gz`, SHA-256 `183125646162b4f574be5bbe36fddcb0dbc50acfe21a5e77d767dd88ba591808`
+- Перед и после деплоя: 22 заявки, SHA-256 файла заявок `8deeb0096b74eac94a8c1ad6631097965284df45139b6cfa15606ea6efdedf66`
+- На домен установлены 39 файлов, хеши staging и production совпали, PHP-проверка прошла
+- Production smoke: `https://moimani.ai` и SEO-аудит 115 проверок прошли
+- В релизе уточнены реальные сценарии первой версии, условия 0 ₽/мес для первых 1000 и будущие тарифы от 549 ₽/мес
 
 Проверки локального сервера используют Node-реализацию API, а не production PHP/MySQL. PHP runtime в PATH не найден, production backend и внешние счётчики этим прогоном не подтверждены
 
