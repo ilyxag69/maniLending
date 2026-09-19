@@ -17,6 +17,29 @@ body.gp-site-page {
   margin: 120px auto 28px;
 }
 
+.gp-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 4px 14px;
+  color: #697993;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.gp-breadcrumbs a {
+  color: #3d6fa8;
+  text-decoration: none;
+}
+
+.gp-breadcrumbs a:hover,
+.gp-breadcrumbs a:focus-visible {
+  color: var(--gp-orange);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .gp-glass {
   border: 1px solid var(--gp-line);
   background: var(--gp-glass);

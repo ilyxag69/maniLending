@@ -1,6 +1,6 @@
 # SEO запуск moimani.ai
 
-Актуально на 3 сентября 2026 года
+Актуально на 19 сентября 2026 года
 
 ## Уже сделано на сайте
 
@@ -11,8 +11,9 @@
 - Дубли с `.html`, `www` и `http` перенаправляются на основные HTTPS адреса
 - Главная содержит разметку Organization, WebSite и SoftwareApplication
 - FAQ содержит разметку FAQPage
-- Страница помощи содержит корректные хлебные крошки без несуществующих адресов
-- Open Graph и Twitter Card настроены для основных страниц
+- Страницы помощи и гайдов содержат корректные хлебные крошки без несуществующих адресов
+- Open Graph и Twitter Card настроены на изображение с собственного домена `moimani.ai`
+- В разделе гайдов опубликованы три новые страницы под реальные пользовательские вопросы
 - AVIF и WebP получают правильный MIME тип и кэшируются 30 дней
 - Файлы подтверждения Google и Яндекса уже размещены
 - Ключ IndexNow уже размещён в корне сайта
@@ -32,6 +33,9 @@ https://moimani.ai/guides
 https://moimani.ai/kontrol-rashodov
 https://moimani.ai/poisk-podpisok
 https://moimani.ai/finansovyi-pomoshchnik
+https://moimani.ai/obiedinit-scheta
+https://moimani.ai/neznakomoe-spisanie
+https://moimani.ai/byudzhet-do-zarplaty
 ```
 
 ## Google Search Console

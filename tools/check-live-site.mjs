@@ -84,6 +84,9 @@ check("preview conversion pages are reachable", async () => {
     ["/kontrol-rashodov", '<link rel="canonical" href="https://moimani.ai/kontrol-rashodov"'],
     ["/poisk-podpisok", '<link rel="canonical" href="https://moimani.ai/poisk-podpisok"'],
     ["/finansovyi-pomoshchnik", '<link rel="canonical" href="https://moimani.ai/finansovyi-pomoshchnik"'],
+    ["/obiedinit-scheta", '<link rel="canonical" href="https://moimani.ai/obiedinit-scheta"'],
+    ["/neznakomoe-spisanie", '<link rel="canonical" href="https://moimani.ai/neznakomoe-spisanie"'],
+    ["/byudzhet-do-zarplaty", '<link rel="canonical" href="https://moimani.ai/byudzhet-do-zarplaty"'],
   ];
 
   for (const [page, canonical] of pages) {
@@ -109,7 +112,7 @@ check("seo metadata exists", async () => {
     'name="twitter:card"',
     '"@type": "SoftwareApplication"',
   ].forEach((needle) => assert(body.includes(needle), `Missing ${needle}`));
-  assert(body.includes('property="og:image" content="https://ilyxag69.github.io/maniLending/og-image-v6.jpg"'), "Current OG image is missing");
+  assert(body.includes('property="og:image" content="https://moimani.ai/og-image-v6.jpg"'), "Current OG image is missing");
   assert(body.includes("https://www.instagram.com/moimani.ai"), "Instagram is missing from Organization schema");
 });
 

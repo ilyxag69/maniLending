@@ -42,6 +42,9 @@ function resolvePath(urlPath) {
   if (urlPath === "/kontrol-rashodov" || urlPath === "/kontrol-rashodov/") return "kontrol-rashodov.html";
   if (urlPath === "/poisk-podpisok" || urlPath === "/poisk-podpisok/") return "poisk-podpisok.html";
   if (urlPath === "/finansovyi-pomoshchnik" || urlPath === "/finansovyi-pomoshchnik/") return "finansovyi-pomoshchnik.html";
+  if (urlPath === "/obiedinit-scheta" || urlPath === "/obiedinit-scheta/") return "obiedinit-scheta.html";
+  if (urlPath === "/neznakomoe-spisanie" || urlPath === "/neznakomoe-spisanie/") return "neznakomoe-spisanie.html";
+  if (urlPath === "/byudzhet-do-zarplaty" || urlPath === "/byudzhet-do-zarplaty/") return "byudzhet-do-zarplaty.html";
   return urlPath.replace(/^\/+/, "");
 }
 
@@ -558,6 +561,9 @@ createServer(async (request, response) => {
     ["/kontrol-rashodov.html", "/kontrol-rashodov"],
     ["/poisk-podpisok.html", "/poisk-podpisok"],
     ["/finansovyi-pomoshchnik.html", "/finansovyi-pomoshchnik"],
+    ["/obiedinit-scheta.html", "/obiedinit-scheta"],
+    ["/neznakomoe-spisanie.html", "/neznakomoe-spisanie"],
+    ["/byudzhet-do-zarplaty.html", "/byudzhet-do-zarplaty"],
   ]);
   if (guideRedirects.has(url.pathname)) {
     response.writeHead(301, { Location: redirectLocation(guideRedirects.get(url.pathname), url) });

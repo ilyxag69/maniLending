@@ -8,6 +8,9 @@ body.nm-page .nm-hero .nm-proof-main { display: flex !important; align-items: ba
 body.nm-page .nm-hero .nm-proof-main::before { display: none !important; content: none !important; }
 body.nm-page .nm-hero .nm-proof-main strong { display: inline !important; margin: 0 !important; color: #1d2c42 !important; font-size: 16px !important; font-weight: 720 !important; line-height: 1.25 !important; white-space: normal !important; }
 body.nm-page .nm-hero .nm-proof-main b { display: inline !important; margin: 0 !important; padding: 0 !important; color: #e75e2a !important; font-size: 16px !important; font-weight: 720 !important; line-height: 1.25 !important; white-space: nowrap !important; }
+body.nm-page .nm-hero .nm-proof-price { display: inline-flex !important; align-items: baseline; gap: 10px; min-width: 0; padding: 0 !important; color: #e75e2a !important; }
+body.nm-page .nm-hero .nm-proof-price del { color: #718096 !important; font-size: 14px !important; font-weight: 560 !important; line-height: 1.25 !important; text-decoration-thickness: 1.5px; text-decoration-color: currentColor; white-space: nowrap; }
+body.nm-page .nm-hero .nm-proof-price b { color: #e75e2a !important; }
 body.nm-page .nm-hero .nm-proof-copy small { display: block !important; margin: 6px 0 0 !important; color: #5d6d82 !important; font-size: 12px !important; font-weight: 520 !important; line-height: 1.35 !important; white-space: normal !important; }
 body.nm-page .nm-hero .nm-proof-copy > span:not(.nm-proof-main) { padding: 0 !important; }
 .nm-page .nm-signal-intro h2 span { display: block; background: linear-gradient(110deg,#ff6625,#ffad83); background-clip: text; -webkit-background-clip: text; color: transparent; padding-bottom: .12em; }
@@ -36,6 +39,8 @@ main section[id] { scroll-margin-top: 105px; }
   body.nm-page .nm-hero .nm-proof-main { flex-direction: column; align-items: flex-start; gap: 2px; }
   body.nm-page .nm-hero .nm-proof-main strong,
   body.nm-page .nm-hero .nm-proof-main b { font-size: 15px !important; }
+  body.nm-page .nm-hero .nm-proof-price { gap: 8px; flex-wrap: wrap; }
+  body.nm-page .nm-hero .nm-proof-price del { font-size: 13px !important; }
   body.nm-page .nm-hero .nm-proof-copy small { margin-top: 6px !important; font-size: 11px !important; }
   .nm-page #how > .nm-container { padding: 24px 18px !important; min-height: 0 !important; }
   .nm-page #how .nm-section-heading { padding: 0 !important; margin-bottom: 20px !important; }

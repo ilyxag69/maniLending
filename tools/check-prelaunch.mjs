@@ -70,7 +70,7 @@ try {
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
   const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "404.php"]
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "404.php"]
       .map((file) => readFile(join(root, file), "utf8"))
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
@@ -108,7 +108,7 @@ try {
     "home page loads the unified mobile rhythm and compact social layout"
   );
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
-  check(html.includes('property="og:image" content="https://ilyxag69.github.io/maniLending/og-image-v6.jpg"'), "current OG image is explicit");
+  check(html.includes('property="og:image" content="https://moimani.ai/og-image-v6.jpg"'), "current OG image is explicit and site-owned");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
   check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
   check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
@@ -168,8 +168,8 @@ try {
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
-  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-09-18<\/lastmod>/g) || []).length === 12, "sitemap modification dates match the current release");
+  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik") && sitemap.includes("https://moimani.ai/obiedinit-scheta") && sitemap.includes("https://moimani.ai/neznakomoe-spisanie") && sitemap.includes("https://moimani.ai/byudzhet-do-zarplaty"), "sitemap contains public content routes");
+  check((sitemap.match(/<lastmod>2026-09-19<\/lastmod>/g) || []).length === 15, "sitemap modification dates match the current release");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 

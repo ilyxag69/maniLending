@@ -2,7 +2,7 @@
 
 Russian-language personal finance application at https://moimani.ai/
 
-## Current stage, confirmed by the product owner on 2026-09-18
+## Current stage, confirmed by the product owner on 2026-09-19
 
 - The first public release is under store review
 - Public App Store, Google Play and RuStore download links are not available yet
@@ -29,6 +29,9 @@ Start with a clearer picture of your money. mani brings accounts and transaction
 - [Expense control](https://moimani.ai/kontrol-rashodov)
 - [Recurring payments](https://moimani.ai/poisk-podpisok)
 - [AI assistant explained](https://moimani.ai/finansovyi-pomoshchnik)
+- [All bank accounts in one view](https://moimani.ai/obiedinit-scheta)
+- [Unrecognized charge checklist](https://moimani.ai/neznakomoe-spisanie)
+- [Budget until payday](https://moimani.ai/byudzhet-do-zarplaty)
 - [Privacy](https://moimani.ai/privacy)
 - [Cookies](https://moimani.ai/cookie)
 - [Personal data consent](https://moimani.ai/soglasie)
