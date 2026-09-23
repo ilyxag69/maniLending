@@ -400,6 +400,19 @@ body.gp-site-page {
   }
 }
 
+.gp-hero > div, .gp-hero-note { min-width: 0; }
+.gp-kicker { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.gp-content p a {
+  color: #1464a5;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  text-decoration-thickness: 1px;
+}
+.gp-content a:focus-visible { outline: 2px solid #1464a5; outline-offset: 3px; }
+@media (max-width: 380px) {
+  .gp-content .release-example { padding: 12px; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .gp-hub-card,
   .gp-button {

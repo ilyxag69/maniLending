@@ -169,7 +169,7 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik") && sitemap.includes("https://moimani.ai/obiedinit-scheta") && sitemap.includes("https://moimani.ai/neznakomoe-spisanie") && sitemap.includes("https://moimani.ai/byudzhet-do-zarplaty"), "sitemap contains public content routes");
-  const updatedGuides = new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "byudzhet-do-zarplaty"]);
+  const updatedGuides = new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "byudzhet-do-zarplaty", "finansovyi-pomoshchnik", "obiedinit-scheta", "neznakomoe-spisanie"]);
   const sitemapEntries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => ({
     slug: entry.match(/<loc>https:\/\/moimani\.ai\/(.*?)<\/loc>/)?.[1],
     modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
