@@ -92,6 +92,7 @@ RewriteRule ^byudzhet-do-zarplaty/?$ /byudzhet-do-zarplaty.html [L]
 
 AddType font/woff2 .woff2
 AddType image/avif .avif
+AddType application/javascript .mjs
 AddType image/webp .webp
 
 <IfModule mod_expires.c>
