@@ -81,6 +81,15 @@
       }
     </script>
     <link rel="stylesheet" href="/release-readiness.css?v=20260919-narrow-hero" />
+    <script>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !navigator.connection?.saveData) {
+        document.documentElement.classList.add('hero-flow-pending');
+        window.heroFlowTimeout = setTimeout(function () {
+          document.documentElement.classList.remove('hero-flow-pending');
+        }, 12000);
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/hero-flow/hero-flow.css?v=2" />
 </head>
   <body class="nm-page">
     <header class="header nm-header">
@@ -130,7 +139,8 @@
             </div>
           </div>
 
-          <div class="nm-hero-visual nm-hero-media-slot" data-reveal>
+        <div class="nm-hero-visual nm-hero-media-slot" data-reveal data-hero-flow>
+          <button type="button" class="hero-flow-toggle" data-flow-toggle hidden>Пауза</button>
             <picture>
               <source type="image/avif" srcset="assets/newmani/hero-iphone-air-640.avif 640w, assets/newmani/hero-iphone-air-960.avif 960w, assets/newmani/hero-iphone-air-1440.avif 1440w" sizes="(max-width: 700px) calc(100vw - 24px), (max-width: 1100px) calc(100vw - 40px), 54vw" />
               <source type="image/webp" srcset="assets/newmani/hero-iphone-air-640.webp 640w, assets/newmani/hero-iphone-air-960.webp 960w, assets/newmani/hero-iphone-air-1440.webp 1440w" sizes="(max-width: 700px) calc(100vw - 24px), (max-width: 1100px) calc(100vw - 40px), 54vw" />
@@ -505,6 +515,7 @@
       <div class="cookie-actions"><button type="button" data-cookie-accept>Понятно</button></div>
     </div>
     <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3681438;js=na" style="position:absolute;left:-9999px" alt="Top.Mail.Ru" /></div></noscript>
+    <script type="module" src="/assets/hero-flow/load.js?v=2"></script>
     <script src="analytics-client.js?v=20260918-release-1"></script>
     <script src="product-config.js?v=20260918-release-1"></script>
     <script src="product-status.js?v=20260918-release-1"></script>
