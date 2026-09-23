@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {calculate,money} from '../assets/budget-calculator/model.mjs';
+const base={balance:'16650',bills:'0',reserve:'3000',today:'2026-09-23',payday:'2026-10-02'};
+test('nine day example',()=>{const r=calculate(base);assert.equal(r.days,9);assert.equal(r.available,1365000);assert.equal(r.daily,151666);});
+test('calendar boundary and leap day',()=>{assert.equal(calculate({...base,today:'2028-02-28',payday:'2028-03-01'}).days,2);});
+test('shortage and no negative spending',()=>{const r=calculate({...base,bills:'20000'});assert.equal(r.shortage,335000);assert.equal(r.daily,0);});
+test('reserve exceeds funds',()=>{const r=calculate({...base,reserve:'20000'});assert.equal(r.shortage,0);assert.ok(r.available<0);});
+test('zero and short period',()=>{assert.equal(calculate({...base,balance:'0',reserve:'0'}).daily,0);assert.equal(calculate({...base,payday:'2026-09-24'}).periodDays,1);});
+test('localized decimals',()=>assert.equal(money('1 234,56'),123456));
+test('reject invalid amounts',()=>{for(const v of ['','-1','Infinity','1e4','12abc','1.234','100000001'])assert.throws(()=>money(v));});
+test('reject invalid dates',()=>{for(const payday of ['2026-09-23','2026-09-22','2026-02-30','2028-09-23',''])assert.throws(()=>calculate({...base,payday}));});

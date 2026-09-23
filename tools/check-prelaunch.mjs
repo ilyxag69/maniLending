@@ -169,7 +169,14 @@ try {
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
   check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik") && sitemap.includes("https://moimani.ai/obiedinit-scheta") && sitemap.includes("https://moimani.ai/neznakomoe-spisanie") && sitemap.includes("https://moimani.ai/byudzhet-do-zarplaty"), "sitemap contains public content routes");
-  check((sitemap.match(/<lastmod>2026-09-19<\/lastmod>/g) || []).length === 15, "sitemap modification dates match the current release");
+  const updatedGuides = new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "byudzhet-do-zarplaty"]);
+  const sitemapEntries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => ({
+    slug: entry.match(/<loc>https:\/\/moimani\.ai\/(.*?)<\/loc>/)?.[1],
+    modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
+  }));
+  check(sitemapEntries.length === 15 && sitemapEntries.every(({slug, modified}) =>
+    modified === (updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
+    "sitemap modification dates match changed pages only");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 

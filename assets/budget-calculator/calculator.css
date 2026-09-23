@@ -1,0 +1,30 @@
+.budget-form fieldset {border:0;padding:0;margin:0;min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#calculator,.budget-result,.budget-error {scroll-margin-top:110px}
+.budget-form legend {margin-bottom:16px;font-weight:600}
+.subscriptions-form fieldset {min-width:0;border:0;padding:0;margin:0}
+.subscriptions-form .subscription-row {padding:20px;margin:16px 0;border:1px solid #fff;border-radius:20px;background:rgba(255,255,255,.45);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.subscriptions-form label {display:flex;flex-direction:column;gap:8px;min-width:0}
+.subscriptions-form input:not([type=checkbox]),.subscriptions-form select {box-sizing:border-box;width:100%;min-width:0;min-height:48px;padding:12px;border:1px solid #9cacc0;border-radius:14px;background:#fff;color:#14243c;font:inherit;font-size:16px}
+.subscriptions-form .subscription-check {flex-direction:row;align-items:center;min-height:44px}
+.subscription-check input {width:20px;height:20px;flex-shrink:0}
+.subscriptions-form button {min-height:44px;font:inherit;cursor:pointer;white-space:normal}
+.subscription-secondary {padding:10px 16px;border:1px solid #9cacc0;border-radius:16px;background:#fff;color:#14243c}
+.subscriptions-actions {display:flex;gap:12px;flex-wrap:wrap}
+.subscription-summary {display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.subscription-summary dt {color:#53647b}.subscription-summary dd {margin:8px 0;font-size:clamp(22px,4vw,36px);font-weight:650}
+@media(max-width:600px){.subscriptions-form .subscription-row,.subscription-summary{grid-template-columns:minmax(0,1fr)}.subscriptions-actions>*{width:100%}}
+.budget-form label {display:flex;flex-direction:column;gap:8px;min-width:0;color:#14243c;font-weight:600}
+.budget-form input {box-sizing:border-box;width:100%;min-width:0;min-height:48px;padding:12px;border:1px solid #9cacc0;border-radius:14px;background:rgba(255,255,255,.8);font:inherit;color:#14243c}
+.budget-form small {font-weight:400;color:#53647b;line-height:1.5}
+.budget-form button {grid-column:1/-1;min-height:48px;cursor:pointer;font:inherit}
+.budget-error {color:#922c20;line-height:1.5}
+.budget-result {padding:24px;margin-top:24px;border:1px solid #fff;border-radius:24px;background:rgba(255,255,255,.65);overflow-wrap:anywhere}
+.budget-result h3 {margin-top:0}
+.budget-result strong {display:block;font-size:clamp(26px,5vw,42px);color:#0a456a}
+.budget-result a,.budget-result button {margin-top:12px;max-width:100%;white-space:normal}
+.budget-result button {display:block;border:1px solid #93a7bd;border-radius:16px;padding:12px 16px;background:#fff;color:#163a60;font:inherit;cursor:pointer;min-height:44px}
+.budget-result [hidden],.budget-result[hidden] {display:none}
+.budget-form input {font-size:16px}
+#calculator :is(input,select,button,a):focus-visible {outline:3px solid #2782c5;outline-offset:3px}
+.subscriptions-form button:disabled {opacity:.55;cursor:not-allowed}
+@media(max-width:600px){.budget-form fieldset{grid-template-columns:minmax(0,1fr);gap:16px}.budget-result{padding:18px}}
