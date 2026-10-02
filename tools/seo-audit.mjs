@@ -27,7 +27,10 @@ assert(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots.txt �
 const { response: sitemapResponse, body: sitemap } = await fetchText("/sitemap.xml");
 assert(sitemapResponse.ok, "sitemap.xml доступен");
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert(urls.length === 15, "sitemap содержит 15 публичных страниц");
+assert(urls.includes("https://moimani.ai/prilozhenie-dlya-ucheta-rashodov"), "sitemap содержит prilozhenie-dlya-ucheta-rashodov");
+assert(urls.includes("https://moimani.ai/otmenit-yandex-plus"), "sitemap содержит otmenit-yandex-plus");
+assert(urls.includes("https://moimani.ai/otmenit-ivi"), "sitemap содержит otmenit-ivi");
+assert(urls.length === 18, "sitemap содержит 18 публичных страниц");
 for (const expected of [
   "https://moimani.ai/obiedinit-scheta",
   "https://moimani.ai/neznakomoe-spisanie",

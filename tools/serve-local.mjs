@@ -40,6 +40,9 @@ function resolvePath(urlPath) {
   if (urlPath === "/delete-account" || urlPath === "/delete-account/") return "delete-account.html";
   if (urlPath === "/guides" || urlPath === "/guides/") return "guides.html";
   if (urlPath === "/kontrol-rashodov" || urlPath === "/kontrol-rashodov/") return "kontrol-rashodov.html";
+  if (urlPath === "/prilozhenie-dlya-ucheta-rashodov" || urlPath === "/prilozhenie-dlya-ucheta-rashodov/") return "prilozhenie-dlya-ucheta-rashodov.html";
+  if (urlPath === "/otmenit-yandex-plus" || urlPath === "/otmenit-yandex-plus/") return "otmenit-yandex-plus.html";
+  if (urlPath === "/otmenit-ivi" || urlPath === "/otmenit-ivi/") return "otmenit-ivi.html";
   if (urlPath === "/poisk-podpisok" || urlPath === "/poisk-podpisok/") return "poisk-podpisok.html";
   if (urlPath === "/finansovyi-pomoshchnik" || urlPath === "/finansovyi-pomoshchnik/") return "finansovyi-pomoshchnik.html";
   if (urlPath === "/obiedinit-scheta" || urlPath === "/obiedinit-scheta/") return "obiedinit-scheta.html";
@@ -559,6 +562,9 @@ createServer(async (request, response) => {
   const guideRedirects = new Map([
     ["/guides.html", "/guides"],
     ["/kontrol-rashodov.html", "/kontrol-rashodov"],
+    ["/prilozhenie-dlya-ucheta-rashodov.html", "/prilozhenie-dlya-ucheta-rashodov"],
+    ["/otmenit-yandex-plus.html", "/otmenit-yandex-plus"],
+    ["/otmenit-ivi.html", "/otmenit-ivi"],
     ["/poisk-podpisok.html", "/poisk-podpisok"],
     ["/finansovyi-pomoshchnik.html", "/finansovyi-pomoshchnik"],
     ["/obiedinit-scheta.html", "/obiedinit-scheta"],

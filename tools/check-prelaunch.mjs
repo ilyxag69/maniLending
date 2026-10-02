@@ -70,7 +70,7 @@ try {
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
   const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "404.php"]
+    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "prilozhenie-dlya-ucheta-rashodov.html", "otmenit-yandex-plus.html", "otmenit-ivi.html", "404.php"]
       .map((file) => readFile(join(root, file), "utf8"))
   );
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
@@ -174,8 +174,8 @@ try {
     slug: entry.match(/<loc>https:\/\/moimani\.ai\/(.*?)<\/loc>/)?.[1],
     modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
   }));
-  check(sitemapEntries.length === 15 && sitemapEntries.every(({slug, modified}) =>
-    modified === (updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
+  check(sitemapEntries.length === 18 && sitemapEntries.every(({slug, modified}) =>
+    modified === (new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "prilozhenie-dlya-ucheta-rashodov", "otmenit-yandex-plus", "otmenit-ivi"]).has(slug) ? "2026-10-02" : updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
     "sitemap modification dates match changed pages only");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");

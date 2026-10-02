@@ -1,13 +1,27 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-const pages=['byudzhet-do-zarplaty','finansovyi-pomoshchnik','guides','kontrol-rashodov','neznakomoe-spisanie','poisk-podpisok','obiedinit-scheta'];
+const pages=['byudzhet-do-zarplaty','finansovyi-pomoshchnik','guides','kontrol-rashodov','neznakomoe-spisanie','poisk-podpisok','obiedinit-scheta','prilozhenie-dlya-ucheta-rashodov','otmenit-yandex-plus','otmenit-ivi'];
 test('all guides load the current shared link styles',async()=>{
   for(const page of pages){
     const html=await readFile(new URL(`../${page}.html`,import.meta.url),'utf8');
     assert.ok(html.includes('guide-pages.css?v=20260923-links-2'),page);
     assert.ok(html.includes('guide-base.min.css?v=20260923-1'),page);
     assert.equal((html.match(/<h1[ >]/g)||[]).length,1,page);
+  }
+});
+test('all guide internal links and section anchors resolve',async()=>{
+  for(const page of pages){
+    const html=await readFile(new URL(`../${page}.html`,import.meta.url),'utf8');
+    for(const [,href] of html.matchAll(/href="((?:\/|#)[^"?]*)"/g)){
+      if(href==='/' || href.startsWith('/#')) continue;
+      const [path,anchor]=href.split('#');
+      const target=path ? path.slice(1) : page;
+      if(target.startsWith('assets/')) continue;
+      const file=target==='support/bank-connection' ? 'bank-connection' : target;
+      const targetHtml=await readFile(new URL(`../${file}.html`,import.meta.url),'utf8');
+      if(anchor) assert.ok(targetHtml.includes(`id="${anchor}"`),`${page}: ${href}`);
+    }
   }
 });
 test('calculator links resolve to existing local sections',async()=>{
