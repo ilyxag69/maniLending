@@ -27,7 +27,8 @@ check("home page loads", async () => {
   assert(response.ok, `Home returned ${response.status}`);
   assert(body.includes("mani"), "Home does not contain mani");
   assert(body.includes("mani. ИИ-помощник для контроля личных финансов"), "Expected SEO title is missing");
-  assert(body.includes("script.js?v=20260918-release-1"), "Expected script cache-bust is missing");
+  assert(body.includes("script.js?v=20261002-web-platform"), "Expected script cache-bust is missing");
+  assert(body.includes('href="/web-version"') && body.includes('name="platform"'), "Web guide and platform choice are missing");
   assert(body.includes("conversion-experience.css?v=20260904-mobile-rhythm-2"), "Expected conversion CSS is missing");
   assert(body.includes("product-config.js?v=20260918-release-1"), "Expected product config is missing");
   assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
