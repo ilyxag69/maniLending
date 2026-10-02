@@ -80,7 +80,7 @@
         ]
       }
     </script>
-    <link rel="stylesheet" href="/release-readiness.css?v=20260919-narrow-hero" />
+    <link rel="stylesheet" href="/release-readiness.css?v=20261002-web-platform" />
     <script>
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !navigator.connection?.saveData) {
         document.documentElement.classList.add('hero-flow-pending');
@@ -131,6 +131,7 @@
             <h1 data-hero-headline>Хаос в деньгах заканчивается <span>здесь</span></h1>
             <p class="lead" data-hero-copy>Собери счета и траты в одной понятной картине, чтобы быстро увидеть, что происходит с деньгами и куда уходит бюджет</p>
             <p class="release-status">Первый релиз проходит проверку в магазинах</p>
+            <div class="nm-web-coming"><strong>Совсем скоро mani и в браузере телефона</strong><p>После запуска добавишь на главный экран и будешь открывать как приложение, без магазина приложений</p><a href="/web-version">Как это будет работать <span aria-hidden="true">↗</span></a></div>
             <div class="nm-actions">
               <a class="nm-button nm-button-primary nm-hero-primary" href="#waitlist-dialog" data-open-waitlist data-product-cta data-early-access="hero">Узнать о запуске</a>
             </div>
@@ -256,7 +257,7 @@
           <div class="nm-section-heading nm-section-heading-left" data-reveal>
             <p class="nm-section-eyebrow">Как это работает</p>
             <h2 id="how-title">Начать <span>без лишних шагов</span></h2>
-            <p>Сейчас первая версия на проверке. Как только её опубликуют, здесь появятся ссылки на магазины</p>
+            <p>Готовим первый релиз и веб версию. Здесь появятся ссылки, чтобы начать в приложении или браузере телефона</p>
           </div>
           <div class="nm-vision-grid nm-how-grid">
             <article class="nm-card nm-vision-card nm-vision-card-now" data-reveal>
@@ -463,7 +464,7 @@
       <div class="nm-dialog-copy" data-waitlist>
         <p class="nm-eyebrow">Первый релиз</p>
         <h2 id="waitlist-title">Узнать о запуске</h2>
-        <p>Сообщим, когда mani появится в магазинах</p>
+        <p>Сообщим, когда можно будет начать: в приложении или веб версии</p>
       </div>
       <form class="waitlist-form nm-waitlist-form" data-waitlist-form>
         <label>
@@ -486,6 +487,7 @@
           <small class="phone-hint" id="waitlist-phone-hint" data-phone-hint>Например, 999 123 45 67</small>
           <small class="field-error" id="waitlist-phone-error" data-field-error="phone"></small>
         </label>
+        <fieldset class="waitlist-platform"><legend>Какой у тебя телефон? <small>Необязательно</small></legend><div><label><input type="radio" name="platform" value="android" /><span>Android</span></label><label><input type="radio" name="platform" value="ios" /><span>iOS</span></label></div><p>Подскажем подходящий способ запуска</p></fieldset>
         <details class="waitlist-optional"><summary>Добавить другой способ связи</summary><label><span>Email <em>необязательно</em></span><input name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="waitlist-email-error" placeholder="you@example.com" /><small class="field-error" id="waitlist-email-error" data-field-error="email"></small></label><label><span>Telegram или комментарий <em>необязательно</em></span><textarea name="contactDetails" rows="2" maxlength="500" placeholder="Например, @username"></textarea></label></details>
         <input class="waitlist-hp" name="website" type="text" tabindex="-1" autocomplete="new-password" aria-hidden="true" />
         <label class="consent-check"><input name="pdnConsent" type="checkbox" value="yes" aria-describedby="waitlist-consent-error" required /><span>Согласен на обработку данных. <a href="/soglasie" target="_blank" rel="noopener">Условия</a></span></label>
@@ -519,7 +521,7 @@
     <script src="analytics-client.js?v=20260918-release-1"></script>
     <script src="product-config.js?v=20260918-release-1"></script>
     <script src="product-status.js?v=20260918-release-1"></script>
-    <script src="script.js?v=20260918-release-1"></script>
+    <script src="script.js?v=20261002-web-platform"></script>
     <script src="conversion-experience.js?v=20260918-release-1"></script>
   </body>
 </html>

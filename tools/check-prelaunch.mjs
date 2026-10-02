@@ -174,8 +174,8 @@ try {
     slug: entry.match(/<loc>https:\/\/moimani\.ai\/(.*?)<\/loc>/)?.[1],
     modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
   }));
-  check(sitemapEntries.length === 18 && sitemapEntries.every(({slug, modified}) =>
-    modified === (new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "prilozhenie-dlya-ucheta-rashodov", "otmenit-yandex-plus", "otmenit-ivi"]).has(slug) ? "2026-10-02" : updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
+  check(sitemapEntries.length === 19 && sitemapEntries.every(({slug, modified}) =>
+    modified === (new Set(["", "privacy", "web-version", "guides", "kontrol-rashodov", "poisk-podpisok", "prilozhenie-dlya-ucheta-rashodov", "otmenit-yandex-plus", "otmenit-ivi"]).has(slug) ? "2026-10-02" : updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
     "sitemap modification dates match changed pages only");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
@@ -203,21 +203,30 @@ try {
   const legacy = await legacyResponse.json();
   check(legacyResponse.ok && legacy.position === 306, "legacy position 1 is publicly continued as position 306");
 
-  const first = await submit({ heroHeadlineVariant: "order" });
+  const first = await submit({ heroHeadlineVariant: "order", platform: "ios" });
   check(first.response.ok && first.data.position === 307 && first.data.referralCode, "new submission continues after remapped legacy positions");
   const storedAfterFirst = (await readFile(join(temporaryData, "waitlist-submissions.jsonl"), "utf8"))
     .trim()
     .split(/\r?\n/)
     .map((line) => JSON.parse(line));
   check(storedAfterFirst.at(-1)?.heroHeadlineVariant === "order", "headline variant is stored with the submission");
+  check(storedAfterFirst.at(-1)?.platform === "ios", "iOS choice is stored with the submission");
+  for (const platform of ["windows", ["ios"], true]) {
+    const invalid = await submit({ phone: "+79990000011", platform });
+    check(invalid.response.status === 400 && invalid.data.code === "invalid_client_state", "invalid platform is rejected");
+  }
 
   const invalidVariant = await submit({ phone: "+79990000009", heroHeadlineVariant: "tampered" });
   check(invalidVariant.response.status === 400 && invalidVariant.data.code === "invalid_client_state", "invalid headline variant is rejected with a safe code");
   const autofilledHoneypot = await submit({ phone: "+79990000010", website: "Example LLC" });
   check(autofilledHoneypot.response.status === 400 && autofilledHoneypot.data.code === "bot_field_filled", "autofilled honeypot returns a diagnosable safe code");
 
-  const retry = await submit({ phone: "+79990000002", idempotencyKey: first.data.referralCode.padEnd(16, "X") });
+  const retry = await submit({ phone: "+79990000002", platform: "android", idempotencyKey: first.data.referralCode.padEnd(16, "X") });
   check(retry.response.ok, "independent submission contract remains available");
+  const storedPlatforms = (await readFile(join(temporaryData, "waitlist-submissions.jsonl"), "utf8")).trim().split(/\r?\n/).map(JSON.parse);
+  check(storedPlatforms.at(-1)?.platform === "android", "Android choice is stored with the submission");
+  const csvResponse = await fetch(`${baseUrl}/api/waitlist-export?format=csv`);
+  check((await csvResponse.text()).split("\n")[0].includes(",platform,"), "platform is included in admin CSV");
 
   const idempotencyKey = crypto.randomUUID();
   const idempotentFirst = await submit({ phone: "+79990000003", idempotencyKey });
@@ -248,6 +257,8 @@ try {
   check(deleteAccountPage.ok && (await deleteAccountPage.text()).includes("Удаление аккаунта и данных в mani"), "account deletion page is available at its public route");
   const deleteAccountRedirect = await fetch(`${baseUrl}/delete-account.html`, { redirect: "manual" });
   check(deleteAccountRedirect.status === 301 && deleteAccountRedirect.headers.get("location") === "/delete-account", "account deletion duplicate route redirects to canonical URL");
+  const webGuide = await fetch(`${baseUrl}/web-version`);
+  check(webGuide.ok && (await webGuide.text()).includes("Веб версия ещё не доступна"), "web guide is available and clearly marks upcoming availability");
 } finally {
   if (server) server.kill();
   await rm(temporaryData, { recursive: true, force: true });

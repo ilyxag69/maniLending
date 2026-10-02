@@ -39,6 +39,7 @@ function resolvePath(urlPath) {
   if (urlPath === "/soglasie") return "soglasie.html";
   if (urlPath === "/delete-account" || urlPath === "/delete-account/") return "delete-account.html";
   if (urlPath === "/guides" || urlPath === "/guides/") return "guides.html";
+  if (urlPath === "/web-version" || urlPath === "/web-version/") return "web-version.html";
   if (urlPath === "/kontrol-rashodov" || urlPath === "/kontrol-rashodov/") return "kontrol-rashodov.html";
   if (urlPath === "/prilozhenie-dlya-ucheta-rashodov" || urlPath === "/prilozhenie-dlya-ucheta-rashodov/") return "prilozhenie-dlya-ucheta-rashodov.html";
   if (urlPath === "/otmenit-yandex-plus" || urlPath === "/otmenit-yandex-plus/") return "otmenit-yandex-plus.html";
@@ -324,6 +325,7 @@ createServer(async (request, response) => {
         <td>#${escapeHtml(getPublicPosition(item))}</td>
         <td>${escapeHtml(item.phone || "")}</td>
         <td>${escapeHtml(item.email || "")}</td>
+        <td>${escapeHtml(item.platform === "android" ? "Android" : item.platform === "ios" ? "iOS" : "Не указана")}</td>
         <td>${escapeHtml(item.contactDetails || "")}</td>
         <td>${escapeHtml(item.heroHeadlineVariant === "chaos" ? "Хаос" : item.heroHeadlineVariant === "order" ? "Порядок" : "Нет данных")}</td>
         <td>${item.pdnConsent ? "yes" : ""}</td>
@@ -339,7 +341,7 @@ createServer(async (request, response) => {
       <title>mani waitlist admin</title>
       <style>body{font-family:Inter,Arial,sans-serif;margin:24px;color:#222}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #eee;padding:10px;text-align:left;vertical-align:top}th{background:#f4f4f6}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:16px}.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}input{min-height:38px;border:1px solid #ddd;border-radius:10px;padding:0 10px}button,.btn{min-height:38px;border:0;border-radius:10px;background:#fa5d27;color:#fff;padding:0 12px;font-weight:800;text-decoration:none;cursor:pointer}.btn.secondary{background:#f4f4f6;color:#222}a{color:#fa5d27}</style>
       </head><body><div class="top"><h1>Waitlist: ${submissions.length}${query ? ` / found ${visibleSubmissions.length}` : ""}</h1><div class="tools"><form method="get"><input name="q" value="${escapeHtml(query)}" placeholder="Search phone, email, code" /><button>Search</button></form><a class="btn secondary" href="/admin/waitlist">Reset</a><a class="btn secondary" href="/api/waitlist-export">JSONL</a><a class="btn secondary" href="/api/waitlist-export?format=csv">CSV</a></div></div>
-      <table><thead><tr><th>Место</th><th>Телефон</th><th>Email</th><th>Комментарий / канал связи</th><th>Заголовок</th><th>Согласие</th><th>Версия согласия</th><th>Код</th><th>Пригласил</th><th>Дата</th><th></th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+      <table><thead><tr><th>Место</th><th>Телефон</th><th>Email</th><th>Платформа</th><th>Комментарий / канал связи</th><th>Заголовок</th><th>Согласие</th><th>Версия согласия</th><th>Код</th><th>Пригласил</th><th>Дата</th><th></th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
     response.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     response.end(html);
     return;
@@ -347,7 +349,7 @@ createServer(async (request, response) => {
 
   if (url.pathname === "/api/waitlist-export" && request.method === "GET") {
     if (url.searchParams.get("format") === "csv") {
-      const columns = ["position", "phone", "email", "contactDetails", "heroHeadlineVariant", "pdnConsent", "pdnConsentVersion", "referralCode", "referredBy", "createdAt", "page"];
+      const columns = ["position", "phone", "email", "platform", "contactDetails", "heroHeadlineVariant", "pdnConsent", "pdnConsentVersion", "referralCode", "referredBy", "createdAt", "page"];
       const body = [
         columns.join(","),
         ...getSubmissions().map((item) => columns.map((column) => csvCell(
@@ -396,6 +398,11 @@ createServer(async (request, response) => {
       const email = String(body.email || "").trim().toLowerCase();
       const contact = String(body.contact || "manual").trim();
       const contactDetails = String(body.contactDetails || "").trim();
+      const platform = body.platform ?? "";
+      if (typeof platform !== "string" || !["", "android", "ios"].includes(platform)) {
+        sendJson(response, 400, { message: "Invalid platform", code: "invalid_client_state" });
+        return;
+      }
       const honeypot = String(body.website || body.company || "").trim();
       const pdnConsent = body.pdnConsent === true;
       const pdnConsentVersion = String(body.pdnConsentVersion || "").trim();
@@ -483,6 +490,7 @@ createServer(async (request, response) => {
         email,
         contact,
         contactDetails,
+        platform,
         pdnConsent,
         pdnConsentVersion,
         pdnConsentAt,

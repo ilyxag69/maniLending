@@ -306,6 +306,10 @@ $phone = trim((string) ($body['phone'] ?? ''));
 $email = strtolower(trim((string) ($body['email'] ?? '')));
 $contact = trim((string) ($body['contact'] ?? 'manual'));
 $contactDetails = trim((string) ($body['contactDetails'] ?? ''));
+$platform = $body['platform'] ?? '';
+if (!is_string($platform) || !in_array($platform, ['', 'android', 'ios'], true)) {
+    respond(400, ['message' => 'Invalid platform', 'code' => 'invalid_client_state']);
+}
 $honeypot = trim((string) ($body['website'] ?? ($body['company'] ?? '')));
 $pdnConsent = ($body['pdnConsent'] ?? false) === true;
 $pdnConsentVersion = trim((string) ($body['pdnConsentVersion'] ?? ''));
@@ -399,6 +403,7 @@ $record = [
     'email' => $email,
     'contact' => $contact,
     'contactDetails' => $contactDetails,
+    'platform' => $platform,
     'pdnConsent' => $pdnConsent,
     'pdnConsentVersion' => $pdnConsentVersion,
     'pdnConsentAt' => $pdnConsentAt,

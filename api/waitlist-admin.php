@@ -236,7 +236,7 @@ if (($_GET['format'] ?? '') === 'jsonl') {
 }
 
 if (($_GET['format'] ?? '') === 'csv') {
-    $columns = ['position', 'phone', 'email', 'contactDetails', 'heroHeadlineVariant', 'ctaLocation', 'pdnConsent', 'pdnConsentVersion', 'referralCode', 'referredBy', 'idempotencyKey', 'createdAt', 'page'];
+    $columns = ['position', 'phone', 'email', 'platform', 'contactDetails', 'heroHeadlineVariant', 'ctaLocation', 'pdnConsent', 'pdnConsentVersion', 'referralCode', 'referredBy', 'idempotencyKey', 'createdAt', 'page'];
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="waitlist-submissions.csv"');
     $out = fopen('php://output', 'wb');
@@ -290,6 +290,7 @@ header('Content-Type: text/html; charset=utf-8');
           <th>Место</th>
           <th>Телефон</th>
           <th>Email</th>
+          <th>Платформа</th>
           <th>Комментарий / канал связи</th>
           <th>Заголовок</th>
           <th>Согласие</th>
@@ -307,6 +308,7 @@ header('Content-Type: text/html; charset=utf-8');
             <td>#<?= publicPosition($row, $positionStart) ?></td>
             <td><?= htmlspecialchars((string) ($row['phone'] ?? ''), ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars((string) ($row['email'] ?? ''), ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars(['android' => 'Android', 'ios' => 'iOS'][$row['platform'] ?? ''] ?? 'Не указана', ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars((string) ($row['contactDetails'] ?? ''), ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars(match ($row['heroHeadlineVariant'] ?? '') {
                 'chaos' => 'Хаос',

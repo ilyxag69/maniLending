@@ -712,7 +712,7 @@ function renderWaitlistSuccess(success, data) {
   success.hidden = false;
   success.innerHTML = `
     <div class="waitlist-success-head"><span>${data.duplicate ? "Заявка уже есть" : "Заявка принята"}</span><strong id="waitlist-success-title">Сообщим о выходе mani</strong></div>
-    <p class="waitlist-success-lead">Контакт сохранён. Сообщим, когда приложение можно будет скачать</p>
+    <p class="waitlist-success-lead">Контакт сохранён. Сообщим, когда можно будет начать в приложении или веб версии</p>
     <div class="waitlist-next-steps">
       <strong>Начинаем с главного</strong>
       <p>Сначала счета и операции. В следующем обновлении умный анализ и персональные подсказки</p>
@@ -755,6 +755,7 @@ async function submitWaitlist(form) {
     email,
     contact: "manual",
     contactDetails: String(formData.get("contactDetails") || "").trim(),
+    platform: String(formData.get("platform") || ""),
     website: String(formData.get("website") || "").trim(),
     pdnConsent: formData.get("pdnConsent") === "yes",
     pdnConsentVersion,
