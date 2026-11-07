@@ -81,5 +81,62 @@ check(JSON.stringify(goals) === JSON.stringify(["form1","form1","form1","form2",
 const backend = await readFile("api/analytics-lib.php", "utf8");
 check(["waitlist_duplicate","signal_example_open","demo_share"].every(e => backend.includes("'"+e+"'")), "backend accepts added events");
 check(script.includes('if (!data.duplicate) trackWaitlistConversion(payload.ctaLocation);'), "duplicate cannot fire advertising conversion");
-check(script.includes('location.hash !== "#waitlist-dialog"'), "direct CTA route opens launch form");
+check(script.includes('location.hash !== "#waitlist-dialog"'), "store notification route still opens its form");
+const home = await readFile("index.html", "utf8");
+const configCode = await readFile("product-config.js", "utf8");
+const statusCode = await readFile("product-status.js", "utf8");
+const primaryCtas = [...home.matchAll(/<a\b[^>]*\bdata-product-cta(?:\s|>)[\s\S]*?<\/a>/g)].map(match => match[0]);
+check(primaryCtas.length >= 4 && primaryCtas.every(cta => cta.includes('href="https://webapp.moimani.ai/"')), "available CTAs open the app without JavaScript");
+check(home.includes('id="waitlist-dialog"') && home.includes('Узнать о выходе в магазинах приложений'), "store notification remains distinct from application entry");
+
+function statusClient({ webUrl, attribution = {} } = {}) {
+  const events = [], goals = [];
+  const anchor = (href, text, attributes = {}) => ({
+    href, hidden: false, target: "_blank", dataset: {}, listeners: {},
+    attributes: new Map(Object.entries(attributes)),
+    childNodes: [{ nodeType: 3, nodeValue: text }],
+    querySelector: () => null,
+    hasAttribute(name) { return this.attributes.has(name); },
+    setAttribute(name, value) { this.attributes.set(name, value); },
+    removeAttribute(name) { this.attributes.delete(name); if (name === "target") delete this.target; },
+    prepend(value) { this.childNodes.unshift({ nodeType: 3, nodeValue: value }); },
+    addEventListener(name, handler) { (this.listeners[name] ||= []).push(handler); },
+  });
+  const primary = anchor("/#waitlist-dialog", "Узнать о запуске", { "data-open-waitlist": "" });
+  primary.dataset.earlyAccess = "hero";
+  const notify = anchor("#waitlist-dialog", "Узнать о запуске", { "data-open-waitlist": "" });
+  const ctx = {
+    URL, Node: { TEXT_NODE: 3 }, location: { pathname: "/" },
+    document: {
+      documentElement: { dataset: {} },
+      querySelectorAll: selector => selector === "[data-product-cta]" ? [primary] : selector === "[data-store-notify]" ? [notify] : [],
+    },
+    ManiAnalytics: { attribution: () => attribution, track: (name, dimensions) => events.push({ name, ...dimensions }) },
+    gtag: (...args) => goals.push(args),
+  };
+  ctx.window = ctx;
+  vm.createContext(ctx);
+  vm.runInContext(configCode, ctx);
+  ctx.MANI_PRODUCT_CONFIG = { ...ctx.MANI_PRODUCT_CONFIG, status: "web_beta", launch: undefined, waitlist: { cta: "Узнать о выходе в магазинах" } };
+  if (webUrl !== undefined) ctx.MANI_PRODUCT_CONFIG = { ...ctx.MANI_PRODUCT_CONFIG, web: { ...ctx.MANI_PRODUCT_CONFIG.web, url: webUrl } };
+  vm.runInContext(statusCode, ctx);
+  return { ctx, primary, notify, events, goals, attribution };
+}
+let web = statusClient({ attribution: { source: "instagram", medium: "social", campaign: "web-beta", content: "a".repeat(150), phone: "private-value" } });
+check(web.ctx.document.documentElement.dataset.productStatus === "web_beta", "public product status is web_beta");
+check(new URL(web.primary.href).origin === "https://webapp.moimani.ai" && !web.primary.hasAttribute("data-open-waitlist") && !web.primary.target, "web beta opens the app in the current tab even with empty store URLs");
+check(web.primary.childNodes[0].nodeValue.trim() === "Открыть Мани", "web beta CTA label is current");
+const webLink = new URL(web.primary.href);
+check(webLink.searchParams.get("utm_source") === "instagram" && webLink.searchParams.get("utm_campaign") === "web-beta" && webLink.searchParams.get("utm_content").length === 100 && !web.primary.href.includes("private-value"), "web attribution preserves bounded campaign fields without unrelated PII");
+check(web.notify.href === "#waitlist-dialog" && web.notify.hasAttribute("data-open-waitlist") && web.notify.childNodes[0].nodeValue.trim() === "Узнать о выходе в магазинах", "store notification remains separate from app access");
+web.ctx.ManiProductStatus.apply();
+check(web.primary.listeners.click.length === 2, "repeat product initialization retains one schedule guard and one tracking handler");
+web.attribution.campaign = "updated-campaign";
+web.primary.listeners.click.forEach(handler => handler({ preventDefault() { throw Error('unexpected locked click'); } }));
+check(new URL(web.primary.href).searchParams.get("utm_campaign") === "updated-campaign", "web link refreshes current attribution on click");
+check(web.events.length === 1 && web.events[0].name === "navigation_click" && web.events[0].action === "open_web_app" && web.events[0].target === "web_app" && web.goals.length === 1 && web.goals[0][1] === "webapp_open", "web navigation emits its own event and never a waitlist conversion goal");
+for (const url of ["", "javascript:alert(1)", "http://webapp.moimani.ai/", "https://example.org/", "https://user:password@webapp.moimani.ai/"]) {
+  web = statusClient({ webUrl: url });
+  check(web.primary.href === "/web-version" && !web.primary.hidden && !web.primary.hasAttribute("data-open-waitlist") && web.events.length === 0, "invalid web URL retains an honest guide fallback: " + url);
+}
 console.log("Release regression checks passed:", passed);

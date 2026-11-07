@@ -2,29 +2,33 @@
 
 Russian-language personal finance application at https://moimani.ai/
 
-## Current stage, confirmed by the product owner on 2026-09-19
+## Web application, updated 2026-11-06
 
-- The first public release is under store review
-- Public App Store, Google Play and RuStore download links are not available yet
-- The website accepts requests to be notified when the application is published
-- The first release focuses on the basic view of accounts and transactions
-- A more capable intelligent model, deeper analysis and personalized explanations are planned for the next update, not available first-release features
-- Smart signals on the website are illustrative examples, not analysis of the visitor's data
-- No confirmed publication date or complete supported-bank list is announced
-- The website retains the first-1000-users offer; sharing a referral link is optional and does not promise accelerated access
-- mani does not initiate payments or transfers
-
-## Description
-
-Start with a clearer picture of your money. mani brings accounts and transactions into one view, with deeper intelligent analysis planned for the next update
+- The web application is available for smartphone users at https://webapp.moimani.ai/
+- The phone application is at https://webapp.moimani.ai/; desktop uses a QR handoff
+- Primary actions open the web app; store notifications remain a separate optional form
+- Available: Sber and T-Bank connections, account and transaction views, monthly summaries, upcoming payments, AI chat with photo and document attachments
+- AI responds to user requests using available data, may make mistakes and cannot transfer money
+- Bank/product coverage and saved history may be partial or stale; unknown values are not zero
+- Website examples are illustrative, not analysis of the visitor's personal data
+- Public store links are not supplied; the remaining waitlist is for store-release notifications
+- Launch offer: first 1000 application users, 0 RUB/month forever; later new users from 549 RUB/month
+- A waitlist position is not an application entitlement or an account
+- Feedback is requested, not an invented mandatory quota or referral condition
 
 ## Pages
 
 - [Home](https://moimani.ai/)
+- [Web application](https://webapp.moimani.ai/)
+- [Phone setup instructions](https://moimani.ai/web-version)
 - [Launch notification](https://moimani.ai/#waitlist-dialog)
+- [Feedback](https://moimani.ai/#contacts)
 - [FAQ](https://moimani.ai/faq)
 - [Security](https://moimani.ai/bezopasnost)
 - [Bank connection support](https://moimani.ai/support/bank-connection)
+- [Первый день с mani: от входа до полезного вопроса](https://moimani.ai/start-mani)
+- [Что спросить у финансового ИИ: 7 вопросов для mani](https://moimani.ai/voprosy-mani)
+- [Как проверить данные в mani и не перепутать остаток со свободными деньгами](https://moimani.ai/dannye-v-mani)
 - [Guides](https://moimani.ai/guides)
 - [Expense control](https://moimani.ai/kontrol-rashodov)
 - [Recurring payments](https://moimani.ai/poisk-podpisok)

@@ -1,4 +1,6 @@
 const baseUrl = process.env.SITE_URL || "https://moimani.ai";
+const releaseVersion = "20261106-clarity";
+const webAppUrl = "https://webapp.moimani.ai/";
 
 const checks = [];
 
@@ -23,44 +25,26 @@ function check(name, fn) {
 }
 
 check("home page loads", async () => {
-  const { response, body } = await fetchText("/");
-  assert(response.ok, `Home returned ${response.status}`);
-  assert(body.includes("mani"), "Home does not contain mani");
-  assert(body.includes("mani. ИИ-помощник для контроля личных финансов"), "Expected SEO title is missing");
-  assert(body.includes("script.js?v=20261002-web-platform"), "Expected script cache-bust is missing");
-  assert(body.includes('href="/web-version"') && body.includes('name="platform"'), "Web guide and platform choice are missing");
-  assert(body.includes("conversion-experience.css?v=20260904-mobile-rhythm-2"), "Expected conversion CSS is missing");
-  assert(body.includes("product-config.js?v=20260918-release-1"), "Expected product config is missing");
-  assert(body.includes("mani-home.min.css?v=20260902-closed-beta-2"), "Expected CSS cache-bust is missing");
-  assert(body.includes('href="/faq"'), "FAQ header link is missing");
-  assert(body.includes("data-waitlist-form"), "Waitlist form is missing from home page");
-  assert(body.includes("data-contact-form"), "Contact form is missing from home page");
-  assert(body.toLowerCase().includes("первый релиз проходит проверку в магазинах"), "Store review status is missing");
-  assert(body.includes("Узнать о запуске"), "Launch notification CTA is missing");
-  assert(body.includes("data-open-contact"), "Mobile contact trigger is missing from home page");
-  assert(body.includes('id="contact-dialog"'), "Mobile contact dialog is missing from home page");
-  assert(body.includes('href="https://t.me/eto_mani"'), "Direct Telegram contact is missing");
-  assert(body.includes('href="#contacts"'), "Footer contact navigation is missing");
-  assert((body.match(/href="#contacts"/g) || []).length >= 3, "Header contact navigation is missing");
-  assert(!body.includes("Осталось мест"), "Public remaining-place counter is still visible");
-  [
-    "https://www.instagram.com/moimani.ai",
-    "https://t.me/eto_mani",
-    "https://www.youtube.com/@Mani.ai_app",
-    "https://vkvideo.ru/@club240056458",
-    "https://dzen.ru/user/k88jy5w3kcoxjabefs8g_u6d1ve",
-  ].forEach((url) => assert(body.includes(url), `Social link missing: ${url}`));
-  assert(body.includes("data-phone-field"), "Phone formatter field is missing from home page");
-  assert(body.includes('name="pdnConsent"'), "Personal data consent checkbox is missing");
-  assert(body.includes('href="/soglasie"'), "Personal data consent link is missing");
-  assert(body.includes('id="faq"'), "Inline FAQ section is missing from home page");
-  assert(!body.includes('"@type": "FAQPage"'), "FAQPage schema should not be on home page");
+  const {response,body}=await fetchText("/");assert(response.ok,"home response");
+  for(const value of ['Пойми, куда','Мани собирает счета','data-waitlist-form','data-contact-form','name="platform"','id="faq"','id="contact-dialog"','data-open-contact','/clarity-home.css','data-share-example','Для первых 1000 пользователей','от 549 ₽/мес','/web-version','analytics-client.js'])assert(body.includes(value),'home contract: '+value);
+  for(const name of ['script','product-config','product-status'])assert(body.includes(name+'.js?v='+releaseVersion),'current asset '+name);
+  assert(!/27 октября|data-hero-flow|three\.module/.test(body),'no expired schedule or heavy scene');
+  const ctas=[...body.matchAll(/<a\b[^>]*\bdata-product-cta\b[^>]*>/g)];assert(ctas.length>=4&&ctas.every(c=>c[0].includes('href="https://webapp.moimani.ai/"')),'safe no-JS actions');
+});
+
+check("web app is available without an obsolete countdown", async () => {
+  const { response, body } = await fetchText(`/product-config.js?v=${releaseVersion}`);
+  assert(response.ok, `Product config returned ${response.status}`);
+  assert(/status:\s*["']web_beta["']/.test(body) && body.includes("launch: null"), "Product config is not available");
+  assert(body.includes(webAppUrl), "Product config does not link to the public web app");
+  assert(body.includes("Узнать о выходе в магазинах"), "Store notification label missing");
 });
 
 check("contact API accepts a valid local message", async () => {
   if (!["127.0.0.1", "localhost"].includes(new URL(baseUrl).hostname)) return;
   const response = await fetch(new URL("/api/contact", baseUrl), {
     method: "POST",
+    redirect: "error",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       topic: "Предложение",
@@ -88,6 +72,10 @@ check("preview conversion pages are reachable", async () => {
     ["/obiedinit-scheta", '<link rel="canonical" href="https://moimani.ai/obiedinit-scheta"'],
     ["/neznakomoe-spisanie", '<link rel="canonical" href="https://moimani.ai/neznakomoe-spisanie"'],
     ["/byudzhet-do-zarplaty", '<link rel="canonical" href="https://moimani.ai/byudzhet-do-zarplaty"'],
+    ["/web-version", '<link rel="canonical" href="https://moimani.ai/web-version"'],
+    ["/prilozhenie-dlya-ucheta-rashodov", '<link rel="canonical" href="https://moimani.ai/prilozhenie-dlya-ucheta-rashodov"'],
+    ["/otmenit-yandex-plus", '<link rel="canonical" href="https://moimani.ai/otmenit-yandex-plus"'],
+    ["/otmenit-ivi", '<link rel="canonical" href="https://moimani.ai/otmenit-ivi"'],
   ];
 
   for (const [page, canonical] of pages) {
@@ -95,6 +83,9 @@ check("preview conversion pages are reachable", async () => {
     assert(response.ok, `${page} returned ${response.status}`);
     assert(body.includes(canonical), `${page} canonical mismatch`);
     assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
+    const primaryCtas = [...body.matchAll(/<a\b[^>]*\bdata-product-cta(?:\s|>)[\s\S]*?<\/a>/g)].map(match => match[0]);
+    assert(primaryCtas.length >= 2 && primaryCtas.every(cta => cta.includes('href="https://webapp.moimani.ai/"')), `${page} scheduled CTAs have an unsafe fallback`);
+    assert(body.includes(`product-config.js?v=${releaseVersion}`) && body.includes(`product-status.js?v=${releaseVersion}`), `${page} product scripts are stale`);
   }
 });
 
@@ -126,7 +117,14 @@ check("modern image formats use correct response headers", async () => {
 
 check("FAQ page schema exists", async () => {
   const { body } = await fetchText("/faq");
-  assert(body.includes('"@type": "FAQPage"'), "FAQPage schema missing on FAQ page");
+  const jsonBlocks = [...body.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const faq = jsonBlocks.find(block => block["@type"] === "FAQPage");
+  assert(faq && Array.isArray(faq.mainEntity), "FAQPage schema missing on FAQ page");
+  const access = faq.mainEntity.find(question => question.name === "Можно уже пользоваться mani?");
+  assert(access?.acceptedAnswer?.text.includes("уже доступна на смартфоне"), "FAQ must describe the available smartphone app");
+  const pricing = faq.mainEntity.find(question => question.name === "Сколько будет стоить mani?");
+  assert(pricing?.acceptedAnswer?.text.includes("первых 1000") && pricing.acceptedAnswer.text.includes("навсегда") && pricing.acceptedAnswer.text.includes("первых 1000 пользователей приложения"), "FAQ schema lifetime offer and beta feedback conditions are missing");
+  assert(body.includes("ИИ") && body.includes("предполагаемые повторения"), "FAQ does not distinguish current AI and uncertain repeat evidence");
 });
 
 check("waitlist API works locally", async () => {
@@ -140,7 +138,9 @@ check("waitlist API works locally", async () => {
 
 check("analytics tags exist", async () => {
   const { body } = await fetchText("/");
-  const analyticsClient = await fetchText("/analytics-client.js?v=20260902-topmail-1");
+  const analyticsPath = body.match(/<script[^>]*src="([^"]*analytics-client\.js\?v=[^"]+)"/);
+  assert(analyticsPath, "Versioned analytics client script is missing");
+  const analyticsClient = await fetchText(analyticsPath[1]);
   assert(body.includes("G-P6TDY2N5FK"), "GA4 id missing");
   assert(body.includes("103776176"), "Yandex Metrica id missing");
   assert(body.includes("https://top-fwz1.mail.ru/counter?id=3681438;js=na"), "Top.Mail.Ru noscript pixel missing");
@@ -148,7 +148,7 @@ check("analytics tags exist", async () => {
   assert(analyticsClient.body.includes('topMailCounterId = "3681438"'), "Top.Mail.Ru counter id missing");
   assert(analyticsClient.body.includes('script.src = "https://top-fwz1.mail.ru/js/code.js"'), "Top.Mail.Ru loader missing");
   assert(body.includes("data-cookie-banner"), "Cookie consent banner missing");
-  assert(body.includes('class="nm-page"') && !body.includes("cookie-consent-pending"), "Cookie notice must not lock the initial page");
+  assert(/class="nm-page(?:\s|\")/.test(body) && !body.includes("cookie-consent-pending"), "Cookie notice must not lock the initial page");
   assert(body.includes('role="status"') && !body.includes('aria-modal="true"'), "Cookie notice must be informational, not modal");
 });
 
@@ -186,6 +186,7 @@ check("legal pages are current", async () => {
     assert(!body.includes("MoiMani"), `${page} still contains old MoiMani brand`);
     assert(!body.toLowerCase().includes("noindex"), `${page} contains noindex`);
     assert(body.includes(canonical), `${page} canonical mismatch`);
+    assert(body.includes('href="https://webapp.moimani.ai/"'), `${page} scheduled app CTA missing`);
   }
 });
 
@@ -208,7 +209,8 @@ check("IndexNow key file is reachable", async () => {
 check("AI discovery file is reachable", async () => {
   const { response, body } = await fetchText("/llms.txt");
   assert(response.ok, `llms.txt returned ${response.status}`);
-  assert(body.includes("The first public release is under store review") && body.includes("planned for the next update"), "llms.txt release stages missing");
+  assert(body.includes(webAppUrl) && body.includes("web application is available") && !body.includes("2026-10-27"), "llms.txt public web launch schedule is missing");
+  assert(body.includes("AI responds to user requests") && body.includes("partial or stale"), "llms.txt AI processing and bank coverage limits are missing");
 });
 
 check("key assets are reachable", async () => {

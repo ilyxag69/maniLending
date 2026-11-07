@@ -30,7 +30,7 @@ const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[
 assert(urls.includes("https://moimani.ai/prilozhenie-dlya-ucheta-rashodov"), "sitemap содержит prilozhenie-dlya-ucheta-rashodov");
 assert(urls.includes("https://moimani.ai/otmenit-yandex-plus"), "sitemap содержит otmenit-yandex-plus");
 assert(urls.includes("https://moimani.ai/otmenit-ivi"), "sitemap содержит otmenit-ivi");
-assert(urls.length === 19 && urls.includes("https://moimani.ai/web-version"), "sitemap содержит 19 публичных страниц, включая инструкцию веб версии");
+assert(urls.length === 22 && urls.includes("https://moimani.ai/web-version") && urls.includes("https://moimani.ai/start-mani"), "sitemap содержит 22 публичных страницы, включая новые гайды запуска");
 for (const expected of [
   "https://moimani.ai/obiedinit-scheta",
   "https://moimani.ai/neznakomoe-spisanie",

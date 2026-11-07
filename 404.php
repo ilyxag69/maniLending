@@ -31,19 +31,27 @@ header('X-Content-Type-Options: nosniff');
     .nm-error-page main a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;margin:20px auto 0;padding:0 24px;border-radius:16px;background:#ff641f;color:#fff;font-weight:800;text-decoration:none}
     @media(max-width:700px){.nm-error-page main{min-height:62vh;padding:48px 0}}
   </style>
+<link rel="stylesheet" href="/launch-20261027.css?v=20261020-1" />
+<link rel="stylesheet" href="/clarity-shell.css?v=20261106-1" />
+<link rel="stylesheet" href="/site-footer.css?v=20261106-air-1" />
 </head>
 <body class="nm-page nm-secondary-page nm-error-page">
-  <header class="header nm-header">
-    <a class="logo nm-logo" href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a>
-    <nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/guides">Гайды</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav>
-    <a class="nm-button nm-button-primary nm-header-cta" href="/#waitlist-dialog">Узнать о запуске</a>
-    <button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
-  </header>
-  <div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильная навигация"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#future">Будущее</a><a href="/guides">Гайды</a><a href="/faq">FAQ</a><a href="/#contacts">Контакты</a></nav><a class="nm-button nm-button-primary" href="/#waitlist-dialog">Узнать о запуске</a></div>
-  <main><p class="nm-error-kicker">Потерялись</p><h1>404</h1><p>Эта страница куда-то ушла. Вернись на главную, там mani уже собрал всё важное</p><a href="/">Вернуться на главную</a></main>
-  <footer class="nm-footer"><div class="nm-container nm-footer-grid"><div class="nm-footer-brand"><a href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><p>mani. Финансовый радар с характером</p></div><nav aria-label="Навигация в подвале"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/bezopasnost">Безопасность</a><a href="/#contacts">Контакты</a><a href="/guides">Гайды</a><a href="/faq">FAQ</a></nav><nav aria-label="Юридические документы"><a href="/privacy">Privacy</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие</a><a href="/delete-account">Удаление аккаунта</a></nav><p class="nm-copyright">© 2026 mani</p></div></footer>
+  <header class="header nm-header"><a class="logo nm-logo" href="/" aria-label="mani, на главную"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><nav class="nav nm-nav" aria-label="Основная навигация"><a href="/#features">Возможности</a><a href="/#how">Как это работает</a><a href="/bezopasnost">Безопасность</a><a href="/guides">Гайды</a></nav><a class="nm-button nm-button-primary nm-header-cta" href="https://webapp.moimani.ai/" data-product-cta data-early-access="header">Открыть Мани</a><button class="menu nm-menu" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span></button></header>
+<div class="mobile-menu-panel nm-mobile-menu" aria-hidden="true"><nav aria-label="Мобильное меню"><a href="/#features">Возможности</a><a href="/#how">Как это работает</a><a href="/bezopasnost">Безопасность</a><a href="/guides">Гайды</a><a href="/faq">Вопросы и ответы</a><a href="/#contacts">Связь с командой</a></nav><a class="nm-button nm-button-primary" href="https://webapp.moimani.ai/" data-product-cta data-early-access="mobile-menu">Открыть Мани</a></div>
+  <main>
+<p class="gp-launch-note" data-launch-state role="status">Готовим публичный запуск</p><p class="nm-error-kicker">Потерялись</p><h1>404</h1><p>Эта страница куда-то ушла. Вернись на главную, там mani уже собрал всё важное</p><a href="/">Вернуться на главную</a></main>
+  <footer class="nm-footer" id="site-footer">
+      <div class="nm-container nm-footer-grid">
+        <div class="nm-footer-brand"><a href="/#top" aria-label="mani, наверх"><img src="/assets/brand/mani-black.png" width="626" height="213" alt="mani" data-brand-logo /></a><p>mani. Финансовый радар с характером</p></div>
+        <nav aria-label="Навигация в подвале"><a href="/#about">О приложении</a><a href="/#features">Возможности</a><a href="/#security">Безопасность</a><a href="/#contacts">Контакты</a><a href="/guides">Гайды</a><a href="/faq">FAQ</a></nav>
+        <nav aria-label="Юридические документы"><a href="/privacy">Конфиденциальность</a><a href="/cookie">Cookie</a><a href="/soglasie">Согласие на обработку</a><a href="/delete-account">Удаление аккаунта</a></nav>
+        <p class="nm-copyright">© 2026 mani</p>
+      </div>
+    </footer>
   <noscript><div><img src="https://top-fwz1.mail.ru/counter?id=3681438;js=na" style="position:absolute;left:-9999px" alt="Top.Mail.Ru" /></div></noscript>
   <script src="/analytics-client.js?v=20260918-release-1"></script>
+  <script src="/product-config.js?v=20261106-clarity"></script>
+  <script src="/product-status.js?v=20261106-clarity"></script>
   <script>const menu=document.querySelector('.nm-menu'),nav=document.querySelector('.nm-mobile-menu');menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('menu-open',open);});</script>
 </body>
 </html>

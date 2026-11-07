@@ -2,96 +2,99 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://moimani.ai/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://moimani.ai/privacy</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://moimani.ai/cookie</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://moimani.ai/bezopasnost</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://moimani.ai/faq</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://moimani.ai/soglasie</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://moimani.ai/support/bank-connection</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://moimani.ai/delete-account</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://moimani.ai/guides</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://moimani.ai/kontrol-rashodov</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://moimani.ai/poisk-podpisok</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://moimani.ai/finansovyi-pomoshchnik</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://moimani.ai/obiedinit-scheta</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://moimani.ai/neznakomoe-spisanie</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://moimani.ai/byudzhet-do-zarplaty</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url><loc>https://moimani.ai/prilozhenie-dlya-ucheta-rashodov</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://moimani.ai/otmenit-yandex-plus</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://moimani.ai/otmenit-ivi</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://moimani.ai/web-version</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://moimani.ai/prilozhenie-dlya-ucheta-rashodov</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://moimani.ai/otmenit-yandex-plus</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://moimani.ai/otmenit-ivi</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://moimani.ai/web-version</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://moimani.ai/start-mani</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://moimani.ai/voprosy-mani</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://moimani.ai/dannye-v-mani</loc><lastmod>2026-11-06</lastmod></url>
 </urlset>

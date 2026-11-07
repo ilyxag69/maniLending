@@ -1,17 +1,23 @@
 window.MANI_PRODUCT_CONFIG = Object.freeze({
-  status: "store_review",
+  status: "web_beta",
+  launch: null,
   release: Object.freeze({
-    label: "Первый релиз проходит проверку в магазинах",
-    next: "Более глубокий анализ и персональные подсказки в следующем обновлении",
+    label: "Веб версия уже доступна",
+    next: "Открой Мани в браузере смартфона и создай аккаунт",
   }),
   stores: Object.freeze({
     appStore: "",
     googlePlay: "",
     ruStore: "",
   }),
+  web: Object.freeze({
+    url: "https://webapp.moimani.ai/",
+    cta: "Открыть Мани",
+    guide: "/web-version",
+  }),
   waitlist: Object.freeze({
     limit: 1000,
-    cta: "Узнать о запуске",
+    cta: "Узнать о выходе в магазинах",
   }),
   pricing: Object.freeze({
     earlyUsers: "0 ₽/мес навсегда",

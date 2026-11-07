@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-const pages=['byudzhet-do-zarplaty','finansovyi-pomoshchnik','guides','kontrol-rashodov','neznakomoe-spisanie','poisk-podpisok','obiedinit-scheta','prilozhenie-dlya-ucheta-rashodov','otmenit-yandex-plus','otmenit-ivi'];
+const pages=['byudzhet-do-zarplaty','finansovyi-pomoshchnik','guides','kontrol-rashodov','neznakomoe-spisanie','poisk-podpisok','obiedinit-scheta','prilozhenie-dlya-ucheta-rashodov','otmenit-yandex-plus','otmenit-ivi','start-mani','voprosy-mani','dannye-v-mani'];
 test('all guides load the current shared link styles',async()=>{
   for(const page of pages){
     const html=await readFile(new URL(`../${page}.html`,import.meta.url),'utf8');

@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { spawn } from "node:child_process";
 
 const root = process.cwd();
+const webAppUrl = "https://webapp.moimani.ai/";
 const port = 4187;
 const baseUrl = `http://127.0.0.1:${port}`;
 const temporaryData = await mkdtemp(join(tmpdir(), "mani-prelaunch-"));
@@ -69,52 +70,53 @@ try {
     readFile(join(root, "robots.txt"), "utf8"),
     readFile(join(root, "sitemap.xml"), "utf8"),
   ]);
-  const publicPages = await Promise.all(
-    ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "prilozhenie-dlya-ucheta-rashodov.html", "otmenit-yandex-plus.html", "otmenit-ivi.html", "404.php"]
-      .map((file) => readFile(join(root, file), "utf8"))
-  );
+  const publicPageFiles = ["index.html", "faq.html", "bezopasnost.html", "bank-connection.html", "privacy.html", "cookie.html", "soglasie.html", "delete-account.html", "guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "prilozhenie-dlya-ucheta-rashodov.html", "otmenit-yandex-plus.html", "otmenit-ivi.html", "web-version.html", "404.php"];
+  const publicPages = await Promise.all(publicPageFiles.map((file) => readFile(join(root, file), "utf8")));
   const publicCopy = publicPages.join("\n").replaceAll("@Mani.ai_app", "");
+  const productCtas = (page) => [...page.matchAll(/<a\b[^>]*\bdata-product-cta\b[^>]*>[\s\S]*?<\/a>/g)].map(([anchor]) => anchor);
+  const plainText = (markup) => markup.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
-  check(config.includes('status: "store_review"'), "store review product status has one explicit source");
+  check(config.includes('status: "web_beta"') && config.includes('launch: null') && config.includes('url: "'+webAppUrl+'"'), "available release uses one app URL and no countdown");
   check(productStatus.includes("window.MANI_PRODUCT_CONFIG") && !productStatus.includes("innerHTML"), "product status renderer uses the shared config and safe DOM construction");
-  check(html.includes("mani. ИИ-помощник для контроля личных финансов"), "SEO positioning is explicit");
+  check(html.includes("mani. Контроль расходов и счета в одном месте"), "SEO positioning reflects the available first version");
+  check(script.includes('Веб версия Мани уже доступна') && !script.includes('27 октября'), "share copy describes the available smartphone web version");
   check(!/Mani\.ai|\bMani\b/.test(publicCopy), "legacy brand spelling is absent from public pages");
   check(publicCopy.includes("Мани") && publicCopy.includes("mani"), "brand and character names are separated");
   check(publicPages.every((page) => page.includes('src="/assets/brand/mani-black.png"') && page.includes("data-brand-logo") && !page.includes("brand-logo.js")), "all public pages use only the black brand logo");
-  check(
-    publicPages.every((page, index) => index === 0 ? page.includes("mani-home.min.css") : page.includes("site-chrome.css")),
-    "all public pages use the shared header and footer styles"
-  );
+  check(publicPages.every(page=>page.includes('clarity-shell.css')), "all public pages use the shared header and footer styles");
   check(
     publicPages.slice(1).every((page) => page.includes("secondary-pages-modern.css?v=20260903-unified-1")),
     "all secondary public pages use the unified liquid glass system"
   );
-  check(
-    publicPages.every((page, index) => index === 0 ? page.includes("mani-home.min.css?v=20260902-closed-beta-2") : page.includes("site-chrome.css?v=20260902-mobile-polish-1"))
-      && siteChrome.includes('grid-template-areas:')
-      && siteChrome.includes('.nm-final-benefits')
-      && siteChrome.includes('.nm-contact .nm-contact-form'),
-    "all public pages load the mobile layout fixes"
-  );
-  check(publicPages.every((page) => page.includes("Узнать о запуске") && !page.includes("Получить ранний доступ")), "all public headers use the same launch notification message");
-  check(html.includes("0 ₽ в месяц навсегда") && html.includes("от 549 ₽ в месяц") && html.includes("понятной картин"), "hero and launch offer explain current value and future pricing");
+  check(html.includes('clarity-home.css') && (await readFile(join(root,'clarity-home.css'),'utf8')).includes('@media(max-width:700px)') && publicPages.every(page=>page.includes('clarity-shell.css')), "all public pages load the mobile layout fixes");
+  check(publicPages.every(page=>productCtas(page).every(anchor=>plainText(anchor).includes('Открыть Мани'))), "all public product CTAs use the same app label");
+  check(publicPages.every(page=>productCtas(page).every(anchor=>anchor.includes('href="https://webapp.moimani.ai/"'))), "primary CTAs open the configured web app without JavaScript");
+  check(html.includes('Для первых 1000 пользователей') && html.includes('в месяц навсегда') && html.includes('от 549 ₽/мес') && html.includes('подключённых банков'), "value and bounded first-1000 offer are explained");
+  check(html.includes('Открой веб приложение на iPhone или Android') && !html.includes('27 октября'), "home description describes the available app");
+  check(publicPages.every((page) => {
+    const copy = plainText(page);
+    return [...copy.matchAll(/навсегда/gi)].every((match) => /перв(?:ых|ые)\s+1000\s+пользовател/i.test(copy.slice(Math.max(0, match.index - 180), match.index + 90)));
+  }) && !/(?:всем\s+(?:участникам|пользователям)|участникам\s+тестирования).{0,100}(?:бесплатн|0\s*₽).{0,50}навсегда/i.test(plainText(publicCopy)), "every lifetime free offer is limited to the first 1000 users");
+  const guideFiles = new Set(["guides.html", "kontrol-rashodov.html", "poisk-podpisok.html", "finansovyi-pomoshchnik.html", "obiedinit-scheta.html", "neznakomoe-spisanie.html", "byudzhet-do-zarplaty.html", "prilozhenie-dlya-ucheta-rashodov.html", "otmenit-yandex-plus.html", "otmenit-ivi.html"]);
+  check(publicPageFiles.filter((file) => guideFiles.has(file)).length === guideFiles.size && publicPages.every((page, index) => {
+    if (!guideFiles.has(publicPageFiles[index])) return true;
+    const invite = [...page.matchAll(/<section\b[^>]*class="gp-(?:cta|section) gp-glass"[^>]*>[\s\S]*?<\/section>/g)].map(([section]) => section).find((section) => section.includes("Для первых 1000 пользователей 0 ₽/мес навсегда")) || "";
+    return /Открыть Мани/i.test(invite) && invite.includes('href="/#contacts"') && /предложени|идеи/i.test(invite) && /ошибк/i.test(invite) && /отзыв|впечатлени/i.test(invite) && productCtas(invite).length === 1;
+  }), "all guides invite public web testing and link suggestions, bugs and feedback to the team");
+  const storeNotifications = [...html.matchAll(/<a\b[^>]*\bdata-store-notify\b[^>]*>[\s\S]*?<\/a>/g)].map(([anchor]) => anchor);
+  check(html.includes('data-open-waitlist') && html.includes('Узнать о выходе в магазинах приложений'), "store notification is separate from the open app");
+  check(html.includes('id="waitlist-dialog"') && html.includes("data-waitlist-form") && html.includes('name="platform" value="android"') && html.includes('name="platform" value="ios"') && html.includes('name="pdnConsent"'), "secondary waitlist retains Android, iOS and consent fields");
   check(publicPages.every((page) => page.includes('href="/guides"')), "all public pages expose the guides section in shared navigation");
   check(publicPages.every((page) => page.includes('class="nm-footer"') && page.includes("Удаление аккаунта")), "all public pages use the same footer structure");
-  check(
-    html.includes("conversion-experience.css?v=20260904-mobile-rhythm-2")
-      && conversionExperience.includes("final desktop alignment and mobile rhythm pass")
-      && conversionExperience.includes("grid-template-columns: repeat(2, minmax(0, 1fr)) !important")
-      && conversionExperience.includes("restore the full character card and compact the landing FAQ"),
-    "home page loads the unified mobile rhythm and compact social layout"
-  );
+  check(html.includes('clarity-home.css') && html.includes('clarity-social-row') && !html.includes('data-hero-flow'), "home loads its lighter responsive layout and compact social navigation");
   check(siteChrome.includes(".nm-dialog-copy .nm-eyebrow") && siteChrome.includes(".nm-contact-form .nm-contact-consent input"), "shared form polish protects the modal badge and contact checkbox");
   check(html.includes('property="og:image" content="https://moimani.ai/og-image-v6.jpg"'), "current OG image is explicit and site-owned");
   check(htaccess.includes("AddDefaultCharset UTF-8"), "HTML responses declare UTF-8");
-  check(html.includes("Manrope-Variable.woff2") && html.includes("Inter-500.woff2") && !html.includes(".ttf\" as=\"font"), "critical fonts use compressed WOFF2 files");
+  check(html.includes('Manrope-Variable.woff2') && !html.includes('.ttf" as="font'), "critical fonts use compressed WOFF2 files");
   check(htaccess.includes("Strict-Transport-Security") && htaccess.includes("X-Frame-Options") && htaccess.includes("Permissions-Policy") && htaccess.includes("Content-Security-Policy-Report-Only"), "modern security headers are configured");
-  check(!script.includes("hero_headline_v1") && script.includes('dataset.heroHeadlineVariant = "chaos"'), "hero headline uses one stable canonical version");
+  check(!script.includes('hero_headline_v1') && script.includes('? "clarity" : "chaos"'), "hero headline uses one stable canonical version");
   check(script.includes("heroHeadlineVariant: document.documentElement.dataset.heroHeadlineVariant"), "headline variant is attached to waitlist submissions");
-  check(html.includes("product-config.js"), "product configuration loads before application logic");
+  check(publicPages.every((page) => page.includes("product-config.js") && page.indexOf("product-status.js") > page.indexOf("product-config.js")), "product configuration loads before the status renderer on every public page");
   check(script.includes("analyticsAllowedFields"), "analytics fields are allowlisted");
   check(script.includes("loadYandexMetrica();\nloadAnalytics();\ninitCookieConsent();"), "external analytics starts independently of the cookie notice");
   check(
@@ -168,15 +170,13 @@ try {
   check(!/trackEvent\([^;\n]*(phone|email|contactDetails|annualLoss|monthlySaving|position|message)\s*:/i.test(script), "analytics calls contain no PII or financial amounts");
   check(htaccess.includes("index\\.html") && htaccess.includes("consent"), "duplicate routes use redirects");
   check(robots.includes("Sitemap: https://moimani.ai/sitemap.xml"), "robots points to sitemap");
-  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik") && sitemap.includes("https://moimani.ai/obiedinit-scheta") && sitemap.includes("https://moimani.ai/neznakomoe-spisanie") && sitemap.includes("https://moimani.ai/byudzhet-do-zarplaty"), "sitemap contains public content routes");
-  const updatedGuides = new Set(["guides", "kontrol-rashodov", "poisk-podpisok", "byudzhet-do-zarplaty", "finansovyi-pomoshchnik", "obiedinit-scheta", "neznakomoe-spisanie"]);
+  check(sitemap.includes("https://moimani.ai/bezopasnost") && sitemap.includes("https://moimani.ai/faq") && sitemap.includes("https://moimani.ai/delete-account") && sitemap.includes("https://moimani.ai/guides") && sitemap.includes("https://moimani.ai/kontrol-rashodov") && sitemap.includes("https://moimani.ai/poisk-podpisok") && sitemap.includes("https://moimani.ai/finansovyi-pomoshchnik") && sitemap.includes("https://moimani.ai/obiedinit-scheta") && sitemap.includes("https://moimani.ai/neznakomoe-spisanie") && sitemap.includes("https://moimani.ai/byudzhet-do-zarplaty") && sitemap.includes("https://moimani.ai/web-version"), "sitemap contains public content and web guide routes");
   const sitemapEntries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => ({
     slug: entry.match(/<loc>https:\/\/moimani\.ai\/(.*?)<\/loc>/)?.[1],
     modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
   }));
-  check(sitemapEntries.length === 19 && sitemapEntries.every(({slug, modified}) =>
-    modified === (new Set(["", "privacy", "web-version", "guides", "kontrol-rashodov", "poisk-podpisok", "prilozhenie-dlya-ucheta-rashodov", "otmenit-yandex-plus", "otmenit-ivi"]).has(slug) ? "2026-10-02" : updatedGuides.has(slug) ? "2026-09-23" : "2026-09-19")),
-    "sitemap modification dates match changed pages only");
+  const today=new Date().toISOString().slice(0,10);
+  check(sitemapEntries.length===22 && sitemapEntries.every(({modified})=>/^\d{4}-\d{2}-\d{2}$/.test(modified) && Number.isFinite(Date.parse(modified)) && modified<=today) && ['start-mani','voprosy-mani','dannye-v-mani'].every(slug=>sitemapEntries.some(e=>e.slug===slug)), "22 sitemap URLs have valid non-future modification dates");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 
@@ -258,7 +258,8 @@ try {
   const deleteAccountRedirect = await fetch(`${baseUrl}/delete-account.html`, { redirect: "manual" });
   check(deleteAccountRedirect.status === 301 && deleteAccountRedirect.headers.get("location") === "/delete-account", "account deletion duplicate route redirects to canonical URL");
   const webGuide = await fetch(`${baseUrl}/web-version`);
-  check(webGuide.ok && (await webGuide.text()).includes("Веб версия ещё не доступна"), "web guide is available and clearly marks upcoming availability");
+  const webGuideHtml = await webGuide.text();
+  check(webGuide.ok && webGuideHtml.includes('Открой на смартфоне') && webGuideHtml.includes('href="https://webapp.moimani.ai/"') && !webGuideHtml.includes('27 октября'), "web guide describes installation of the available app");
 } finally {
   if (server) server.kill();
   await rm(temporaryData, { recursive: true, force: true });

@@ -1,0 +1,16 @@
+.web-beta-review-change { outline: 2px dashed #008f88 !important; outline-offset: -3px; scroll-margin-block: 110px; }
+.web-beta-review-dock { position: fixed; right: 18px; bottom: 18px; z-index: 1200; display: flex; align-items: center; gap: 12px; padding: 8px 12px; border: 1px solid #9dccc7; border-radius: 18px; background: #f5fffe; color: #123b38; font: 12px/1.4 Manrope, sans-serif; }
+.web-beta-review-dock button, .web-beta-review-dialog button { font: inherit; cursor: pointer; }
+.web-beta-review-dock button { padding: 8px 10px; border: 0; border-radius: 10px; background: #087d75; color: white; }
+.web-beta-review-dock a, .web-beta-review-dialog a { color: #006e66; text-decoration: underline; text-underline-offset: 3px; }
+.web-beta-review-dialog { width: min(680px, calc(100% - 24px)); max-height: calc(100dvh - 32px); box-sizing: border-box; padding: 24px; border: 1px solid #a9d7d2; border-radius: 22px; background: #f7fffe; color: #173d39; font: 14px/1.5 Manrope, sans-serif; overflow: auto; }
+.web-beta-review-dialog::backdrop { background: rgb(10 30 28 / .45); }
+.web-beta-review-dialog h2 { font-size: 22px; margin: 0 0 10px; }
+.web-beta-review-dialog p { margin: 0 0 16px; }
+.web-beta-review-dialog nav { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 18px; }
+.web-beta-review-dialog ol { padding-left: 24px; margin: 0 0 20px; }
+.web-beta-review-dialog li { padding: 5px 0; }
+.web-beta-review-dialog li button { border: 0; background: transparent; color: inherit; text-align: left; padding: 7px; border-radius: 8px; }
+.web-beta-review-dialog li button:hover { background: #e0f3f0; }
+.web-beta-review-close { padding: 10px 14px; border: 1px solid #80b6b0; border-radius: 12px; background: white; color: #006e66; }
+@media (max-width: 600px) { .web-beta-review-dock { right: 12px; bottom: 94px; gap: 8px; padding: 4px; } .web-beta-review-dock > a { display: none; } .web-beta-review-dialog { padding: 18px; } }

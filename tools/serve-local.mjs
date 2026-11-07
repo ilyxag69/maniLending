@@ -31,6 +31,9 @@ const types = {
 
 function resolvePath(urlPath) {
   if (urlPath === "/") return "index.html";
+  for (const slug of ["start-mani", "voprosy-mani", "dannye-v-mani"]) {
+    if (urlPath === `/${slug}` || urlPath === `/${slug}/`) return `${slug}.html`;
+  }
   if (urlPath === "/privacy") return "privacy.html";
   if (urlPath === "/cookie") return "cookie.html";
   if (urlPath === "/bezopasnost") return "bezopasnost.html";
@@ -209,7 +212,9 @@ function redirectLocation(target, url) {
 createServer(async (request, response) => {
   const url = new URL(request.url || "/", `http://${request.headers.host || "127.0.0.1"}`);
 
-  if (url.pathname.startsWith("/data/")) {
+  let decodedPath;
+  try { decodedPath = decodeURIComponent(url.pathname); } catch { decodedPath = "/.invalid"; }
+  if (decodedPath.split(/[\\/]+/).some(part => part.startsWith(".") || ["data", "production-backups", "deploy-packages"].includes(part))) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
@@ -593,17 +598,32 @@ createServer(async (request, response) => {
   }
 
   const filePath = join(root, relativePath);
-  if (!existsSync(filePath)) {
+  if (!existsSync(filePath) || url.pathname === '/404.php') {
     response.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
-    response.end('<!doctype html><html lang="ru"><head><meta name="robots" content="noindex,follow"><title>Страница не найдена. mani</title></head><body><h1>Страница не найдена</h1></body></html>');
+    const errorTemplate = readFileSync(join(root, '404.php'), 'utf8').replace(/^<\?php[\s\S]*?\?>\s*/, '');
+    response.end(errorTemplate);
     return;
   }
 
   const stats = statSync(filePath);
+  if (!stats.isFile()) { response.writeHead(404); response.end("Not found"); return; }
   const extension = extname(filePath);
+  // Preview-only change markers, never injected into the production HTML files
+  let reviewHtml = null;
+  if (extension === ".html" && (url.searchParams.get("review") === "web-beta" || url.searchParams.get("preview-launch") === "open")) {
+    reviewHtml = readFileSync(filePath, "utf8");
+    if (url.searchParams.get("review") === "web-beta") {
+      reviewHtml = reviewHtml.replace("</head>", '<link rel="stylesheet" href="/tools/web-beta-review.css"></head>').replace("</body>", '<script src="/tools/web-beta-review.js"></script></body>');
+      // Review annotations are preview-only, with current preparation-stage wording
+      reviewHtml = reviewHtml.replace(/<header class="header nm-header"/, '<header data-release-change="Единая компактная шапка и уведомление вместо преждевременного входа" class="header nm-header"');
+      reviewHtml = reviewHtml.replace(/<main\b/, '<main data-release-change="Новая подача, структура и тексты. Публичный запуск пока готовится"');
+    }
+    // Loopback preview only, never shipped in public product scripts
+    if (url.searchParams.get("preview-launch") === "open") reviewHtml = reviewHtml.replace(/(<script\b[^>]*src="\/?product-status\.js[^>]*>)/, '<script>window.MANI_PRODUCT_CONFIG=Object.freeze({...window.MANI_PRODUCT_CONFIG,launch:Object.freeze({startsAt:"2026-01-01T09:00:00+03:00",label:"27 октября в 09:00 МСК"})})</script>$1');
+  }
   const headers = {
     "Content-Type": types[extension] || "application/octet-stream",
-    "Content-Length": stats.size,
+    "Content-Length": reviewHtml === null ? stats.size : Buffer.byteLength(reviewHtml),
   };
   if ([".avif", ".webp", ".png", ".jpg", ".jpeg", ".svg"].includes(extension)) {
     headers["Cache-Control"] = "public, max-age=2592000";
@@ -615,7 +635,8 @@ createServer(async (request, response) => {
     return;
   }
 
-  createReadStream(filePath).pipe(response);
+  if (reviewHtml !== null) response.end(reviewHtml);
+  else createReadStream(filePath).pipe(response);
 }).listen(port, "127.0.0.1", () => {
   console.log(`Local mani server: http://127.0.0.1:${port}`);
 });

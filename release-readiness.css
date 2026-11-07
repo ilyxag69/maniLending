@@ -34,6 +34,12 @@ button.nm-live-signal-action { border: 0; padding: 8px 0; background: transparen
 .release-example { padding: 20px; border: 1px solid rgba(255,255,255,.8); border-radius: 22px; background: rgba(255,255,255,.45); line-height: 1.65; }
 .release-editorial { color: #526278; font-size: 14px; line-height: 1.6; }
 .nm-dialog:focus { outline: none; }
+.nm-store-notify { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: #52677e; font-size: 13px; line-height: 1.4; text-underline-offset: 4px; }
+.nm-feedback-safety { font-size: 12px; line-height: 1.5; color: #52677e; margin: 0; }
+@media (min-width: 701px) and (max-width: 980px) {
+  body.nm-page #tone .mcs-copy-column { padding-top: 26px !important; }
+  body.nm-page #tone .mcs-eyebrow { position: relative !important; inset: auto !important; }
+}
 .nm-web-coming { max-width: 560px; margin: 0 0 18px; color: #41556d; font-size: 14px; line-height: 1.5; }
 .nm-web-coming strong { color: #24354b; font-weight: 650; }
 .nm-web-coming p { margin: 4px 0 !important; font-size: inherit !important; line-height: inherit !important; }
