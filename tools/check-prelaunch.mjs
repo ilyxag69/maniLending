@@ -176,7 +176,7 @@ try {
     modified: entry.match(/<lastmod>(.*?)<\/lastmod>/)?.[1]
   }));
   const today=new Date().toISOString().slice(0,10);
-  check(sitemapEntries.length===22 && sitemapEntries.every(({modified})=>/^\d{4}-\d{2}-\d{2}$/.test(modified) && Number.isFinite(Date.parse(modified)) && modified<=today) && ['start-mani','voprosy-mani','dannye-v-mani'].every(slug=>sitemapEntries.some(e=>e.slug===slug)), "22 sitemap URLs have valid non-future modification dates");
+  check(sitemapEntries.length===23 && sitemapEntries.every(({modified})=>/^\d{4}-\d{2}-\d{2}$/.test(modified) && Number.isFinite(Date.parse(modified)) && modified<=today) && ['start-mani','voprosy-mani','dannye-v-mani','terms'].every(slug=>sitemapEntries.some(e=>e.slug===slug)), "23 sitemap URLs have valid non-future modification dates");
   check(htaccess.includes("AddType image/avif .avif") && htaccess.includes('ExpiresByType image/avif "access plus 30 days"'), "AVIF assets use the correct MIME type and cache policy");
   check(!((await readFile(join(root, "bank-connection.html"), "utf8")).includes('"item":"https://moimani.ai/support"')), "structured breadcrumbs contain no nonexistent support route");
 
